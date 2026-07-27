@@ -584,7 +584,7 @@ function Index() {
               </span>
             </div>
             <ul className="divide-y divide-border">
-              {feed.quick.map((q) => (
+              {quickList.map((q) => (
                 <li key={q.title}>
                   <a href="#" className="group flex items-center gap-4 px-6 py-4 transition hover:bg-secondary/50">
                     <span className="rounded-full border border-border px-2.5 py-1 font-mono text-[10px] tracking-wider text-muted-foreground">
@@ -597,6 +597,11 @@ function Index() {
                   </a>
                 </li>
               ))}
+              {quickList.length === 0 && (
+                <li className="px-6 py-6 text-center text-sm text-muted-foreground">
+                  Ingen aktive kilder.
+                </li>
+              )}
             </ul>
           </section>
         </section>
