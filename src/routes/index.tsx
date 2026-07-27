@@ -420,7 +420,7 @@ function Index() {
           <article className="group overflow-hidden rounded-3xl border border-border bg-card">
             <div className="relative aspect-[16/9] overflow-hidden">
               <img
-                src={HERO.image}
+                src={feed.hero.image}
                 alt=""
                 width={1280}
                 height={800}
@@ -429,20 +429,20 @@ function Index() {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-8">
                 <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-primary">
-                  {HERO.kicker}
+                  {feed.hero.kicker}
                 </p>
                 <h2 className="max-w-3xl font-display text-4xl leading-[1.05] tracking-tight text-white md:text-5xl">
-                  {HERO.title}
+                  {feed.hero.title}
                 </h2>
                 <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">
-                  {HERO.dek}
+                  {feed.hero.dek}
                 </p>
                 <div className="mt-5 flex items-center gap-4 text-xs text-neutral-400">
                   <span className="rounded-full bg-white/10 px-2.5 py-1 font-medium text-white backdrop-blur">
-                    {HERO.source}
+                    {feed.hero.source}
                   </span>
-                  <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" />{HERO.time}</span>
-                  <span>{HERO.read}</span>
+                  <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" />{feed.hero.time}</span>
+                  <span>{feed.hero.read}</span>
                   <div className="ml-auto flex gap-1">
                     <button className="rounded-full bg-white/10 p-2 text-white backdrop-blur hover:bg-white/20"><Bookmark className="h-3.5 w-3.5" /></button>
                     <button className="rounded-full bg-white/10 p-2 text-white backdrop-blur hover:bg-white/20"><Share2 className="h-3.5 w-3.5" /></button>
@@ -464,13 +464,13 @@ function Index() {
 
           {/* Two-column secondary stories */}
           <div className="grid gap-6 sm:grid-cols-2">
-            {STORIES.slice(0, 2).map((s) => (
+            {feed.stories.slice(0, 2).map((s) => (
               <StoryCard key={s.title} story={s} />
             ))}
           </div>
 
           {/* Featured wide */}
-          <StoryCard story={STORIES[2]} wide />
+          <StoryCard story={feed.stories[2]} wide />
 
           {/* Quick reads list */}
           <section className="rounded-3xl border border-border bg-card">
@@ -481,7 +481,7 @@ function Index() {
               </span>
             </div>
             <ul className="divide-y divide-border">
-              {QUICK.map((q) => (
+              {feed.quick.map((q) => (
                 <li key={q.title}>
                   <a href="#" className="group flex items-center gap-4 px-6 py-4 transition hover:bg-secondary/50">
                     <span className="rounded-full border border-border px-2.5 py-1 font-mono text-[10px] tracking-wider text-muted-foreground">
