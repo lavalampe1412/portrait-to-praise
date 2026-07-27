@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ChevronLeft, ChevronRight, Search, Bell, Plus, TrendingUp, Clock, Bookmark, Share2, Play } from "lucide-react";
-import { useState } from "react";
+import { ChevronLeft, ChevronRight, Search, Bell, Plus, TrendingUp, Clock, Bookmark, Share2, Play, Sun, Moon } from "lucide-react";
+import { useState, useEffect } from "react";
+
 import heroSport from "@/assets/hero-sport.jpg";
 import heroFire from "@/assets/hero-fire.jpg";
 import heroPolitics from "@/assets/hero-politics.jpg";
@@ -100,6 +101,19 @@ const QUICK = [
 function Index() {
   const [tab, setTab] = useState<keyof typeof TRENDS>("Daily");
   const [cat, setCat] = useState("For Deg");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const saved = (typeof window !== "undefined" && localStorage.getItem("nyhet-theme")) as "dark" | "light" | null;
+    if (saved) setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.classList.toggle("light", theme === "light");
+    localStorage.setItem("nyhet-theme", theme);
+  }, [theme]);
+
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground antialiased selection:bg-primary selection:text-primary-foreground">
@@ -134,9 +148,17 @@ function Index() {
               <span>Søk i nyheter</span>
               <kbd className="ml-4 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
             </div>
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              aria-label={theme === "dark" ? "Bytt til lyst tema" : "Bytt til mørkt tema"}
+              className="rounded-full border border-border p-2 hover:bg-secondary"
+            >
+              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
             <button className="rounded-full border border-border p-2 hover:bg-secondary">
               <Bell className="h-4 w-4" />
             </button>
+
             <button className="rounded-full bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90">
               Logg inn
             </button>
