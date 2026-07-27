@@ -62,6 +62,47 @@ type Story = {
 type Quick = { source: string; title: string; time: string };
 type Feed = { hero: Story; stories: Story[]; quick: Quick[] };
 
+type Version = { source: string; title: string; time: string; read: string };
+type VStory = { kicker: string; dek: string; image: string; versions: Version[] };
+type VFeed = { hero: VStory; stories: VStory[]; quick: Quick[] };
+
+const MEDIA_ORDER = ["VG", "NRK", "Dagbladet", "DN", "Nettavisen", "E24", "Kapital", "Aftenposten"];
+
+function shiftTime(t: string, n: number) {
+  return t.replace(/(\d{2}):(\d{2})(?!\d)/g, (_m, h, mi) => {
+    const total = (parseInt(h) * 60 + parseInt(mi) + n * 7 + 24 * 60) % (24 * 60);
+    return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
+  });
+}
+
+function angleFor(source: string, title: string) {
+  switch (source) {
+    case "VG": return `${title} — VG følger saken time for time`;
+    case "NRK": return `NRK: ${title}`;
+    case "Aftenposten": return `${title}. Aftenposten forklarer bakgrunnen`;
+    case "Dagbladet": return `${title} – Dagbladet med nye detaljer`;
+    case "DN": return `DN: ${title} – slik reagerer markedet`;
+    case "E24": return `E24: ${title}`;
+    case "Nettavisen": return `${title} (Nettavisen kommenterer)`;
+    case "Kapital": return `Kapital: ${title} – analysen`;
+    default: return title;
+  }
+}
+
+function withVersions(b: Story): VStory {
+  const others = MEDIA_ORDER.filter((s) => s !== b.source);
+  const versions: Version[] = [
+    { source: b.source, title: b.title, time: b.time, read: b.read },
+    ...others.map((s, i) => ({
+      source: s,
+      title: angleFor(s, b.title),
+      time: shiftTime(b.time, i + 1),
+      read: `${3 + ((i + 1) % 4)} min`,
+    })),
+  ];
+  return { kicker: b.kicker, dek: b.dek, image: b.image, versions };
+}
+
 const FEEDS: Record<string, Feed> = {
   "For Deg": {
     hero: {
