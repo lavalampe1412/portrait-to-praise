@@ -563,7 +563,7 @@ function Index() {
   );
 }
 
-function StoryCard({ story, wide = false }: { story: typeof STORIES[number]; wide?: boolean }) {
+function StoryCard({ story, wide = false }: { story: Story; wide?: boolean }) {
   return (
     <article className={`group overflow-hidden rounded-2xl border border-border bg-card ${wide ? "grid sm:grid-cols-[1.4fr_1fr]" : ""}`}>
       <div className={`relative overflow-hidden ${wide ? "aspect-[4/3] sm:aspect-auto" : "aspect-[4/3]"}`}>
