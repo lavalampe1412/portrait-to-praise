@@ -148,9 +148,17 @@ function Index() {
               <span>Søk i nyheter</span>
               <kbd className="ml-4 rounded border border-border bg-background px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
             </div>
+            <button
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              aria-label={theme === "dark" ? "Bytt til lyst tema" : "Bytt til mørkt tema"}
+              className="rounded-full border border-border p-2 hover:bg-secondary"
+            >
+              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
             <button className="rounded-full border border-border p-2 hover:bg-secondary">
               <Bell className="h-4 w-4" />
             </button>
+
             <button className="rounded-full bg-primary px-4 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90">
               Logg inn
             </button>
