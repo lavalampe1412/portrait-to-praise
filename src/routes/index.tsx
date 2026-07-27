@@ -491,60 +491,89 @@ function Index() {
 
 
           {/* Hero article */}
-          <article className="group overflow-hidden rounded-3xl border border-border bg-card">
-            <div className="relative aspect-[16/9] overflow-hidden">
-              <img
-                src={feed.hero.image}
-                alt=""
-                width={1280}
-                height={800}
-                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-8">
-                <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-primary">
-                  {feed.hero.kicker}
-                </p>
-                <h2 className="max-w-3xl font-display text-4xl leading-[1.05] tracking-tight text-white md:text-5xl">
-                  {feed.hero.title}
-                </h2>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">
-                  {feed.hero.dek}
-                </p>
-                <div className="mt-5 flex items-center gap-4 text-xs text-neutral-400">
-                  <span className="rounded-full bg-white/10 px-2.5 py-1 font-medium text-white backdrop-blur">
-                    {feed.hero.source}
-                  </span>
-                  <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" />{feed.hero.time}</span>
-                  <span>{feed.hero.read}</span>
-                  <div className="ml-auto flex gap-1">
-                    <button className="rounded-full bg-white/10 p-2 text-white backdrop-blur hover:bg-white/20"><Bookmark className="h-3.5 w-3.5" /></button>
-                    <button className="rounded-full bg-white/10 p-2 text-white backdrop-blur hover:bg-white/20"><Share2 className="h-3.5 w-3.5" /></button>
+          {heroVersion ? (
+            <article className="group overflow-hidden rounded-3xl border border-border bg-card">
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <img
+                  src={heroStory.image}
+                  alt=""
+                  width={1280}
+                  height={800}
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-8">
+                  <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-primary">
+                    {heroStory.kicker}
+                  </p>
+                  <h2 className="max-w-3xl font-display text-4xl leading-[1.05] tracking-tight text-white md:text-5xl">
+                    {heroVersion.title}
+                  </h2>
+                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">
+                    {heroStory.dek}
+                  </p>
+                  <div className="mt-5 flex items-center gap-4 text-xs text-neutral-400">
+                    <span className="rounded-full bg-white/10 px-2.5 py-1 font-medium text-white backdrop-blur">
+                      {heroVersion.source}
+                    </span>
+                    <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" />{heroVersion.time}</span>
+                    <span>{heroVersion.read}</span>
+                    <div className="ml-auto flex items-center gap-1.5">
+                      {heroStory.versions.map((_, k) => (
+                        <button
+                          key={k}
+                          onClick={() => setHeroIdx(k)}
+                          aria-label={`Versjon ${k + 1} av ${heroStory.versions.length}`}
+                          className={`h-1.5 rounded-full transition-all ${k === heroIdx % heroStory.versions.length ? "w-6 bg-primary" : "w-1.5 bg-white/40 hover:bg-white/70"}`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
+                {heroStory.versions.length > 1 && (
+                  <>
+                    <div className="absolute inset-y-0 left-0 flex items-center">
+                      <button
+                        onClick={() => setHeroIdx((n) => (n - 1 + heroStory.versions.length) % heroStory.versions.length)}
+                        aria-label="Forrige versjon"
+                        className="ml-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur hover:bg-black/60"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div className="absolute inset-y-0 right-0 flex items-center">
+                      <button
+                        onClick={() => setHeroIdx((n) => (n + 1) % heroStory.versions.length)}
+                        aria-label="Neste versjon"
+                        className="mr-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur hover:bg-black/60"
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
-              <div className="absolute inset-y-0 left-0 flex items-center">
-                <button className="ml-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur hover:bg-black/60">
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-              </div>
-              <div className="absolute inset-y-0 right-0 flex items-center">
-                <button className="mr-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur hover:bg-black/60">
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          </article>
+            </article>
+          ) : (
+            <article className="rounded-3xl border border-dashed border-border bg-card p-12 text-center">
+              <p className="font-display text-2xl">Ingen medier valgt</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Aktiver minst én kilde under «Dine medier» for å se saker.
+              </p>
+            </article>
+          )}
 
           {/* Two-column secondary stories */}
-          <div className="grid gap-6 sm:grid-cols-2">
-            {feed.stories.slice(0, 2).map((s) => (
-              <StoryCard key={s.title} story={s} />
-            ))}
-          </div>
-
-          {/* Featured wide */}
-          <StoryCard story={feed.stories[2]} wide />
+          {storyList.length > 0 && (
+            <>
+              <div className="grid gap-6 sm:grid-cols-2">
+                {storyList.slice(0, 2).map((s) => (
+                  <StoryCard key={s.kicker + s.dek} story={s} />
+                ))}
+              </div>
+              {storyList[2] && <StoryCard key={storyList[2].kicker + storyList[2].dek} story={storyList[2]} wide />}
+            </>
+          )}
 
           {/* Quick reads list */}
           <section className="rounded-3xl border border-border bg-card">
