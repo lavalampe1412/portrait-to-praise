@@ -388,19 +388,33 @@ function Index() {
           <div className="flex items-center justify-between">
             <div>
               <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                Sunday · 26. juli
+                {trend ? "Trender · aktivt filter" : "Sunday · 26. juli"}
               </p>
-              <h1 className="font-display text-5xl leading-none tracking-tight">{cat}</h1>
+              <h1 className="font-display text-5xl leading-none tracking-tight">
+                {trend ?? cat}
+              </h1>
             </div>
             <div className="hidden gap-2 sm:flex">
-              <button className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:text-foreground">
-                Nyest
-              </button>
-              <button className="rounded-full bg-secondary px-3 py-1 text-xs text-foreground">
-                Anbefalt
-              </button>
+              {trend ? (
+                <button
+                  onClick={() => setTrend(null)}
+                  className="rounded-full border border-primary/60 bg-primary/10 px-3 py-1 text-xs text-primary hover:bg-primary/20"
+                >
+                  Fjern filter ✕
+                </button>
+              ) : (
+                <>
+                  <button className="rounded-full border border-border px-3 py-1 text-xs text-muted-foreground hover:text-foreground">
+                    Nyest
+                  </button>
+                  <button className="rounded-full bg-secondary px-3 py-1 text-xs text-foreground">
+                    Anbefalt
+                  </button>
+                </>
+              )}
             </div>
           </div>
+
 
           {/* Hero article */}
           <article className="group overflow-hidden rounded-3xl border border-border bg-card">
