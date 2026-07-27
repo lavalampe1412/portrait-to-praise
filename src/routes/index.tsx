@@ -687,7 +687,17 @@ function Index() {
   );
 }
 
-function StoryCard({ story, wide = false }: { story: Story; wide?: boolean }) {
+function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
+  const [i, setI] = useState(0);
+  const count = story.versions.length;
+  const idx = count > 0 ? i % count : 0;
+  const v = story.versions[idx];
+  useEffect(() => {
+    if (i >= count) setI(0);
+  }, [count, i]);
+  if (!v) return null;
+  const prev = () => setI((n) => (n - 1 + count) % count);
+  const next = () => setI((n) => (n + 1) % count);
   return (
     <article className={`group overflow-hidden rounded-2xl border border-border bg-card ${wide ? "grid sm:grid-cols-[1.4fr_1fr]" : ""}`}>
       <div className={`relative overflow-hidden ${wide ? "aspect-[4/3] sm:aspect-auto" : "aspect-[4/3]"}`}>
@@ -700,22 +710,51 @@ function StoryCard({ story, wide = false }: { story: Story; wide?: boolean }) {
           className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />
       </div>
-      <div className="p-6">
+      <div className="flex flex-col p-6">
         <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-primary">
           {story.kicker}
         </p>
         <h3 className={`font-display leading-[1.1] tracking-tight ${wide ? "text-3xl" : "text-2xl"}`}>
-          {story.title}
+          {v.title}
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{story.dek}</p>
         <div className="mt-5 flex items-center gap-3 text-xs text-muted-foreground">
           <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px]">
-            {story.source}
+            {v.source}
           </span>
-          <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{story.time}</span>
-          <span>· {story.read}</span>
+          <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{v.time}</span>
+          <span>· {v.read}</span>
         </div>
+        {count > 1 && (
+          <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-3 mt-4">
+            <button
+              onClick={prev}
+              aria-label="Forrige versjon"
+              className="rounded-full border border-border p-1.5 text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+            >
+              <ChevronLeft className="h-3.5 w-3.5" />
+            </button>
+            <div className="flex flex-1 items-center justify-center gap-1.5">
+              {story.versions.map((ver, k) => (
+                <button
+                  key={ver.source}
+                  onClick={() => setI(k)}
+                  aria-label={`Versjon ${k + 1}: ${ver.source}`}
+                  className={`h-1.5 rounded-full transition-all ${k === idx ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground"}`}
+                />
+              ))}
+            </div>
+            <button
+              onClick={next}
+              aria-label="Neste versjon"
+              className="rounded-full border border-border p-1.5 text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+            >
+              <ChevronRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
       </div>
     </article>
   );
+}
 }
