@@ -101,6 +101,19 @@ const QUICK = [
 function Index() {
   const [tab, setTab] = useState<keyof typeof TRENDS>("Daily");
   const [cat, setCat] = useState("For Deg");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  useEffect(() => {
+    const saved = (typeof window !== "undefined" && localStorage.getItem("nyhet-theme")) as "dark" | "light" | null;
+    if (saved) setTheme(saved);
+  }, []);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    document.documentElement.classList.toggle("light", theme === "light");
+    localStorage.setItem("nyhet-theme", theme);
+  }, [theme]);
+
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground antialiased selection:bg-primary selection:text-primary-foreground">
