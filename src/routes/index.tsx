@@ -344,18 +344,19 @@ function Index() {
             <ol className="space-y-1">
               {TRENDS[tab].map((t) => (
                 <li key={t.rank}>
-                  <a
-                    href="#"
-                    className="group flex items-baseline gap-3 rounded-lg px-2 py-2 transition hover:bg-secondary"
+                  <button
+                    type="button"
+                    onClick={() => setTrend(t.title)}
+                    className={`group flex w-full items-baseline gap-3 rounded-lg px-2 py-2 text-left transition hover:bg-secondary ${trend === t.title ? "bg-secondary" : ""}`}
                   >
                     <span className="font-mono text-xs text-muted-foreground w-4">
                       {String(t.rank).padStart(2, "0")}
                     </span>
-                    <span className="flex-1 text-sm leading-snug group-hover:text-primary">
+                    <span className={`flex-1 text-sm leading-snug group-hover:text-primary ${trend === t.title ? "text-primary" : ""}`}>
                       {t.title}
                     </span>
                     <span className="font-mono text-[10px] text-primary">{t.delta}</span>
-                  </a>
+                  </button>
                 </li>
               ))}
             </ol>
