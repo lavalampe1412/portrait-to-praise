@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Search, Bell, Plus, TrendingUp, Clock, Bookmark, Share2, Play, Sun, Moon } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import heroSport from "@/assets/hero-sport.jpg";
 import heroFire from "@/assets/hero-fire.jpg";
@@ -61,6 +61,47 @@ type Story = {
 };
 type Quick = { source: string; title: string; time: string };
 type Feed = { hero: Story; stories: Story[]; quick: Quick[] };
+
+type Version = { source: string; title: string; time: string; read: string };
+type VStory = { kicker: string; dek: string; image: string; versions: Version[] };
+type VFeed = { hero: VStory; stories: VStory[]; quick: Quick[] };
+
+const MEDIA_ORDER = ["VG", "NRK", "Dagbladet", "DN", "Nettavisen", "E24", "Kapital", "Aftenposten"];
+
+function shiftTime(t: string, n: number) {
+  return t.replace(/(\d{2}):(\d{2})(?!\d)/g, (_m, h, mi) => {
+    const total = (parseInt(h) * 60 + parseInt(mi) + n * 7 + 24 * 60) % (24 * 60);
+    return `${String(Math.floor(total / 60)).padStart(2, "0")}:${String(total % 60).padStart(2, "0")}`;
+  });
+}
+
+function angleFor(source: string, title: string) {
+  switch (source) {
+    case "VG": return `${title} — VG følger saken time for time`;
+    case "NRK": return `NRK: ${title}`;
+    case "Aftenposten": return `${title}. Aftenposten forklarer bakgrunnen`;
+    case "Dagbladet": return `${title} – Dagbladet med nye detaljer`;
+    case "DN": return `DN: ${title} – slik reagerer markedet`;
+    case "E24": return `E24: ${title}`;
+    case "Nettavisen": return `${title} (Nettavisen kommenterer)`;
+    case "Kapital": return `Kapital: ${title} – analysen`;
+    default: return title;
+  }
+}
+
+function withVersions(b: Story): VStory {
+  const others = MEDIA_ORDER.filter((s) => s !== b.source);
+  const versions: Version[] = [
+    { source: b.source, title: b.title, time: b.time, read: b.read },
+    ...others.map((s, i) => ({
+      source: s,
+      title: angleFor(s, b.title),
+      time: shiftTime(b.time, i + 1),
+      read: `${3 + ((i + 1) % 4)} min`,
+    })),
+  ];
+  return { kicker: b.kicker, dek: b.dek, image: b.image, versions };
+}
 
 const FEEDS: Record<string, Feed> = {
   "For Deg": {
@@ -250,9 +291,34 @@ function Index() {
   const [cat, setCat] = useState("For Deg");
   const [trend, setTrend] = useState<string | null>(null);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [enabledMedia, setEnabledMedia] = useState<Set<string>>(() => new Set(MEDIA.map((m) => m.name)));
+  const [heroIdx, setHeroIdx] = useState(0);
 
-  const feed: Feed = trend ? feedForTrend(trend) : FEEDS[cat] ?? FEEDS["For Deg"];
+  const rawFeed: Feed = trend ? feedForTrend(trend) : FEEDS[cat] ?? FEEDS["For Deg"];
 
+  const feed: VFeed = useMemo(
+    () => ({
+      hero: withVersions(rawFeed.hero),
+      stories: rawFeed.stories.map(withVersions),
+      quick: rawFeed.quick,
+    }),
+    [rawFeed],
+  );
+
+  const filterStory = (s: VStory): VStory => ({
+    ...s,
+    versions: s.versions.filter((v) => enabledMedia.has(v.source)),
+  });
+  const heroStory = filterStory(feed.hero);
+  const storyList = feed.stories.map(filterStory).filter((s) => s.versions.length > 0);
+  const quickList = feed.quick.filter((q) => enabledMedia.has(q.source));
+
+  useEffect(() => {
+    setHeroIdx(0);
+  }, [cat, trend, enabledMedia]);
+  const heroVersion = heroStory.versions.length > 0
+    ? heroStory.versions[heroIdx % heroStory.versions.length]
+    : null;
 
   useEffect(() => {
     const saved = (typeof window !== "undefined" && localStorage.getItem("nyhet-theme")) as "dark" | "light" | null;
@@ -264,6 +330,14 @@ function Index() {
     document.documentElement.classList.toggle("light", theme === "light");
     localStorage.setItem("nyhet-theme", theme);
   }, [theme]);
+
+  const toggleMedia = (name: string) =>
+    setEnabledMedia((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
 
 
   return (
@@ -417,60 +491,89 @@ function Index() {
 
 
           {/* Hero article */}
-          <article className="group overflow-hidden rounded-3xl border border-border bg-card">
-            <div className="relative aspect-[16/9] overflow-hidden">
-              <img
-                src={feed.hero.image}
-                alt=""
-                width={1280}
-                height={800}
-                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-              <div className="absolute inset-x-0 bottom-0 p-8">
-                <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-primary">
-                  {feed.hero.kicker}
-                </p>
-                <h2 className="max-w-3xl font-display text-4xl leading-[1.05] tracking-tight text-white md:text-5xl">
-                  {feed.hero.title}
-                </h2>
-                <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">
-                  {feed.hero.dek}
-                </p>
-                <div className="mt-5 flex items-center gap-4 text-xs text-neutral-400">
-                  <span className="rounded-full bg-white/10 px-2.5 py-1 font-medium text-white backdrop-blur">
-                    {feed.hero.source}
-                  </span>
-                  <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" />{feed.hero.time}</span>
-                  <span>{feed.hero.read}</span>
-                  <div className="ml-auto flex gap-1">
-                    <button className="rounded-full bg-white/10 p-2 text-white backdrop-blur hover:bg-white/20"><Bookmark className="h-3.5 w-3.5" /></button>
-                    <button className="rounded-full bg-white/10 p-2 text-white backdrop-blur hover:bg-white/20"><Share2 className="h-3.5 w-3.5" /></button>
+          {heroVersion ? (
+            <article className="group overflow-hidden rounded-3xl border border-border bg-card">
+              <div className="relative aspect-[16/9] overflow-hidden">
+                <img
+                  src={heroStory.image}
+                  alt=""
+                  width={1280}
+                  height={800}
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-8">
+                  <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-primary">
+                    {heroStory.kicker}
+                  </p>
+                  <h2 className="max-w-3xl font-display text-4xl leading-[1.05] tracking-tight text-white md:text-5xl">
+                    {heroVersion.title}
+                  </h2>
+                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">
+                    {heroStory.dek}
+                  </p>
+                  <div className="mt-5 flex items-center gap-4 text-xs text-neutral-400">
+                    <span className="rounded-full bg-white/10 px-2.5 py-1 font-medium text-white backdrop-blur">
+                      {heroVersion.source}
+                    </span>
+                    <span className="flex items-center gap-1.5"><Clock className="h-3 w-3" />{heroVersion.time}</span>
+                    <span>{heroVersion.read}</span>
+                    <div className="ml-auto flex items-center gap-1.5">
+                      {heroStory.versions.map((_, k) => (
+                        <button
+                          key={k}
+                          onClick={() => setHeroIdx(k)}
+                          aria-label={`Versjon ${k + 1} av ${heroStory.versions.length}`}
+                          className={`h-1.5 rounded-full transition-all ${k === heroIdx % heroStory.versions.length ? "w-6 bg-primary" : "w-1.5 bg-white/40 hover:bg-white/70"}`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
+                {heroStory.versions.length > 1 && (
+                  <>
+                    <div className="absolute inset-y-0 left-0 flex items-center">
+                      <button
+                        onClick={() => setHeroIdx((n) => (n - 1 + heroStory.versions.length) % heroStory.versions.length)}
+                        aria-label="Forrige versjon"
+                        className="ml-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur hover:bg-black/60"
+                      >
+                        <ChevronLeft className="h-4 w-4" />
+                      </button>
+                    </div>
+                    <div className="absolute inset-y-0 right-0 flex items-center">
+                      <button
+                        onClick={() => setHeroIdx((n) => (n + 1) % heroStory.versions.length)}
+                        aria-label="Neste versjon"
+                        className="mr-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur hover:bg-black/60"
+                      >
+                        <ChevronRight className="h-4 w-4" />
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
-              <div className="absolute inset-y-0 left-0 flex items-center">
-                <button className="ml-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur hover:bg-black/60">
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-              </div>
-              <div className="absolute inset-y-0 right-0 flex items-center">
-                <button className="mr-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur hover:bg-black/60">
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
-            </div>
-          </article>
+            </article>
+          ) : (
+            <article className="rounded-3xl border border-dashed border-border bg-card p-12 text-center">
+              <p className="font-display text-2xl">Ingen medier valgt</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Aktiver minst én kilde under «Dine medier» for å se saker.
+              </p>
+            </article>
+          )}
 
           {/* Two-column secondary stories */}
-          <div className="grid gap-6 sm:grid-cols-2">
-            {feed.stories.slice(0, 2).map((s) => (
-              <StoryCard key={s.title} story={s} />
-            ))}
-          </div>
-
-          {/* Featured wide */}
-          <StoryCard story={feed.stories[2]} wide />
+          {storyList.length > 0 && (
+            <>
+              <div className="grid gap-6 sm:grid-cols-2">
+                {storyList.slice(0, 2).map((s) => (
+                  <StoryCard key={s.kicker + s.dek} story={s} />
+                ))}
+              </div>
+              {storyList[2] && <StoryCard key={storyList[2].kicker + storyList[2].dek} story={storyList[2]} wide />}
+            </>
+          )}
 
           {/* Quick reads list */}
           <section className="rounded-3xl border border-border bg-card">
@@ -481,7 +584,7 @@ function Index() {
               </span>
             </div>
             <ul className="divide-y divide-border">
-              {feed.quick.map((q) => (
+              {quickList.map((q) => (
                 <li key={q.title}>
                   <a href="#" className="group flex items-center gap-4 px-6 py-4 transition hover:bg-secondary/50">
                     <span className="rounded-full border border-border px-2.5 py-1 font-mono text-[10px] tracking-wider text-muted-foreground">
@@ -494,6 +597,11 @@ function Index() {
                   </a>
                 </li>
               ))}
+              {quickList.length === 0 && (
+                <li className="px-6 py-6 text-center text-sm text-muted-foreground">
+                  Ingen aktive kilder.
+                </li>
+              )}
             </ul>
           </section>
         </section>
@@ -501,26 +609,42 @@ function Index() {
         {/* RIGHT — Dine Medier */}
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <section>
-            <div className="mb-4 flex items-end justify-between">
+            <div className="mb-1 flex items-end justify-between">
               <h2 className="font-display text-3xl leading-none">Dine medier</h2>
               <button className="rounded-full border border-border p-1.5 hover:bg-secondary">
                 <Plus className="h-3.5 w-3.5" />
               </button>
             </div>
+            <p className="mb-4 text-xs text-muted-foreground">
+              {enabledMedia.size} av {MEDIA.length} aktive · klikk for å skjule
+            </p>
             <div className="grid grid-cols-3 gap-2">
-              {MEDIA.map((m) => (
-                <button
-                  key={m.name}
-                  className={`flex aspect-square items-center justify-center rounded-xl font-mono text-xs font-bold text-white transition hover:scale-105 ${m.color}`}
-                  title={m.name}
-                >
-                  {m.tag}
-                </button>
-              ))}
+              {MEDIA.map((m) => {
+                const on = enabledMedia.has(m.name);
+                return (
+                  <button
+                    key={m.name}
+                    onClick={() => toggleMedia(m.name)}
+                    aria-pressed={on}
+                    className={`flex aspect-square items-center justify-center rounded-xl font-mono text-xs font-bold text-white transition hover:scale-105 ${m.color} ${on ? "" : "opacity-25 grayscale"}`}
+                    title={`${m.name} — ${on ? "aktiv, klikk for å skjule" : "skjult, klikk for å vise"}`}
+                  >
+                    {m.tag}
+                  </button>
+                );
+              })}
               <button className="flex aspect-square items-center justify-center rounded-xl border border-dashed border-border text-muted-foreground hover:border-primary hover:text-primary">
                 <Plus className="h-4 w-4" />
               </button>
             </div>
+            {enabledMedia.size < MEDIA.length && (
+              <button
+                onClick={() => setEnabledMedia(new Set(MEDIA.map((m) => m.name)))}
+                className="mt-3 text-xs text-primary hover:underline"
+              >
+                Vis alle igjen
+              </button>
+            )}
           </section>
 
           <section className="rounded-2xl border border-border bg-card p-5">
@@ -563,7 +687,17 @@ function Index() {
   );
 }
 
-function StoryCard({ story, wide = false }: { story: Story; wide?: boolean }) {
+function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
+  const [i, setI] = useState(0);
+  const count = story.versions.length;
+  const idx = count > 0 ? i % count : 0;
+  const v = story.versions[idx];
+  useEffect(() => {
+    if (i >= count) setI(0);
+  }, [count, i]);
+  if (!v) return null;
+  const prev = () => setI((n) => (n - 1 + count) % count);
+  const next = () => setI((n) => (n + 1) % count);
   return (
     <article className={`group overflow-hidden rounded-2xl border border-border bg-card ${wide ? "grid sm:grid-cols-[1.4fr_1fr]" : ""}`}>
       <div className={`relative overflow-hidden ${wide ? "aspect-[4/3] sm:aspect-auto" : "aspect-[4/3]"}`}>
@@ -576,21 +710,49 @@ function StoryCard({ story, wide = false }: { story: Story; wide?: boolean }) {
           className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
         />
       </div>
-      <div className="p-6">
+      <div className="flex flex-col p-6">
         <p className="mb-2 font-mono text-[10px] uppercase tracking-widest text-primary">
           {story.kicker}
         </p>
         <h3 className={`font-display leading-[1.1] tracking-tight ${wide ? "text-3xl" : "text-2xl"}`}>
-          {story.title}
+          {v.title}
         </h3>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{story.dek}</p>
         <div className="mt-5 flex items-center gap-3 text-xs text-muted-foreground">
           <span className="rounded-full border border-border px-2 py-0.5 font-mono text-[10px]">
-            {story.source}
+            {v.source}
           </span>
-          <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{story.time}</span>
-          <span>· {story.read}</span>
+          <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{v.time}</span>
+          <span>· {v.read}</span>
         </div>
+        {count > 1 && (
+          <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-3 mt-4">
+            <button
+              onClick={prev}
+              aria-label="Forrige versjon"
+              className="rounded-full border border-border p-1.5 text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+            >
+              <ChevronLeft className="h-3.5 w-3.5" />
+            </button>
+            <div className="flex flex-1 items-center justify-center gap-1.5">
+              {story.versions.map((ver, k) => (
+                <button
+                  key={ver.source}
+                  onClick={() => setI(k)}
+                  aria-label={`Versjon ${k + 1}: ${ver.source}`}
+                  className={`h-1.5 rounded-full transition-all ${k === idx ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground"}`}
+                />
+              ))}
+            </div>
+            <button
+              onClick={next}
+              aria-label="Neste versjon"
+              className="rounded-full border border-border p-1.5 text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+            >
+              <ChevronRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
       </div>
     </article>
   );
