@@ -248,7 +248,11 @@ function feedForTrend(topic: string): Feed {
 function Index() {
   const [tab, setTab] = useState<keyof typeof TRENDS>("Daily");
   const [cat, setCat] = useState("For Deg");
+  const [trend, setTrend] = useState<string | null>(null);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  const feed: Feed = trend ? feedForTrend(trend) : FEEDS[cat] ?? FEEDS["For Deg"];
+
 
   useEffect(() => {
     const saved = (typeof window !== "undefined" && localStorage.getItem("nyhet-theme")) as "dark" | "light" | null;
