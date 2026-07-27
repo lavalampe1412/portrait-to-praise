@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ChevronLeft, ChevronRight, Search, Bell, Plus, TrendingUp, Clock, Bookmark, Share2, Play, Sun, Moon } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 import heroSport from "@/assets/hero-sport.jpg";
 import heroFire from "@/assets/hero-fire.jpg";
