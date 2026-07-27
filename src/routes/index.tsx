@@ -279,7 +279,7 @@ function Index() {
             {CATEGORIES.map((c) => (
               <button
                 key={c}
-                onClick={() => setCat(c)}
+                onClick={() => { setCat(c); setTrend(null); }}
                 className={`relative rounded-full px-4 py-1.5 text-sm transition ${
                   cat === c
                     ? "text-foreground"
