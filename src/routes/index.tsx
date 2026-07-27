@@ -50,53 +50,200 @@ const MEDIA = [
   { name: "Aftenposten", tag: "AP", color: "bg-neutral-800" },
 ];
 
-const HERO = {
-  kicker: "Sport · Champions League",
-  title: "Opprør etter absurd avgjørelse: «En skandale»",
-  dek: "VAR-beslutningen i sluttminuttene har utløst massiv kritikk fra spillere, trenere og eksperter over hele Europa.",
-  image: heroSport,
-  source: "Nettavisen",
-  time: "29.11.2026 · 00:15",
-  read: "4 min",
+type Story = {
+  kicker: string;
+  title: string;
+  dek: string;
+  image: string;
+  source: string;
+  time: string;
+  read: string;
+};
+type Quick = { source: string; title: string; time: string };
+type Feed = { hero: Story; stories: Story[]; quick: Quick[] };
+
+const FEEDS: Record<string, Feed> = {
+  "For Deg": {
+    hero: {
+      kicker: "Sport · Champions League",
+      title: "Opprør etter absurd avgjørelse: «En skandale»",
+      dek: "VAR-beslutningen i sluttminuttene har utløst massiv kritikk fra spillere, trenere og eksperter over hele Europa.",
+      image: heroSport,
+      source: "Nettavisen",
+      time: "29.11.2026 · 00:15",
+      read: "4 min",
+    },
+    stories: [
+      { kicker: "Innenriks · Kristiansand", title: "Verneverdig bygning gikk tapt i brann", dek: "Den 200 år gamle trekonstruksjonen brant ned til grunnen på under to timer.", image: heroFire, source: "NRK", time: "02:15", read: "3 min" },
+      { kicker: "Politikk · Stortinget", title: "Regjeringen møter motstand i statsbudsjettet", dek: "Opposisjonen samler seg mot omstridte kutt i velferdsordningene.", image: heroPolitics, source: "Aftenposten", time: "06:40", read: "5 min" },
+      { kicker: "Business · Oslo Børs", title: "Rentemøtet sender kronen ned mot euroen", dek: "Analytikere venter uendret rente, men signaler om videre utvikling er avgjørende.", image: heroBusiness, source: "E24", time: "07:22", read: "4 min" },
+    ],
+    quick: [
+      { source: "VG", title: "Politikere krever gransking av tildelingen", time: "5 min siden" },
+      { source: "DN", title: "Oljeprisen faller for tredje dag på rad", time: "12 min siden" },
+      { source: "NRK", title: "Nytt uvær på vei inn over Vestlandet", time: "22 min siden" },
+      { source: "Dagbladet", title: "Kjendispar bekrefter bruddet etter ti år", time: "38 min siden" },
+      { source: "Kapital", title: "Startup henter 400 millioner i ny runde", time: "1 t siden" },
+    ],
+  },
+  Nyheter: {
+    hero: {
+      kicker: "Nyheter · Vestlandet",
+      title: "Ekstremværet «Ingrid» stenger flere fjelloverganger",
+      dek: "Meteorologene sender ut rødt farevarsel. Beredskapen er høynet i tre fylker.",
+      image: heroFire,
+      source: "NRK",
+      time: "29.11.2026 · 05:40",
+      read: "3 min",
+    },
+    stories: [
+      { kicker: "Innenriks · Oslo", title: "Politiet etterforsker natteksplosjon på Grønland", dek: "Ingen skadde, men flere leiligheter er evakuert som følge av hendelsen.", image: heroPolitics, source: "VG", time: "04:12", read: "2 min" },
+      { kicker: "Utenriks · Brussel", title: "EU strammer inn regler for AI-agenter", dek: "Nye krav om åpenhet og logging trår i kraft neste sommer.", image: heroBusiness, source: "Aftenposten", time: "06:00", read: "5 min" },
+      { kicker: "Innenriks · Bergen", title: "Kommunen varsler kutt i skolebudsjett", dek: "Foreldre reagerer sterkt på forslaget som legges frem i dag.", image: heroSport, source: "Dagbladet", time: "07:50", read: "3 min" },
+    ],
+    quick: [
+      { source: "NRK", title: "Fergesamband innstilt grunnet uvær", time: "3 min siden" },
+      { source: "VG", title: "SSB: Prisveksten flater ut", time: "18 min siden" },
+      { source: "Aftenposten", title: "Ny rapport om helsekøene", time: "40 min siden" },
+      { source: "Dagbladet", title: "Trafikkulykke stenger E6 nordover", time: "55 min siden" },
+    ],
+  },
+  Sport: {
+    hero: {
+      kicker: "Sport · Champions League",
+      title: "Opprør etter absurd avgjørelse: «En skandale»",
+      dek: "VAR-beslutningen i sluttminuttene har utløst massiv kritikk fra spillere og trenere.",
+      image: heroSport,
+      source: "Nettavisen",
+      time: "29.11.2026 · 00:15",
+      read: "4 min",
+    },
+    stories: [
+      { kicker: "Sport · Landslaget", title: "Solbakken tar ut ny tropp foran EM-kvalik", dek: "To debutanter og en overraskende retur preger uttaket.", image: heroSport, source: "VG", time: "10:15", read: "3 min" },
+      { kicker: "Sport · Ski", title: "Klæbo bekrefter comeback i verdenscupen", dek: "Etter skadeavbrekket er han klar for sesongåpningen i Ruka.", image: heroFire, source: "NRK", time: "11:02", read: "2 min" },
+      { kicker: "Sport · Håndball", title: "Norge knuste Danmark i EM-generalprøven", dek: "Nora Mørk toppscorer med ni mål i storseieren.", image: heroPolitics, source: "Dagbladet", time: "12:30", read: "3 min" },
+    ],
+    quick: [
+      { source: "VG", title: "Haaland scoret nummer 25 for sesongen", time: "8 min siden" },
+      { source: "Nettavisen", title: "Rosenborg jakter ny trener fra Sverige", time: "20 min siden" },
+      { source: "NRK", title: "Ingebrigtsen løp årsbeste innendørs", time: "34 min siden" },
+      { source: "Dagbladet", title: "Bodø/Glimt klare for gruppespill", time: "1 t siden" },
+    ],
+  },
+  Politikk: {
+    hero: {
+      kicker: "Politikk · Stortinget",
+      title: "Regjeringen møter motstand i statsbudsjettet",
+      dek: "Opposisjonen samler seg mot omstridte kutt i velferdsordningene.",
+      image: heroPolitics,
+      source: "Aftenposten",
+      time: "29.11.2026 · 06:40",
+      read: "5 min",
+    },
+    stories: [
+      { kicker: "Politikk · Regjeringen", title: "Statsministeren varsler krisemøte om økonomien", dek: "Møtet finner sted i regjeringskvartalet i ettermiddag.", image: heroBusiness, source: "VG", time: "09:10", read: "4 min" },
+      { kicker: "Politikk · Utenriks", title: "Norge øker støtten til Ukraina", dek: "Nye 5 milliarder øremerkes militært materiell.", image: heroFire, source: "NRK", time: "10:20", read: "3 min" },
+      { kicker: "Politikk · Kommune", title: "Erna Solberg ute på valgkampturné", dek: "Høyre-lederen møter velgere i Nord-Norge denne uken.", image: heroSport, source: "Aftenposten", time: "13:45", read: "4 min" },
+    ],
+    quick: [
+      { source: "Aftenposten", title: "SV krever full gjennomgang av oljefondet", time: "10 min siden" },
+      { source: "VG", title: "Frp øker på ny meningsmåling", time: "25 min siden" },
+      { source: "NRK", title: "Klimaministeren avviser kritikken", time: "45 min siden" },
+    ],
+  },
+  Business: {
+    hero: {
+      kicker: "Business · Oslo Børs",
+      title: "Rentemøtet sender kronen ned mot euroen",
+      dek: "Analytikere venter uendret rente, men signaler om videre utvikling er avgjørende.",
+      image: heroBusiness,
+      source: "E24",
+      time: "29.11.2026 · 07:22",
+      read: "4 min",
+    },
+    stories: [
+      { kicker: "Business · Energi", title: "Equinor kjøper amerikansk vindkraft-portefølje", dek: "Avtalen verdsettes til 32 milliarder kroner.", image: heroPolitics, source: "DN", time: "08:30", read: "5 min" },
+      { kicker: "Business · Tech", title: "Norsk startup henter 400 millioner", dek: "Sequoia leder emisjonen i den Oslo-baserte AI-plattformen.", image: heroFire, source: "Kapital", time: "09:15", read: "3 min" },
+      { kicker: "Business · Bolig", title: "Boligprisene falt for andre måned på rad", dek: "Eiendom Norge peker på renta som hovedårsak.", image: heroSport, source: "E24", time: "10:00", read: "4 min" },
+    ],
+    quick: [
+      { source: "DN", title: "Oljeprisen faller for tredje dag på rad", time: "12 min siden" },
+      { source: "E24", title: "Nel-aksjen stuper på Oslo Børs", time: "28 min siden" },
+      { source: "Kapital", title: "Ny fond-lansering fra Storebrand", time: "50 min siden" },
+    ],
+  },
+  Kultur: {
+    hero: {
+      kicker: "Kultur · Litteratur",
+      title: "Fosse-oppfølgeren blir årets mest omtalte roman",
+      dek: "Kritikerne står i kø for å hylle den nye boken fra nobelprisvinneren.",
+      image: heroPolitics,
+      source: "Aftenposten",
+      time: "29.11.2026 · 09:00",
+      read: "6 min",
+    },
+    stories: [
+      { kicker: "Kultur · Film", title: "Ny norsk film vinner pris i Venezia", dek: "Regissøren beskriver det som en drøm som går i oppfyllelse.", image: heroSport, source: "NRK", time: "11:30", read: "3 min" },
+      { kicker: "Kultur · Musikk", title: "Aurora annonserer verdensturné", dek: "Turnéen starter i Oslo Spektrum til våren.", image: heroFire, source: "Dagbladet", time: "12:15", read: "2 min" },
+      { kicker: "Kultur · Scene", title: "Nationaltheatret setter opp Ibsen på nytt", dek: "En moderne tolkning av Hedda Gabler har premiere i januar.", image: heroBusiness, source: "Aftenposten", time: "14:00", read: "4 min" },
+    ],
+    quick: [
+      { source: "Dagbladet", title: "Kjendispar bekrefter bruddet etter ti år", time: "38 min siden" },
+      { source: "NRK", title: "Munch-museet setter besøksrekord", time: "1 t siden" },
+      { source: "Aftenposten", title: "Ny podkast topper listene", time: "2 t siden" },
+    ],
+  },
+  Diverse: {
+    hero: {
+      kicker: "Diverse · Forskning",
+      title: "Norske forskere finner nytt lag i Nordsjøen",
+      dek: "Funnet kan endre forståelsen av petroleumsressursene på norsk sokkel.",
+      image: heroFire,
+      source: "NRK",
+      time: "29.11.2026 · 11:00",
+      read: "5 min",
+    },
+    stories: [
+      { kicker: "Diverse · Reise", title: "Disse destinasjonene er hete for 2026", dek: "Reiseeksperter tipser om årets mest ettertraktede reisemål.", image: heroSport, source: "VG", time: "13:00", read: "4 min" },
+      { kicker: "Diverse · Mat", title: "Nordisk kjøkken erobrer Michelin-listen", dek: "Fem nye norske restauranter fikk stjerne i årets guide.", image: heroBusiness, source: "Aftenposten", time: "14:20", read: "3 min" },
+      { kicker: "Diverse · Livsstil", title: "«Slow living» er årets største trend", dek: "Nordmenn dropper hektisk hverdag for enklere rutiner.", image: heroPolitics, source: "Dagbladet", time: "15:00", read: "4 min" },
+    ],
+    quick: [
+      { source: "VG", title: "Ny bok om nordisk mytologi topper listene", time: "20 min siden" },
+      { source: "NRK", title: "Rekordmange søker seg til friluftsstudier", time: "1 t siden" },
+    ],
+  },
 };
 
-const STORIES = [
-  {
-    kicker: "Innenriks · Kristiansand",
-    title: "Verneverdig bygning gikk tapt i brann",
-    dek: "Den 200 år gamle trekonstruksjonen brant ned til grunnen på under to timer.",
-    image: heroFire,
-    source: "NRK",
-    time: "02:15",
-    read: "3 min",
-  },
-  {
-    kicker: "Politikk · Stortinget",
-    title: "Regjeringen møter motstand i statsbudsjettet",
-    dek: "Opposisjonen samler seg mot omstridte kutt i velferdsordningene.",
-    image: heroPolitics,
-    source: "Aftenposten",
-    time: "06:40",
-    read: "5 min",
-  },
-  {
-    kicker: "Business · Oslo Børs",
-    title: "Rentemøtet sender kronen ned mot euroen",
-    dek: "Analytikere venter uendret rente, men signaler om videre utvikling er avgjørende.",
-    image: heroBusiness,
-    source: "E24",
-    time: "07:22",
-    read: "4 min",
-  },
-];
-
-const QUICK = [
-  { source: "VG", title: "Politikere krever gransking av tildelingen", time: "5 min siden" },
-  { source: "DN", title: "Oljeprisen faller for tredje dag på rad", time: "12 min siden" },
-  { source: "NRK", title: "Nytt uvær på vei inn over Vestlandet", time: "22 min siden" },
-  { source: "Dagbladet", title: "Kjendispar bekrefter bruddet etter ti år", time: "38 min siden" },
-  { source: "Kapital", title: "Startup henter 400 millioner i ny runde", time: "1 t siden" },
-];
+function feedForTrend(topic: string): Feed {
+  const sources = ["VG", "NRK", "Aftenposten", "DN", "Dagbladet", "E24", "Nettavisen", "Kapital"];
+  const images = [heroSport, heroFire, heroPolitics, heroBusiness];
+  const angles = [
+    { title: `Slik preger ${topic} nyhetsbildet nå`, dek: `En dypere gjennomgang av hvorfor «${topic}» dominerer samtalen — og hva som står på spill fremover.` },
+    { title: `${topic}: Dette må du vite`, dek: `Alle de viktigste faktaene, tidslinjen og aktørene som driver saken videre.` },
+    { title: `«${topic} endrer alt»`, dek: `Våre kommentatorer forklarer hvorfor denne saken kommer til å prege agendaen i ukene som kommer.` },
+    { title: `Møt menneskene bak ${topic}`, dek: `Vi har snakket med dem som står midt i stormen. Dette er deres historie.` },
+  ];
+  const build = (i: number): Story => ({
+    kicker: `Trender · ${topic}`,
+    title: angles[i % angles.length].title,
+    dek: angles[i % angles.length].dek,
+    image: images[i % images.length],
+    source: sources[i % sources.length],
+    time: `${(8 + i).toString().padStart(2, "0")}:${((i * 13) % 60).toString().padStart(2, "0")}`,
+    read: `${3 + (i % 4)} min`,
+  });
+  return {
+    hero: { ...build(0), time: `29.11.2026 · 09:${((topic.length * 3) % 60).toString().padStart(2, "0")}`, read: "5 min" },
+    stories: [build(1), build(2), build(3)],
+    quick: [
+      { source: "VG", title: `${topic}: Nye tall lekket fra departementet`, time: "6 min siden" },
+      { source: "NRK", title: `Ekspertene splittet om ${topic}`, time: "19 min siden" },
+      { source: "Aftenposten", title: `${topic} preger også europeisk debatt`, time: "42 min siden" },
+      { source: "DN", title: `Markedet reagerer kraftig på ${topic}`, time: "1 t siden" },
+    ],
+  };
+}
 
 function Index() {
   const [tab, setTab] = useState<keyof typeof TRENDS>("Daily");
