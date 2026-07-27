@@ -609,26 +609,42 @@ function Index() {
         {/* RIGHT — Dine Medier */}
         <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
           <section>
-            <div className="mb-4 flex items-end justify-between">
+            <div className="mb-1 flex items-end justify-between">
               <h2 className="font-display text-3xl leading-none">Dine medier</h2>
               <button className="rounded-full border border-border p-1.5 hover:bg-secondary">
                 <Plus className="h-3.5 w-3.5" />
               </button>
             </div>
+            <p className="mb-4 text-xs text-muted-foreground">
+              {enabledMedia.size} av {MEDIA.length} aktive · klikk for å skjule
+            </p>
             <div className="grid grid-cols-3 gap-2">
-              {MEDIA.map((m) => (
-                <button
-                  key={m.name}
-                  className={`flex aspect-square items-center justify-center rounded-xl font-mono text-xs font-bold text-white transition hover:scale-105 ${m.color}`}
-                  title={m.name}
-                >
-                  {m.tag}
-                </button>
-              ))}
+              {MEDIA.map((m) => {
+                const on = enabledMedia.has(m.name);
+                return (
+                  <button
+                    key={m.name}
+                    onClick={() => toggleMedia(m.name)}
+                    aria-pressed={on}
+                    className={`flex aspect-square items-center justify-center rounded-xl font-mono text-xs font-bold text-white transition hover:scale-105 ${m.color} ${on ? "" : "opacity-25 grayscale"}`}
+                    title={`${m.name} — ${on ? "aktiv, klikk for å skjule" : "skjult, klikk for å vise"}`}
+                  >
+                    {m.tag}
+                  </button>
+                );
+              })}
               <button className="flex aspect-square items-center justify-center rounded-xl border border-dashed border-border text-muted-foreground hover:border-primary hover:text-primary">
                 <Plus className="h-4 w-4" />
               </button>
             </div>
+            {enabledMedia.size < MEDIA.length && (
+              <button
+                onClick={() => setEnabledMedia(new Set(MEDIA.map((m) => m.name)))}
+                className="mt-3 text-xs text-primary hover:underline"
+              >
+                Vis alle igjen
+              </button>
+            )}
           </section>
 
           <section className="rounded-2xl border border-border bg-card p-5">
