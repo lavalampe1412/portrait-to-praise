@@ -757,4 +757,3 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
     </article>
   );
 }
-}
