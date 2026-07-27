@@ -291,9 +291,34 @@ function Index() {
   const [cat, setCat] = useState("For Deg");
   const [trend, setTrend] = useState<string | null>(null);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [enabledMedia, setEnabledMedia] = useState<Set<string>>(() => new Set(MEDIA.map((m) => m.name)));
+  const [heroIdx, setHeroIdx] = useState(0);
 
-  const feed: Feed = trend ? feedForTrend(trend) : FEEDS[cat] ?? FEEDS["For Deg"];
+  const rawFeed: Feed = trend ? feedForTrend(trend) : FEEDS[cat] ?? FEEDS["For Deg"];
 
+  const feed: VFeed = useMemo(
+    () => ({
+      hero: withVersions(rawFeed.hero),
+      stories: rawFeed.stories.map(withVersions),
+      quick: rawFeed.quick,
+    }),
+    [rawFeed],
+  );
+
+  const filterStory = (s: VStory): VStory => ({
+    ...s,
+    versions: s.versions.filter((v) => enabledMedia.has(v.source)),
+  });
+  const heroStory = filterStory(feed.hero);
+  const storyList = feed.stories.map(filterStory).filter((s) => s.versions.length > 0);
+  const quickList = feed.quick.filter((q) => enabledMedia.has(q.source));
+
+  useEffect(() => {
+    setHeroIdx(0);
+  }, [cat, trend, enabledMedia]);
+  const heroVersion = heroStory.versions.length > 0
+    ? heroStory.versions[heroIdx % heroStory.versions.length]
+    : null;
 
   useEffect(() => {
     const saved = (typeof window !== "undefined" && localStorage.getItem("nyhet-theme")) as "dark" | "light" | null;
@@ -305,6 +330,14 @@ function Index() {
     document.documentElement.classList.toggle("light", theme === "light");
     localStorage.setItem("nyhet-theme", theme);
   }, [theme]);
+
+  const toggleMedia = (name: string) =>
+    setEnabledMedia((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
 
 
   return (
