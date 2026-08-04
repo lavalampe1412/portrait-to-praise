@@ -671,28 +671,28 @@ function Index() {
 
           {/* Hero article */}
           {heroVersion ? (
-            <article className="group border border-border bg-card">
+            <article className="group frame">
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img
                   src={heroStory.image}
                   alt=""
                   width={1280}
                   height={800}
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+                  className="h-full w-full object-cover contrast-[1.1] saturate-[0.85] transition duration-700 group-hover:scale-[1.03] group-hover:saturate-100"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-                  <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-primary">
+                  <p className="mb-3 inline-block border-2 border-primary bg-primary px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground">
                     {heroStory.kicker}
                   </p>
-                  <h3 className="max-w-3xl font-display text-3xl leading-[1.05] tracking-tight text-white md:text-4xl lg:text-5xl">
+                  <h3 className="max-w-3xl font-display text-3xl uppercase leading-[0.98] text-white md:text-4xl lg:text-5xl">
                     {heroVersion.title}
                   </h3>
                   <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">
                     {heroStory.dek}
                   </p>
-                  <div className="mt-5 flex flex-wrap items-center gap-3 text-xs text-neutral-300">
-                    <span className="rounded-sm bg-white/10 px-2.5 py-1 font-medium text-white backdrop-blur">
+                  <div className="mt-5 flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-neutral-300">
+                    <span className="border border-white/40 px-2 py-1 font-bold text-white">
                       {heroVersion.source}
                     </span>
                     <span className="flex items-center gap-1.5">
@@ -700,16 +700,16 @@ function Index() {
                       {heroVersion.time}
                     </span>
                     <span>{heroVersion.read}</span>
-                    <div className="ml-auto flex items-center gap-1.5">
+                    <div className="ml-auto flex items-center gap-1">
                       {heroStory.versions.map((_, k) => (
                         <button
                           key={k}
                           onClick={() => setHeroIdx(k)}
                           aria-label={`Versjon ${k + 1} av ${heroStory.versions.length}`}
-                          className={`h-1.5 rounded-full transition-all ${
+                          className={`h-1.5 transition-all ${
                             k === heroIdx % heroStory.versions.length
-                              ? "w-6 bg-primary"
-                              : "w-1.5 bg-white/40 hover:bg-white/70"
+                              ? "w-7 bg-primary"
+                              : "w-3 bg-white/40 hover:bg-white/70"
                           }`}
                         />
                       ))}
@@ -724,7 +724,7 @@ function Index() {
                           setHeroIdx((n) => (n - 1 + heroStory.versions.length) % heroStory.versions.length)
                         }
                         aria-label="Forrige versjon"
-                        className="ml-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur transition hover:bg-black/60"
+                        className="ml-3 border-2 border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
                       >
                         <ChevronLeft className="h-4 w-4" />
                       </button>
@@ -733,7 +733,7 @@ function Index() {
                       <button
                         onClick={() => setHeroIdx((n) => (n + 1) % heroStory.versions.length)}
                         aria-label="Neste versjon"
-                        className="mr-3 rounded-full bg-black/40 p-2.5 text-white backdrop-blur transition hover:bg-black/60"
+                        className="mr-3 border-2 border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
                       >
                         <ChevronRight className="h-4 w-4" />
                       </button>
@@ -743,13 +743,14 @@ function Index() {
               </div>
             </article>
           ) : (
-            <article className="border border-dashed border-border bg-card p-12 text-center">
-              <p className="font-display text-2xl">Ingen medier valgt</p>
+            <article className="border-2 border-dashed border-border bg-card p-12 text-center">
+              <p className="font-display text-xl uppercase">Ingen medier valgt</p>
               <p className="mt-2 text-sm text-muted-foreground">
                 Aktiver minst én kilde under «Dine medier» for å se saker.
               </p>
             </article>
           )}
+
 
           {/* Secondary stories */}
           {storyList.length > 0 && (
