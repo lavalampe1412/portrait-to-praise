@@ -496,34 +496,38 @@ function Index() {
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
       {/* Masthead / edition bar */}
-      <div className="border-b border-border">
+      <div className="border-b-2 border-border">
         <div className="mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row sm:gap-6">
           <div className="text-center sm:text-left">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Oslo · Søndag 26. juli 2026 · Uke 30
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-primary">
+              OSL // 26.07.2026 // W30
             </p>
-            <p className="mt-0.5 text-xs text-muted-foreground">Delvis skyet, 18 °C · Lavtrykk fra vest</p>
+            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
+              18°C · LAVTRYKK_VEST
+            </p>
           </div>
 
           <div className="text-center">
-            <h1 className="font-display text-5xl tracking-tight text-foreground md:text-6xl">Nyhet</h1>
-            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-              Norges samlede morgenavis
+            <h1 className="font-display text-4xl uppercase tracking-[-0.04em] text-foreground md:text-5xl">
+              NYHET<span className="text-primary">.</span>
+            </h1>
+            <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.35em] text-muted-foreground">
+              signal / norsk presse
             </p>
           </div>
 
-          <div className="hidden items-center gap-4 sm:flex">
+          <div className="hidden items-center gap-2 sm:flex">
             <button
               onClick={() => applyTheme(theme === "dark" ? "light" : "dark")}
               aria-label={theme === "dark" ? "Bytt til lyst tema" : "Bytt til mørkt tema"}
-              className="flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+              className="flex h-9 w-9 items-center justify-center border-2 border-border text-muted-foreground transition hover:border-primary hover:text-primary"
             >
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
-            <button className="flex h-9 w-9 items-center justify-center rounded-sm border border-border text-muted-foreground transition hover:bg-secondary hover:text-foreground">
+            <button className="flex h-9 w-9 items-center justify-center border-2 border-border text-muted-foreground transition hover:border-primary hover:text-primary">
               <Bell className="h-4 w-4" />
             </button>
-            <button className="rounded-sm bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:bg-primary/90">
+            <button className="border-2 border-primary bg-primary px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
               Logg inn
             </button>
           </div>
@@ -531,9 +535,9 @@ function Index() {
       </div>
 
       {/* Category nav */}
-      <div className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur">
-        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-3">
-          <nav className="flex items-center gap-1 overflow-x-auto">
+      <div className="sticky top-0 z-40 border-b-2 border-border bg-background/90 backdrop-blur">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-2">
+          <nav className="flex items-center gap-0 overflow-x-auto">
             {CATEGORIES.map((c) => (
               <button
                 key={c}
@@ -541,29 +545,27 @@ function Index() {
                   setCat(c);
                   setTrend(null);
                 }}
-                className={`relative whitespace-nowrap px-3 py-2 text-sm font-medium transition ${
-                  cat === c && !trend ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                className={`relative whitespace-nowrap border-r border-border px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
+                  cat === c && !trend
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                 }`}
               >
                 {c}
-                {cat === c && !trend && (
-                  <span className="absolute inset-x-3 bottom-0 h-0.5 bg-primary" />
-                )}
               </button>
             ))}
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
-            <div className="flex items-center gap-2 rounded-sm border border-border bg-secondary/40 px-3 py-1.5 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2 border-2 border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
               <Search className="h-3.5 w-3.5" />
               <span>Søk</span>
-              <kbd className="ml-2 rounded-sm border border-border bg-background px-1.5 py-0.5 font-mono text-[10px]">
-                ⌘K
-              </kbd>
+              <kbd className="ml-2 border border-border px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
             </div>
           </div>
         </div>
       </div>
+
 
       {/* 3-column layout */}
       <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-8 px-6 py-8 lg:grid-cols-[220px_minmax(0,1fr)_280px]">
