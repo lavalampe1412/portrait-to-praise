@@ -83,6 +83,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Et moderne nyhetsdashbord. Trender, dine medier og dagens viktigste saker samlet på ett sted." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Nyhet — Nyheter uten støy" },
+      { name: "twitter:description", content: "Et moderne nyhetsdashbord. Trender, dine medier og dagens viktigste saker samlet på ett sted." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/53aace44-6e15-48de-ae31-ae79233c528c/id-preview-20491adc--4587b3d3-40ce-4050-955f-5e9185f61e8a.lovable.app-1785806444504.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/53aace44-6e15-48de-ae31-ae79233c528c/id-preview-20491adc--4587b3d3-40ce-4050-955f-5e9185f61e8a.lovable.app-1785806444504.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
