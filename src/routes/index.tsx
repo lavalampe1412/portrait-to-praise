@@ -802,18 +802,18 @@ function Index() {
         </section>
 
         {/* RIGHT — Dine Medier */}
-        <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
-          <section>
-            <div className="mb-1 flex items-end justify-between border-b border-border pb-3">
-              <h2 className="font-display text-2xl leading-none">Dine medier</h2>
-              <button className="flex h-7 w-7 items-center justify-center rounded-sm border border-border text-muted-foreground transition hover:bg-secondary">
-                <Plus className="h-3.5 w-3.5" />
+        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+          <section className="frame p-4">
+            <div className="mb-1 flex items-center justify-between border-b-2 border-border pb-2">
+              <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Dine medier</h2>
+              <button className="flex h-6 w-6 items-center justify-center border-2 border-border text-muted-foreground transition hover:border-primary hover:text-primary">
+                <Plus className="h-3 w-3" />
               </button>
             </div>
-            <p className="mb-4 text-xs text-muted-foreground">
-              {enabledMedia.size} av {MEDIA.length} aktive · klikk for å skjule
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+              {enabledMedia.size}/{MEDIA.length} aktive
             </p>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4 gap-1.5">
               {MEDIA.map((m) => {
                 const on = enabledMedia.has(m.name);
                 return (
@@ -821,8 +821,8 @@ function Index() {
                     key={m.name}
                     onClick={() => toggleMedia(m.name)}
                     aria-pressed={on}
-                    className={`flex aspect-square items-center justify-center rounded-sm font-mono text-[10px] font-bold text-white transition hover:scale-105 ${m.color} ${
-                      on ? "" : "opacity-25 grayscale"
+                    className={`flex aspect-square items-center justify-center border-2 font-mono text-[10px] font-bold text-white transition ${m.color} ${
+                      on ? "border-primary/70" : "border-border opacity-25 grayscale"
                     }`}
                     title={`${m.name} — ${on ? "aktiv, klikk for å skjule" : "skjult, klikk for å vise"}`}
                   >
@@ -830,40 +830,40 @@ function Index() {
                   </button>
                 );
               })}
-              <button className="flex aspect-square items-center justify-center rounded-sm border border-dashed border-border text-muted-foreground transition hover:border-primary hover:text-primary">
+              <button className="flex aspect-square items-center justify-center border-2 border-dashed border-border text-muted-foreground transition hover:border-primary hover:text-primary">
                 <Plus className="h-4 w-4" />
               </button>
             </div>
             {enabledMedia.size < MEDIA.length && (
               <button
                 onClick={() => setEnabledMedia(new Set(MEDIA.map((m) => m.name)))}
-                className="mt-3 text-xs font-medium text-primary hover:underline"
+                className="mt-3 w-full border-2 border-primary py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground"
               >
                 Vis alle igjen
               </button>
             )}
           </section>
 
-          <section className="border border-border bg-card p-5">
-            <div className="mb-4 flex items-center justify-between border-b border-border pb-3">
-              <p className="font-display text-xl leading-none">Filter</p>
-              <span className="font-mono text-[10px] text-muted-foreground">konto-avhengig</span>
+          <section className="frame p-4">
+            <div className="mb-3 flex items-center justify-between border-b-2 border-border pb-2">
+              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Filter</p>
+              <span className="font-mono text-[9px] uppercase text-muted-foreground">konto</span>
             </div>
-            <div className="space-y-1 text-sm">
+            <div className="space-y-1 text-[13px]">
               {["Skjul sport", "Kun norske kilder", "Skjul lest", "Prioriter lange saker"].map((f, i) => (
                 <label
                   key={f}
-                  className="flex cursor-pointer items-center justify-between rounded-sm px-2 py-2 transition hover:bg-secondary/40"
+                  className="flex cursor-pointer items-center justify-between px-1 py-2 transition hover:bg-secondary/50"
                 >
                   <span>{f}</span>
                   <span
-                    className={`relative h-4 w-7 rounded-full transition ${
-                      i === 1 || i === 2 ? "bg-primary" : "border border-border bg-secondary"
+                    className={`relative h-4 w-8 border-2 transition ${
+                      i === 1 || i === 2 ? "border-primary bg-primary/25" : "border-border bg-secondary"
                     }`}
                   >
                     <span
-                      className={`absolute top-0.5 h-3 w-3 rounded-full bg-background transition ${
-                        i === 1 || i === 2 ? "left-3.5" : "left-0.5"
+                      className={`absolute top-0 h-3 w-3 transition ${
+                        i === 1 || i === 2 ? "left-4 bg-primary" : "left-0 bg-muted-foreground"
                       }`}
                     />
                   </span>
@@ -872,25 +872,26 @@ function Index() {
             </div>
           </section>
 
-          <section className="border border-primary/40 bg-gradient-to-br from-primary/10 to-transparent p-5">
-            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-primary">Nyhet Pro</p>
-            <h3 className="font-display text-2xl leading-tight">Les alt, uten reklame.</h3>
+          <section className="frame scanline border-primary p-4">
+            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">Nyhet Pro</p>
+            <h3 className="font-display text-xl uppercase leading-tight">Les alt, uten reklame.</h3>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               Full tilgang til over 40 norske medier for 79 kr / mnd.
             </p>
-            <button className="mt-5 w-full rounded-sm bg-primary py-2.5 text-sm font-semibold text-primary-foreground transition hover:bg-primary/90">
+            <button className="mt-4 w-full border-2 border-primary bg-primary py-2 font-mono text-[11px] font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
               Prøv 30 dager gratis
             </button>
           </section>
         </aside>
       </main>
 
-      <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-6 py-10 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p className="font-mono uppercase tracking-wider">© 2026 Nyhet / Oslo</p>
-          <p>Et moderne nyhetsdashbord — bygget for lesing, ikke scrolling.</p>
+      <footer className="border-t-2 border-border">
+        <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-6 py-8 font-mono text-[10px] uppercase tracking-widest text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+          <p>© 2026 NYHET / OSLO</p>
+          <p>bygget for lesing — ikke scrolling</p>
         </div>
       </footer>
+
     </div>
   );
 }
