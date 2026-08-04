@@ -636,14 +636,14 @@ function Index() {
 
 
         {/* CENTER — Feed */}
-        <section className="min-w-0 space-y-8">
+        <section className="min-w-0 space-y-6">
           {/* Section header */}
-          <div className="flex items-end justify-between border-b border-border pb-4">
+          <div className="flex items-end justify-between border-b-2 border-border pb-3">
             <div>
-              <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                {trend ? "Trender · aktivt filter" : "Hovedseksjon"}
+              <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+                {trend ? "// aktivt filter" : "// hovedseksjon"}
               </p>
-              <h2 className="font-display text-4xl leading-none tracking-tight md:text-5xl">
+              <h2 className="font-display text-3xl uppercase leading-none md:text-4xl">
                 {trend ?? cat}
               </h2>
             </div>
@@ -651,22 +651,23 @@ function Index() {
               {trend ? (
                 <button
                   onClick={() => setTrend(null)}
-                  className="flex items-center gap-1.5 rounded-sm border border-primary/60 bg-primary/10 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/20"
+                  className="flex items-center gap-1.5 border-2 border-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground"
                 >
-                  Fjern filter <span className="text-base leading-none">×</span>
+                  Fjern filter <span className="text-sm leading-none">×</span>
                 </button>
               ) : (
                 <>
-                  <button className="rounded-sm border border-border px-3 py-1.5 text-xs text-muted-foreground transition hover:text-foreground">
+                  <button className="border-2 border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:text-primary">
                     Nyest
                   </button>
-                  <button className="rounded-sm bg-secondary px-3 py-1.5 text-xs font-medium text-foreground">
+                  <button className="border-2 border-primary bg-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary-foreground">
                     Anbefalt
                   </button>
                 </>
               )}
             </div>
           </div>
+
 
           {/* Hero article */}
           {heroVersion ? (
