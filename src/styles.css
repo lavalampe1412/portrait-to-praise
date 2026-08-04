@@ -139,5 +139,28 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    background-image:
+      linear-gradient(to right, color-mix(in oklab, var(--color-border) 45%, transparent) 1px, transparent 1px),
+      linear-gradient(to bottom, color-mix(in oklab, var(--color-border) 45%, transparent) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  .font-display {
+    font-weight: 700;
+    letter-spacing: -0.035em;
   }
 }
+
+@utility frame {
+  border: 2px solid var(--color-border);
+  background: var(--color-card);
+}
+
+@utility scanline {
+  background-image: repeating-linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--color-primary) 22%, transparent) 0 1px,
+    transparent 1px 7px
+  );
+}
+
