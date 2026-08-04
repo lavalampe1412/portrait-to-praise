@@ -767,11 +767,11 @@ function Index() {
           )}
 
           {/* Quick reads list */}
-          <section className="border border-border bg-card">
-            <div className="flex items-center justify-between border-b border-border px-5 py-4">
-              <h3 className="font-display text-2xl">Kort og godt</h3>
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-                Oppdatert nå
+          <section className="frame">
+            <div className="flex items-center justify-between border-b-2 border-border bg-secondary/40 px-4 py-2.5">
+              <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Kort og godt</h3>
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">
+                ● Oppdatert nå
               </span>
             </div>
             <ul className="divide-y divide-border">
@@ -779,18 +779,19 @@ function Index() {
                 <li key={q.title}>
                   <a
                     href="#"
-                    className="group flex items-center gap-4 px-5 py-3.5 transition hover:bg-secondary/30"
+                    className="group flex items-center gap-4 border-l-2 border-transparent px-4 py-3 transition hover:border-primary hover:bg-secondary/40"
                   >
-                    <span className="rounded-sm border border-border px-2 py-0.5 font-mono text-[10px] tracking-wider text-muted-foreground">
+                    <span className="border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                       {q.source}
                     </span>
-                    <span className="flex-1 text-sm group-hover:text-primary">{q.title}</span>
+                    <span className="flex-1 text-[13px] group-hover:text-primary">{q.title}</span>
                     <span className="hidden font-mono text-[10px] text-muted-foreground sm:block">
                       {q.time}
                     </span>
                   </a>
                 </li>
               ))}
+
               {quickList.length === 0 && (
                 <li className="px-5 py-6 text-center text-sm text-muted-foreground">
                   Ingen aktive kilder.
