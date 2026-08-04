@@ -568,42 +568,43 @@ function Index() {
 
 
       {/* 3-column layout */}
-      <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-8 px-6 py-8 lg:grid-cols-[220px_minmax(0,1fr)_280px]">
+      <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-6 py-8 lg:grid-cols-[230px_minmax(0,1fr)_290px]">
         {/* LEFT — Trender */}
-        <aside className="space-y-8 lg:sticky lg:top-28 lg:self-start">
-          <section>
-            <div className="mb-4 flex items-end justify-between border-b border-border pb-3">
-              <h2 className="font-display text-2xl leading-none">Trender</h2>
-              <TrendingUp className="h-4 w-4 text-primary" />
+        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+          <section className="frame">
+            <div className="flex items-center justify-between border-b-2 border-border bg-secondary/40 px-3 py-2">
+              <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Trender</h2>
+              <TrendingUp className="h-3.5 w-3.5 text-primary" />
             </div>
-            <div className="mb-4 flex border-b border-border text-xs">
+            <div className="flex border-b border-border font-mono text-[10px] uppercase tracking-widest">
               {(Object.keys(TRENDS) as (keyof typeof TRENDS)[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`relative px-3 py-2 font-medium transition ${
-                    tab === t ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  className={`flex-1 border-r border-border px-2 py-2 transition last:border-r-0 ${
+                    tab === t
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {t}
-                  {tab === t && <span className="absolute inset-x-3 bottom-0 h-0.5 bg-primary" />}
                 </button>
               ))}
             </div>
-            <ol className="space-y-0 divide-y divide-border">
+            <ol className="divide-y divide-border">
               {TRENDS[tab].map((t) => (
                 <li key={t.rank}>
                   <button
                     type="button"
                     onClick={() => setTrend(t.title)}
-                    className={`group flex w-full items-baseline gap-3 py-3 text-left transition hover:bg-secondary/40 ${
-                      trend === t.title ? "bg-secondary/60" : ""
+                    className={`group flex w-full items-baseline gap-3 px-3 py-2.5 text-left transition hover:bg-secondary/60 ${
+                      trend === t.title ? "bg-primary/15 border-l-2 border-primary" : "border-l-2 border-transparent"
                     }`}
                   >
-                    <span className="w-6 font-display text-lg leading-none text-primary">
-                      {t.rank}
+                    <span className="w-5 font-mono text-[11px] font-bold text-primary">
+                      {String(t.rank).padStart(2, "0")}
                     </span>
-                    <span className="flex-1 text-sm leading-snug group-hover:text-primary">
+                    <span className="flex-1 text-[13px] leading-snug group-hover:text-primary">
                       {t.title}
                     </span>
                     <span className="font-mono text-[10px] text-muted-foreground">{t.delta}</span>
@@ -613,25 +614,26 @@ function Index() {
             </ol>
           </section>
 
-          <section className="border border-border bg-card p-5">
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
-              Direkte nå
+          <section className="frame scanline p-4">
+            <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-primary">
+              ● Direkte nå
             </p>
             <div className="flex items-center gap-2">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                <span className="absolute inline-flex h-full w-full animate-ping bg-primary opacity-75" />
+                <span className="relative inline-flex h-2 w-2 bg-primary" />
               </span>
-              <span className="text-sm font-semibold">Rentemøtet</span>
+              <span className="font-display text-sm uppercase">Rentemøtet</span>
             </div>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               Norges Bank presenterer beslutningen kl. 10:00. Følg live-oppdateringen.
             </p>
-            <button className="mt-4 flex items-center gap-2 text-xs font-semibold text-primary hover:underline">
+            <button className="mt-4 flex items-center gap-2 border-2 border-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground">
               <Play className="h-3 w-3 fill-current" /> Se sending
             </button>
           </section>
         </aside>
+
 
         {/* CENTER — Feed */}
         <section className="min-w-0 space-y-8">
