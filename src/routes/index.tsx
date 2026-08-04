@@ -909,7 +909,7 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
   const next = () => setI((n) => (n + 1) % count);
   return (
     <article
-      className={`group overflow-hidden border border-border bg-card ${
+      className={`group frame overflow-hidden transition hover:border-primary ${
         wide ? "grid sm:grid-cols-[1.4fr_1fr]" : ""
       }`}
     >
@@ -920,23 +920,23 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
           loading="lazy"
           width={1000}
           height={640}
-          className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+          className="h-full w-full object-cover contrast-[1.1] saturate-[0.7] transition duration-700 group-hover:scale-[1.03] group-hover:saturate-100"
         />
+        <span className="absolute left-0 top-0 bg-primary px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-primary-foreground">
+          {story.kicker}
+        </span>
       </div>
-      <div className="flex flex-col p-5">
-        <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.2em] text-primary">{story.kicker}</p>
+      <div className="flex flex-col p-4">
         <h3
-          className={`font-display leading-[1.1] tracking-tight ${
-            wide ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
+          className={`font-display uppercase leading-[1.05] ${
+            wide ? "text-xl md:text-2xl" : "text-lg md:text-xl"
           }`}
         >
           {v.title}
         </h3>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{story.dek}</p>
-        <div className="mt-4 flex items-center gap-3 text-xs text-muted-foreground">
-          <span className="rounded-sm border border-border px-2 py-0.5 font-mono text-[10px]">
-            {v.source}
-          </span>
+        <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{story.dek}</p>
+        <div className="mt-3 flex items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          <span className="border border-border px-2 py-0.5 text-foreground">{v.source}</span>
           <span className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             {v.time}
@@ -944,22 +944,22 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
           <span>· {v.read}</span>
         </div>
         {count > 1 && (
-          <div className="mt-auto flex items-center justify-between gap-3 border-t border-border pt-3 mt-4">
+          <div className="mt-4 flex items-center justify-between gap-3 border-t-2 border-border pt-3">
             <button
               onClick={prev}
               aria-label="Forrige versjon"
-              className="rounded-sm border border-border p-1.5 text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+              className="border-2 border-border p-1 text-muted-foreground transition hover:border-primary hover:text-primary"
             >
               <ChevronLeft className="h-3.5 w-3.5" />
             </button>
-            <div className="flex flex-1 items-center justify-center gap-1.5">
+            <div className="flex flex-1 items-center justify-center gap-1">
               {story.versions.map((ver, k) => (
                 <button
                   key={ver.source}
                   onClick={() => setI(k)}
                   aria-label={`Versjon ${k + 1}: ${ver.source}`}
-                  className={`h-1.5 rounded-full transition-all ${
-                    k === idx ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-muted-foreground"
+                  className={`h-1.5 transition-all ${
+                    k === idx ? "w-7 bg-primary" : "w-3 bg-border hover:bg-muted-foreground"
                   }`}
                 />
               ))}
@@ -967,12 +967,13 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
             <button
               onClick={next}
               aria-label="Neste versjon"
-              className="rounded-sm border border-border p-1.5 text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+              className="border-2 border-border p-1 text-muted-foreground transition hover:border-primary hover:text-primary"
             >
               <ChevronRight className="h-3.5 w-3.5" />
             </button>
           </div>
         )}
+
       </div>
     </article>
   );
