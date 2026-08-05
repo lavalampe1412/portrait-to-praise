@@ -154,7 +154,25 @@
 @utility frame {
   border: 1px solid var(--color-border);
   background: var(--color-card);
+  border-radius: var(--radius);
 }
+
+@layer base {
+  img,
+  video,
+  button,
+  input,
+  select,
+  textarea {
+    border-radius: var(--radius);
+  }
+  button.rounded-full,
+  img.rounded-full,
+  .rounded-full {
+    border-radius: 9999px;
+  }
+}
+
 
 @utility scanline {
   background-image: repeating-linear-gradient(
