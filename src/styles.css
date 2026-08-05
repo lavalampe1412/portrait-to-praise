@@ -139,10 +139,8 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
-    background-image:
-      linear-gradient(to right, color-mix(in oklab, var(--color-border) 18%, transparent) 1px, transparent 1px),
-      linear-gradient(to bottom, color-mix(in oklab, var(--color-border) 18%, transparent) 1px, transparent 1px);
-    background-size: 72px 72px;
+  }
+
   }
 
   .font-display {
