@@ -508,7 +508,7 @@ function Index() {
           </div>
 
           <div className="text-center">
-            <h1 className="font-display text-4xl uppercase tracking-[-0.04em] text-foreground md:text-5xl">
+            <h1 className="font-display text-4xl tracking-[-0.02em] text-foreground md:text-5xl">
               NYHET<span className="text-primary">.</span>
             </h1>
             <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.35em] text-muted-foreground">
@@ -520,14 +520,14 @@ function Index() {
             <button
               onClick={() => applyTheme(theme === "dark" ? "light" : "dark")}
               aria-label={theme === "dark" ? "Bytt til lyst tema" : "Bytt til mørkt tema"}
-              className="flex h-9 w-9 items-center justify-center border-2 border-border text-muted-foreground transition hover:border-primary hover:text-primary"
+              className="flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary"
             >
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
-            <button className="flex h-9 w-9 items-center justify-center border-2 border-border text-muted-foreground transition hover:border-primary hover:text-primary">
+            <button className="flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary">
               <Bell className="h-4 w-4" />
             </button>
-            <button className="border-2 border-primary bg-primary px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
+            <button className="border border-primary bg-primary px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
               Logg inn
             </button>
           </div>
@@ -557,7 +557,7 @@ function Index() {
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
-            <div className="flex items-center gap-2 border-2 border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            <div className="flex items-center gap-2 border border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
               <Search className="h-3.5 w-3.5" />
               <span>Søk</span>
               <kbd className="ml-2 border border-border px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
@@ -623,12 +623,12 @@ function Index() {
                 <span className="absolute inline-flex h-full w-full animate-ping bg-primary opacity-75" />
                 <span className="relative inline-flex h-2 w-2 bg-primary" />
               </span>
-              <span className="font-display text-sm uppercase">Rentemøtet</span>
+              <span className="font-display text-sm">Rentemøtet</span>
             </div>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               Norges Bank presenterer beslutningen kl. 10:00. Følg live-oppdateringen.
             </p>
-            <button className="mt-4 flex items-center gap-2 border-2 border-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground">
+            <button className="mt-4 flex items-center gap-2 border border-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground">
               <Play className="h-3 w-3 fill-current" /> Se sending
             </button>
           </section>
@@ -643,7 +643,7 @@ function Index() {
               <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
                 {trend ? "// aktivt filter" : "// hovedseksjon"}
               </p>
-              <h2 className="font-display text-3xl uppercase leading-none md:text-4xl">
+              <h2 className="font-display text-3xl leading-none md:text-4xl">
                 {trend ?? cat}
               </h2>
             </div>
@@ -651,16 +651,16 @@ function Index() {
               {trend ? (
                 <button
                   onClick={() => setTrend(null)}
-                  className="flex items-center gap-1.5 border-2 border-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground"
+                  className="flex items-center gap-1.5 border border-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground"
                 >
                   Fjern filter <span className="text-sm leading-none">×</span>
                 </button>
               ) : (
                 <>
-                  <button className="border-2 border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:text-primary">
+                  <button className="border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:text-primary">
                     Nyest
                   </button>
-                  <button className="border-2 border-primary bg-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary-foreground">
+                  <button className="border border-primary bg-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary-foreground">
                     Anbefalt
                   </button>
                 </>
@@ -682,10 +682,10 @@ function Index() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-                  <p className="mb-3 inline-block border-2 border-primary bg-primary px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground">
+                  <p className="mb-3 inline-block border border-primary bg-primary px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground">
                     {heroStory.kicker}
                   </p>
-                  <h3 className="max-w-3xl font-display text-3xl uppercase leading-[0.98] text-white md:text-4xl lg:text-5xl">
+                  <h3 className="max-w-3xl font-display text-3xl leading-[0.98] text-white md:text-4xl lg:text-5xl">
                     {heroVersion.title}
                   </h3>
                   <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">
@@ -724,7 +724,7 @@ function Index() {
                           setHeroIdx((n) => (n - 1 + heroStory.versions.length) % heroStory.versions.length)
                         }
                         aria-label="Forrige versjon"
-                        className="ml-3 border-2 border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
+                        className="ml-3 border border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
                       >
                         <ChevronLeft className="h-4 w-4" />
                       </button>
@@ -733,7 +733,7 @@ function Index() {
                       <button
                         onClick={() => setHeroIdx((n) => (n + 1) % heroStory.versions.length)}
                         aria-label="Neste versjon"
-                        className="mr-3 border-2 border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
+                        className="mr-3 border border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
                       >
                         <ChevronRight className="h-4 w-4" />
                       </button>
@@ -743,8 +743,8 @@ function Index() {
               </div>
             </article>
           ) : (
-            <article className="border-2 border-dashed border-border bg-card p-12 text-center">
-              <p className="font-display text-xl uppercase">Ingen medier valgt</p>
+            <article className="border border-dashed border-border bg-card p-12 text-center">
+              <p className="font-display text-xl">Ingen medier valgt</p>
               <p className="mt-2 text-sm text-muted-foreground">
                 Aktiver minst én kilde under «Dine medier» for å se saker.
               </p>
@@ -806,7 +806,7 @@ function Index() {
           <section className="frame p-4">
             <div className="mb-1 flex items-center justify-between border-b-2 border-border pb-2">
               <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Dine medier</h2>
-              <button className="flex h-6 w-6 items-center justify-center border-2 border-border text-muted-foreground transition hover:border-primary hover:text-primary">
+              <button className="flex h-6 w-6 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary">
                 <Plus className="h-3 w-3" />
               </button>
             </div>
@@ -821,7 +821,7 @@ function Index() {
                     key={m.name}
                     onClick={() => toggleMedia(m.name)}
                     aria-pressed={on}
-                    className={`flex aspect-square items-center justify-center border-2 font-mono text-[10px] font-bold text-white transition ${m.color} ${
+                    className={`flex aspect-square items-center justify-center border font-mono text-[10px] font-bold text-white transition ${m.color} ${
                       on ? "border-primary/70" : "border-border opacity-25 grayscale"
                     }`}
                     title={`${m.name} — ${on ? "aktiv, klikk for å skjule" : "skjult, klikk for å vise"}`}
@@ -830,14 +830,14 @@ function Index() {
                   </button>
                 );
               })}
-              <button className="flex aspect-square items-center justify-center border-2 border-dashed border-border text-muted-foreground transition hover:border-primary hover:text-primary">
+              <button className="flex aspect-square items-center justify-center border border-dashed border-border text-muted-foreground transition hover:border-primary hover:text-primary">
                 <Plus className="h-4 w-4" />
               </button>
             </div>
             {enabledMedia.size < MEDIA.length && (
               <button
                 onClick={() => setEnabledMedia(new Set(MEDIA.map((m) => m.name)))}
-                className="mt-3 w-full border-2 border-primary py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground"
+                className="mt-3 w-full border border-primary py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground"
               >
                 Vis alle igjen
               </button>
@@ -857,7 +857,7 @@ function Index() {
                 >
                   <span>{f}</span>
                   <span
-                    className={`relative h-4 w-8 border-2 transition ${
+                    className={`relative h-4 w-8 border transition ${
                       i === 1 || i === 2 ? "border-primary bg-primary/25" : "border-border bg-secondary"
                     }`}
                   >
@@ -874,11 +874,11 @@ function Index() {
 
           <section className="frame scanline border-primary p-4">
             <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">Nyhet Pro</p>
-            <h3 className="font-display text-xl uppercase leading-tight">Les alt, uten reklame.</h3>
+            <h3 className="font-display text-xl leading-tight">Les alt, uten reklame.</h3>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               Full tilgang til over 40 norske medier for 79 kr / mnd.
             </p>
-            <button className="mt-4 w-full border-2 border-primary bg-primary py-2 font-mono text-[11px] font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
+            <button className="mt-4 w-full border border-primary bg-primary py-2 font-mono text-[11px] font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
               Prøv 30 dager gratis
             </button>
           </section>
@@ -928,7 +928,7 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
       </div>
       <div className="flex flex-col p-4">
         <h3
-          className={`font-display uppercase leading-[1.05] ${
+          className={`font-display leading-[1.05] ${
             wide ? "text-xl md:text-2xl" : "text-lg md:text-xl"
           }`}
         >
@@ -948,7 +948,7 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
             <button
               onClick={prev}
               aria-label="Forrige versjon"
-              className="border-2 border-border p-1 text-muted-foreground transition hover:border-primary hover:text-primary"
+              className="border border-border p-1 text-muted-foreground transition hover:border-primary hover:text-primary"
             >
               <ChevronLeft className="h-3.5 w-3.5" />
             </button>
@@ -967,7 +967,7 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
             <button
               onClick={next}
               aria-label="Neste versjon"
-              className="border-2 border-border p-1 text-muted-foreground transition hover:border-primary hover:text-primary"
+              className="border border-border p-1 text-muted-foreground transition hover:border-primary hover:text-primary"
             >
               <ChevronRight className="h-3.5 w-3.5" />
             </button>
