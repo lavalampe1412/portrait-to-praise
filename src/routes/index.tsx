@@ -496,10 +496,10 @@ function Index() {
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
       {/* Masthead / edition bar */}
-      <div className="border-b-2 border-border">
+      <div className="border-b border-border">
         <div className="mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row sm:gap-6">
           <div className="text-center sm:text-left">
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-primary">
+            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
               OSL // 26.07.2026 // W30
             </p>
             <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
@@ -535,7 +535,7 @@ function Index() {
       </div>
 
       {/* Category nav */}
-      <div className="sticky top-0 z-40 border-b-2 border-border bg-background/90 backdrop-blur">
+      <div className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-2">
           <nav className="flex items-center gap-0 overflow-x-auto">
             {CATEGORIES.map((c) => (
@@ -545,10 +545,10 @@ function Index() {
                   setCat(c);
                   setTrend(null);
                 }}
-                className={`relative whitespace-nowrap border-r border-border px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
+                className={`relative whitespace-nowrap rounded-full px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
                   cat === c && !trend
-                    ? "bg-primary text-primary-foreground"
-                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    ? "bg-secondary text-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {c}
@@ -568,11 +568,11 @@ function Index() {
 
 
       {/* 3-column layout */}
-      <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-6 px-6 py-8 lg:grid-cols-[230px_minmax(0,1fr)_290px]">
+      <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-8 px-6 py-10 lg:grid-cols-[240px_minmax(0,1fr)_300px]">
         {/* LEFT — Trender */}
-        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+        <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
           <section className="frame">
-            <div className="flex items-center justify-between border-b-2 border-border bg-secondary/40 px-3 py-2">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
               <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Trender</h2>
               <TrendingUp className="h-3.5 w-3.5 text-primary" />
             </div>
@@ -581,9 +581,9 @@ function Index() {
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`flex-1 border-r border-border px-2 py-2 transition last:border-r-0 ${
+                  className={`flex-1 px-2 py-2 transition ${
                     tab === t
-                      ? "bg-primary text-primary-foreground"
+                      ? "bg-secondary text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -614,7 +614,7 @@ function Index() {
             </ol>
           </section>
 
-          <section className="frame scanline p-4">
+          <section className="frame p-4">
             <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-primary">
               ● Direkte nå
             </p>
@@ -636,11 +636,11 @@ function Index() {
 
 
         {/* CENTER — Feed */}
-        <section className="min-w-0 space-y-6">
+        <section className="min-w-0 space-y-8">
           {/* Section header */}
-          <div className="flex items-end justify-between border-b-2 border-border pb-3">
+          <div className="flex items-end justify-between border-b border-border pb-3">
             <div>
-              <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+              <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
                 {trend ? "// aktivt filter" : "// hovedseksjon"}
               </p>
               <h2 className="font-display text-3xl leading-none md:text-4xl">
@@ -755,7 +755,7 @@ function Index() {
           {/* Secondary stories */}
           {storyList.length > 0 && (
             <>
-              <div className="grid gap-6 sm:grid-cols-2">
+              <div className="grid gap-8 sm:grid-cols-2">
                 {storyList.slice(0, 2).map((s) => (
                   <StoryCard key={s.kicker + s.dek} story={s} />
                 ))}
@@ -768,7 +768,7 @@ function Index() {
 
           {/* Quick reads list */}
           <section className="frame">
-            <div className="flex items-center justify-between border-b-2 border-border bg-secondary/40 px-4 py-2.5">
+            <div className="flex items-center justify-between border-b border-border px-4 py-3">
               <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Kort og godt</h3>
               <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">
                 ● Oppdatert nå
@@ -802,9 +802,9 @@ function Index() {
         </section>
 
         {/* RIGHT — Dine Medier */}
-        <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
+        <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
           <section className="frame p-4">
-            <div className="mb-1 flex items-center justify-between border-b-2 border-border pb-2">
+            <div className="mb-1 flex items-center justify-between border-b border-border pb-2">
               <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Dine medier</h2>
               <button className="flex h-6 w-6 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary">
                 <Plus className="h-3 w-3" />
@@ -822,7 +822,7 @@ function Index() {
                     onClick={() => toggleMedia(m.name)}
                     aria-pressed={on}
                     className={`flex aspect-square items-center justify-center border font-mono text-[10px] font-bold text-white transition ${m.color} ${
-                      on ? "border-primary/70" : "border-border opacity-25 grayscale"
+                      on ? "border-transparent opacity-80 saturate-[0.6] hover:opacity-100 hover:saturate-100" : "border-border opacity-20 grayscale"
                     }`}
                     title={`${m.name} — ${on ? "aktiv, klikk for å skjule" : "skjult, klikk for å vise"}`}
                   >
@@ -845,7 +845,7 @@ function Index() {
           </section>
 
           <section className="frame p-4">
-            <div className="mb-3 flex items-center justify-between border-b-2 border-border pb-2">
+            <div className="mb-3 flex items-center justify-between border-b border-border pb-2">
               <p className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Filter</p>
               <span className="font-mono text-[9px] uppercase text-muted-foreground">konto</span>
             </div>
@@ -872,7 +872,7 @@ function Index() {
             </div>
           </section>
 
-          <section className="frame scanline border-primary p-4">
+          <section className="frame border-primary p-4">
             <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">Nyhet Pro</p>
             <h3 className="font-display text-xl leading-tight">Les alt, uten reklame.</h3>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
@@ -885,7 +885,7 @@ function Index() {
         </aside>
       </main>
 
-      <footer className="border-t-2 border-border">
+      <footer className="border-t border-border">
         <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-6 py-8 font-mono text-[10px] uppercase tracking-widest text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 NYHET / OSLO</p>
           <p>bygget for lesing — ikke scrolling</p>
@@ -944,7 +944,7 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
           <span>· {v.read}</span>
         </div>
         {count > 1 && (
-          <div className="mt-4 flex items-center justify-between gap-3 border-t-2 border-border pt-3">
+          <div className="mt-4 flex items-center justify-between gap-3 border-t border-border pt-3">
             <button
               onClick={prev}
               aria-label="Forrige versjon"
