@@ -727,18 +727,20 @@ function Index() {
                       {heroVersion.time}
                     </span>
                     <span>{heroVersion.read}</span>
-                    <div className="ml-auto flex items-center gap-1">
-                      {heroStory.versions.map((_, k) => (
+                    <div className="ml-auto flex items-center gap-1.5">
+                      {heroStory.versions.map((ver, k) => (
                         <button
-                          key={k}
+                          key={ver.source}
                           onClick={() => setHeroIdx(k)}
-                          aria-label={`Versjon ${k + 1} av ${heroStory.versions.length}`}
-                          className={`h-1.5 transition-all ${
+                          aria-label={`Versjon ${k + 1}: ${ver.source}`}
+                          className={`rounded-md p-0.5 transition-all ${
                             k === heroIdx % heroStory.versions.length
-                              ? "w-7 bg-primary"
-                              : "w-3 bg-white/40 hover:bg-white/70"
+                              ? "ring-2 ring-primary opacity-100"
+                              : "opacity-50 grayscale hover:opacity-90 hover:grayscale-0"
                           }`}
-                        />
+                        >
+                          <MediaLogo source={ver.source} className="h-5 w-5" />
+                        </button>
                       ))}
                     </div>
                   </div>
