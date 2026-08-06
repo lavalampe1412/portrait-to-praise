@@ -44,16 +44,42 @@ const TRENDS = {
   ],
 };
 
+const placeholderLogo = (tag: string, hex: string) =>
+  `https://placehold.co/96x96/${hex}/ffffff/png?text=${encodeURIComponent(tag)}`;
+
 const MEDIA = [
-  { name: "VG", tag: "VG", color: "bg-red-600" },
-  { name: "NRK", tag: "NRK", color: "bg-neutral-700" },
-  { name: "Aftenposten", tag: "AP", color: "bg-slate-800" },
-  { name: "Dagbladet", tag: "DB", color: "bg-blue-700" },
-  { name: "Nettavisen", tag: "NA", color: "bg-orange-600" },
-  { name: "E24", tag: "E24", color: "bg-emerald-700" },
-  { name: "TV 2", tag: "TV2", color: "bg-green-700" },
-  { name: "Avisen", tag: "AV", color: "bg-indigo-700" },
+  { name: "VG", tag: "VG", color: "bg-red-600", logo: placeholderLogo("VG", "dc2626") },
+  { name: "NRK", tag: "NRK", color: "bg-neutral-700", logo: placeholderLogo("NRK", "404040") },
+  { name: "Aftenposten", tag: "AP", color: "bg-slate-800", logo: placeholderLogo("AP", "1e293b") },
+  { name: "Dagbladet", tag: "DB", color: "bg-blue-700", logo: placeholderLogo("DB", "1d4ed8") },
+  { name: "Nettavisen", tag: "NA", color: "bg-orange-600", logo: placeholderLogo("NA", "ea580c") },
+  { name: "E24", tag: "E24", color: "bg-emerald-700", logo: placeholderLogo("E24", "047857") },
+  { name: "TV 2", tag: "TV2", color: "bg-green-700", logo: placeholderLogo("TV2", "15803d") },
+  { name: "Avisen", tag: "AV", color: "bg-indigo-700", logo: placeholderLogo("AV", "4338ca") },
 ];
+
+const MEDIA_BY_NAME: Record<string, (typeof MEDIA)[number]> = Object.fromEntries(
+  MEDIA.map((m) => [m.name, m]),
+);
+
+function MediaLogo({
+  source,
+  className = "h-5 w-5",
+}: {
+  source: string;
+  className?: string;
+}) {
+  const m = MEDIA_BY_NAME[source];
+  if (!m) return null;
+  return (
+    <img
+      src={m.logo}
+      alt={m.name}
+      loading="lazy"
+      className={`shrink-0 rounded-md object-cover ${className}`}
+    />
+  );
+}
 
 interface Version {
   source: string;
