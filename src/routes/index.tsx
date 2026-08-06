@@ -44,16 +44,42 @@ const TRENDS = {
   ],
 };
 
+const placeholderLogo = (tag: string, hex: string) =>
+  `https://placehold.co/96x96/${hex}/ffffff/png?text=${encodeURIComponent(tag)}`;
+
 const MEDIA = [
-  { name: "VG", tag: "VG", color: "bg-red-600" },
-  { name: "NRK", tag: "NRK", color: "bg-neutral-700" },
-  { name: "Aftenposten", tag: "AP", color: "bg-slate-800" },
-  { name: "Dagbladet", tag: "DB", color: "bg-blue-700" },
-  { name: "Nettavisen", tag: "NA", color: "bg-orange-600" },
-  { name: "E24", tag: "E24", color: "bg-emerald-700" },
-  { name: "TV 2", tag: "TV2", color: "bg-green-700" },
-  { name: "Avisen", tag: "AV", color: "bg-indigo-700" },
+  { name: "VG", tag: "VG", color: "bg-red-600", logo: placeholderLogo("VG", "dc2626") },
+  { name: "NRK", tag: "NRK", color: "bg-neutral-700", logo: placeholderLogo("NRK", "404040") },
+  { name: "Aftenposten", tag: "AP", color: "bg-slate-800", logo: placeholderLogo("AP", "1e293b") },
+  { name: "Dagbladet", tag: "DB", color: "bg-blue-700", logo: placeholderLogo("DB", "1d4ed8") },
+  { name: "Nettavisen", tag: "NA", color: "bg-orange-600", logo: placeholderLogo("NA", "ea580c") },
+  { name: "E24", tag: "E24", color: "bg-emerald-700", logo: placeholderLogo("E24", "047857") },
+  { name: "TV 2", tag: "TV2", color: "bg-green-700", logo: placeholderLogo("TV2", "15803d") },
+  { name: "Avisen", tag: "AV", color: "bg-indigo-700", logo: placeholderLogo("AV", "4338ca") },
 ];
+
+const MEDIA_BY_NAME: Record<string, (typeof MEDIA)[number]> = Object.fromEntries(
+  MEDIA.map((m) => [m.name, m]),
+);
+
+function MediaLogo({
+  source,
+  className = "h-5 w-5",
+}: {
+  source: string;
+  className?: string;
+}) {
+  const m = MEDIA_BY_NAME[source];
+  if (!m) return null;
+  return (
+    <img
+      src={m.logo}
+      alt={m.name}
+      loading="lazy"
+      className={`shrink-0 rounded-md object-cover ${className}`}
+    />
+  );
+}
 
 interface Version {
   source: string;
@@ -692,7 +718,8 @@ function Index() {
                     {heroStory.dek}
                   </p>
                   <div className="mt-5 flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-neutral-300">
-                    <span className="border border-white/40 px-2 py-1 font-bold text-white">
+                    <span className="flex items-center gap-1.5 border border-white/40 px-2 py-1 font-bold text-white">
+                      <MediaLogo source={heroVersion.source} className="h-4 w-4" />
                       {heroVersion.source}
                     </span>
                     <span className="flex items-center gap-1.5">
@@ -781,7 +808,8 @@ function Index() {
                     href="#"
                     className="group flex items-center gap-4 border-l-2 border-transparent px-4 py-3 transition hover:border-primary hover:bg-secondary/40"
                   >
-                    <span className="border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <span className="flex items-center gap-1.5 border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+                      <MediaLogo source={q.source} className="h-4 w-4" />
                       {q.source}
                     </span>
                     <span className="flex-1 text-[13px] group-hover:text-primary">{q.title}</span>
@@ -821,12 +849,12 @@ function Index() {
                     key={m.name}
                     onClick={() => toggleMedia(m.name)}
                     aria-pressed={on}
-                    className={`flex aspect-square items-center justify-center border font-mono text-[10px] font-bold text-white transition ${m.color} ${
-                      on ? "border-transparent opacity-80 saturate-[0.6] hover:opacity-100 hover:saturate-100" : "border-border opacity-20 grayscale"
+                    className={`flex aspect-square items-center justify-center overflow-hidden rounded-lg border transition ${
+                      on ? "border-transparent opacity-90 hover:opacity-100" : "border-border opacity-25 grayscale"
                     }`}
                     title={`${m.name} — ${on ? "aktiv, klikk for å skjule" : "skjult, klikk for å vise"}`}
                   >
-                    {m.tag}
+                    <img src={m.logo} alt={m.name} loading="lazy" className="h-full w-full object-cover" />
                   </button>
                 );
               })}
@@ -936,7 +964,10 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
         </h3>
         <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{story.dek}</p>
         <div className="mt-3 flex items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-          <span className="border border-border px-2 py-0.5 text-foreground">{v.source}</span>
+          <span className="flex items-center gap-1.5 border border-border px-2 py-0.5 text-foreground">
+            <MediaLogo source={v.source} className="h-4 w-4" />
+            {v.source}
+          </span>
           <span className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             {v.time}
@@ -958,10 +989,14 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
                   key={ver.source}
                   onClick={() => setI(k)}
                   aria-label={`Versjon ${k + 1}: ${ver.source}`}
-                  className={`h-1.5 transition-all ${
-                    k === idx ? "w-7 bg-primary" : "w-3 bg-border hover:bg-muted-foreground"
+                  className={`rounded-md p-0.5 transition-all ${
+                    k === idx
+                      ? "ring-2 ring-primary opacity-100"
+                      : "opacity-40 grayscale hover:opacity-80 hover:grayscale-0"
                   }`}
-                />
+                >
+                  <MediaLogo source={ver.source} className="h-4 w-4" />
+                </button>
               ))}
             </div>
             <button
