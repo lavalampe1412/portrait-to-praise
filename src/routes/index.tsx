@@ -409,7 +409,17 @@ function Index() {
 
 
           {/* Hero article */}
-          {heroVersion ? (
+          {feedLoading ? (
+            <article className="frame animate-pulse">
+              <div className="aspect-[16/9] w-full bg-secondary" />
+            </article>
+          ) : loadError && !heroStory ? (
+            <article className="border border-dashed border-border bg-card p-12 text-center">
+              <p className="font-display text-xl">Kunne ikke laste innhold</p>
+              <p className="mt-2 font-mono text-xs text-muted-foreground">{loadError}</p>
+            </article>
+          ) : heroVersion && heroStory ? (
+
             <article className="group frame">
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img
