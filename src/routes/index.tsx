@@ -277,20 +277,21 @@ function Index() {
           <nav className="flex items-center gap-0 overflow-x-auto">
             {CATEGORIES.map((c) => (
               <button
-                key={c}
+                key={c.name}
                 onClick={() => {
-                  setCat(c);
+                  setCat(c.name);
                   setTrend(null);
                 }}
                 className={`relative whitespace-nowrap rounded-full px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
-                  cat === c && !trend
+                  cat === c.name && !trend
                     ? "bg-secondary text-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {c}
+                {c.name}
               </button>
             ))}
+
           </nav>
 
           <div className="hidden items-center gap-3 md:flex">
