@@ -426,6 +426,9 @@ function Index() {
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img
                   src={heroVersion.image || heroStory.image}
+                  onError={(e) => {
+                    if (heroStory.image) e.currentTarget.src = heroStory.image;
+                  }}
                   alt=""
                   width={1280}
                   height={800}
@@ -551,6 +554,9 @@ function Index() {
                     {q.image && (
                       <img
                         src={q.image}
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
                         alt=""
                         loading="lazy"
                         className="hidden h-9 w-14 shrink-0 object-cover sm:block"
@@ -688,6 +694,9 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
       <div className={`relative overflow-hidden ${wide ? "aspect-[4/3] sm:aspect-auto" : "aspect-[4/3]"}`}>
         <img
           src={v.image || story.image}
+          onError={(e) => {
+            if (story.image) e.currentTarget.src = story.image;
+          }}
           alt=""
           loading="lazy"
           width={1000}
