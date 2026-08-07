@@ -8,31 +8,41 @@
         "source": "VG",
         "title": "Høyres skattepolitikk: VG oppdaterer",
         "time": "18:36",
-        "read": "5 min"
+        "read": "5 min",
+        "image": "/content/images/vg-hyres-skattepolitikk-vg-oppdaterer.webp",
+        "url": "https://www.vg.no/hyres-skattepolitikk-vg-oppdaterer"
       },
       {
         "source": "NRK",
         "title": "Høyres skattepolitikk: NRK oppdaterer",
         "time": "08:16",
-        "read": "2 min"
+        "read": "2 min",
+        "image": "/content/images/nrk-hyres-skattepolitikk-nrk-oppdaterer.webp",
+        "url": "https://www.nrk.no/hyres-skattepolitikk-nrk-oppdaterer"
       },
       {
         "source": "Aftenposten",
         "title": "Høyres skattepolitikk: Aftenposten oppdaterer",
         "time": "19:58",
-        "read": "3 min"
+        "read": "3 min",
+        "image": "/content/images/aftenposten-hyres-skattepolitikk-aftenposten-oppdaterer.webp",
+        "url": "https://www.aftenposten.no/hyres-skattepolitikk-aftenposten-oppdaterer"
       },
       {
         "source": "Dagbladet",
         "title": "Høyres skattepolitikk: Dagbladet oppdaterer",
         "time": "18:13",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/dagbladet-hyres-skattepolitikk-dagbladet-oppdaterer.webp",
+        "url": "https://www.dagbladet.no/hyres-skattepolitikk-dagbladet-oppdaterer"
       },
       {
         "source": "Nettavisen",
         "title": "Høyres skattepolitikk: Nettavisen oppdaterer",
         "time": "08:01",
-        "read": "2 min"
+        "read": "2 min",
+        "image": "/content/images/nettavisen-hyres-skattepolitikk-nettavisen-oppdaterer.webp",
+        "url": "https://www.nettavisen.no/hyres-skattepolitikk-nettavisen-oppdaterer"
       }
     ]
   },
@@ -46,13 +56,17 @@
           "source": "Aftenposten",
           "title": "Oslos nye forbud mot fossiloppvarming",
           "time": "06:15",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/aftenposten-oslos-nye-forbud-mot-fossiloppvarming.webp",
+          "url": "https://www.aftenposten.no/oslos-nye-forbud-mot-fossiloppvarming"
         },
         {
           "source": "Dagbladet",
           "title": "MDG jubler, NHO reagerer",
           "time": "06:40",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/dagbladet-mdg-jubler-nho-reagerer.webp",
+          "url": "https://www.dagbladet.no/mdg-jubler-nho-reagerer"
         }
       ]
     },
@@ -65,13 +79,17 @@
           "source": "NRK",
           "title": "Norske organisasjoner kritiserer EU-pakt",
           "time": "05:50",
-          "read": "6 min"
+          "read": "6 min",
+          "image": "/content/images/nrk-norske-organisasjoner-kritiserer-eu-pakt.webp",
+          "url": "https://www.nrk.no/norske-organisasjoner-kritiserer-eu-pakt"
         },
         {
           "source": "VG",
           "title": "Asylpakten: Dette sier Norge",
           "time": "06:05",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/vg-asylpakten-dette-sier-norge.webp",
+          "url": "https://www.vg.no/asylpakten-dette-sier-norge"
         }
       ]
     }
@@ -81,19 +99,25 @@
       "source": "NRK",
       "title": "Stortingets sommerferie er over",
       "time": "08:10",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/nrk-stortingets-sommerferie-er-over.webp",
+      "url": "https://www.nrk.no/stortingets-sommerferie-er-over"
     },
     {
       "source": "VG",
       "title": "Nye statssekretærer utnevnt",
       "time": "07:55",
-      "read": "1 min"
+      "read": "1 min",
+      "image": "/content/images/vg-nye-statssekretrer-utnevnt.webp",
+      "url": "https://www.vg.no/nye-statssekretrer-utnevnt"
     },
     {
       "source": "Aftenposten",
       "title": "Regjeringen lover mer penger til kommunene",
       "time": "07:40",
-      "read": "3 min"
+      "read": "3 min",
+      "image": "/content/images/aftenposten-regjeringen-lover-mer-penger-til-kommunene.webp",
+      "url": "https://www.aftenposten.no/regjeringen-lover-mer-penger-til-kommunene"
     }
   ]
 }

@@ -8,31 +8,41 @@
         "source": "VG",
         "title": "Feriekøen i Europa: VG oppdaterer",
         "time": "17:37",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/vg-ferieken-i-europa-vg-oppdaterer.webp",
+        "url": "https://www.vg.no/ferieken-i-europa-vg-oppdaterer"
       },
       {
         "source": "NRK",
         "title": "Feriekøen i Europa: NRK oppdaterer",
         "time": "12:14",
-        "read": "2 min"
+        "read": "2 min",
+        "image": "/content/images/nrk-ferieken-i-europa-nrk-oppdaterer.webp",
+        "url": "https://www.nrk.no/ferieken-i-europa-nrk-oppdaterer"
       },
       {
         "source": "Aftenposten",
         "title": "Feriekøen i Europa: Aftenposten oppdaterer",
         "time": "11:32",
-        "read": "3 min"
+        "read": "3 min",
+        "image": "/content/images/aftenposten-ferieken-i-europa-aftenposten-oppdaterer.webp",
+        "url": "https://www.aftenposten.no/ferieken-i-europa-aftenposten-oppdaterer"
       },
       {
         "source": "Dagbladet",
         "title": "Feriekøen i Europa: Dagbladet oppdaterer",
         "time": "20:49",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/dagbladet-ferieken-i-europa-dagbladet-oppdaterer.webp",
+        "url": "https://www.dagbladet.no/ferieken-i-europa-dagbladet-oppdaterer"
       },
       {
         "source": "Nettavisen",
         "title": "Feriekøen i Europa: Nettavisen oppdaterer",
         "time": "08:57",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/nettavisen-ferieken-i-europa-nettavisen-oppdaterer.webp",
+        "url": "https://www.nettavisen.no/ferieken-i-europa-nettavisen-oppdaterer"
       }
     ]
   },
@@ -46,13 +56,17 @@
           "source": "NRK",
           "title": "Norske jordbær i butikk nå",
           "time": "06:30",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nrk-norske-jordbr-i-butikk-na.webp",
+          "url": "https://www.nrk.no/norske-jordbr-i-butikk-na"
         },
         {
           "source": "Aftenposten",
           "title": "Jordbærprisene ned",
           "time": "06:45",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/aftenposten-jordbrprisene-ned.webp",
+          "url": "https://www.aftenposten.no/jordbrprisene-ned"
         }
       ]
     },
@@ -65,13 +79,17 @@
           "source": "VG",
           "title": "Rekordkø på Gardermoen",
           "time": "06:00",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/vg-rekordk-pa-gardermoen.webp",
+          "url": "https://www.vg.no/rekordk-pa-gardermoen"
         },
         {
           "source": "Nettavisen",
           "title": "Slik unngår du feriekøen",
           "time": "06:15",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nettavisen-slik-unngar-du-ferieken.webp",
+          "url": "https://www.nettavisen.no/slik-unngar-du-ferieken"
         }
       ]
     }
@@ -81,19 +99,25 @@
       "source": "NRK",
       "title": "Sommerens beste badestrender",
       "time": "18:00",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/nrk-sommerens-beste-badestrender.webp",
+      "url": "https://www.nrk.no/sommerens-beste-badestrender"
     },
     {
       "source": "VG",
       "title": "Test: Billigste feriemat",
       "time": "17:45",
-      "read": "3 min"
+      "read": "3 min",
+      "image": "/content/images/vg-test-billigste-feriemat.webp",
+      "url": "https://www.vg.no/test-billigste-feriemat"
     },
     {
       "source": "Aftenposten",
       "title": "Nye regler for elsparkesykler",
       "time": "17:30",
-      "read": "4 min"
+      "read": "4 min",
+      "image": "/content/images/aftenposten-nye-regler-for-elsparkesykler.webp",
+      "url": "https://www.aftenposten.no/nye-regler-for-elsparkesykler"
     }
   ]
 }

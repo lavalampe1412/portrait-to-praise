@@ -8,31 +8,41 @@
         "source": "VG",
         "title": "Rentemøtet: VG oppdaterer",
         "time": "15:31",
-        "read": "6 min"
+        "read": "6 min",
+        "image": "/content/images/vg-rentemtet-vg-oppdaterer.webp",
+        "url": "https://www.vg.no/rentemtet-vg-oppdaterer"
       },
       {
         "source": "NRK",
         "title": "Rentemøtet: NRK oppdaterer",
         "time": "16:45",
-        "read": "5 min"
+        "read": "5 min",
+        "image": "/content/images/nrk-rentemtet-nrk-oppdaterer.webp",
+        "url": "https://www.nrk.no/rentemtet-nrk-oppdaterer"
       },
       {
         "source": "Aftenposten",
         "title": "Rentemøtet: Aftenposten oppdaterer",
         "time": "14:09",
-        "read": "2 min"
+        "read": "2 min",
+        "image": "/content/images/aftenposten-rentemtet-aftenposten-oppdaterer.webp",
+        "url": "https://www.aftenposten.no/rentemtet-aftenposten-oppdaterer"
       },
       {
         "source": "Dagbladet",
         "title": "Rentemøtet: Dagbladet oppdaterer",
         "time": "10:17",
-        "read": "6 min"
+        "read": "6 min",
+        "image": "/content/images/dagbladet-rentemtet-dagbladet-oppdaterer.webp",
+        "url": "https://www.dagbladet.no/rentemtet-dagbladet-oppdaterer"
       },
       {
         "source": "Nettavisen",
         "title": "Rentemøtet: Nettavisen oppdaterer",
         "time": "16:40",
-        "read": "3 min"
+        "read": "3 min",
+        "image": "/content/images/nettavisen-rentemtet-nettavisen-oppdaterer.webp",
+        "url": "https://www.nettavisen.no/rentemtet-nettavisen-oppdaterer"
       }
     ]
   },
@@ -46,13 +56,17 @@
           "source": "E24",
           "title": "Boligprisene opp i Oslo",
           "time": "08:30",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/e24-boligprisene-opp-i-oslo.webp",
+          "url": "https://www.e24.no/boligprisene-opp-i-oslo"
         },
         {
           "source": "Nettavisen",
           "title": "Eksperter: Flat høst",
           "time": "08:45",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nettavisen-eksperter-flat-hst.webp",
+          "url": "https://www.nettavisen.no/eksperter-flat-hst"
         }
       ]
     },
@@ -65,13 +79,17 @@
           "source": "E24",
           "title": "Equinor øker utbyttet",
           "time": "07:50",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/e24-equinor-ker-utbyttet.webp",
+          "url": "https://www.e24.no/equinor-ker-utbyttet"
         },
         {
           "source": "VG",
           "title": "Sterke tall fra Equinor",
           "time": "08:00",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/vg-sterke-tall-fra-equinor.webp",
+          "url": "https://www.vg.no/sterke-tall-fra-equinor"
         }
       ]
     }
@@ -81,25 +99,33 @@
       "source": "E24",
       "title": "Dollar svekkes mot kronen",
       "time": "09:20",
-      "read": "1 min"
+      "read": "1 min",
+      "image": "/content/images/e24-dollar-svekkes-mot-kronen.webp",
+      "url": "https://www.e24.no/dollar-svekkes-mot-kronen"
     },
     {
       "source": "NRK",
       "title": "NAV: Flere ledige i juli",
       "time": "09:00",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/nrk-nav-flere-ledige-i-juli.webp",
+      "url": "https://www.nrk.no/nav-flere-ledige-i-juli"
     },
     {
       "source": "Aftenposten",
       "title": "Nytt regelverk for fond",
       "time": "08:45",
-      "read": "3 min"
+      "read": "3 min",
+      "image": "/content/images/aftenposten-nytt-regelverk-for-fond.webp",
+      "url": "https://www.aftenposten.no/nytt-regelverk-for-fond"
     },
     {
       "source": "Nettavisen",
       "title": "Elbil-salg faller i Europa",
       "time": "08:30",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/nettavisen-elbil-salg-faller-i-europa.webp",
+      "url": "https://www.nettavisen.no/elbil-salg-faller-i-europa"
     }
   ]
 }

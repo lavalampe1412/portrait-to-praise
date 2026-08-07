@@ -8,19 +8,25 @@
         "source": "NRK",
         "title": "Norsk film vant i Cannes",
         "time": "21:00",
-        "read": "5 min"
+        "read": "5 min",
+        "image": "/content/images/nrk-norsk-film-vant-i-cannes.webp",
+        "url": "https://www.nrk.no/norsk-film-vant-i-cannes"
       },
       {
         "source": "Aftenposten",
         "title": "Cannes-pris til norsk debutant",
         "time": "21:15",
-        "read": "6 min"
+        "read": "6 min",
+        "image": "/content/images/aftenposten-cannes-pris-til-norsk-debutant.webp",
+        "url": "https://www.aftenposten.no/cannes-pris-til-norsk-debutant"
       },
       {
         "source": "Dagbladet",
         "title": "Rørende takketale i Cannes",
         "time": "21:30",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/dagbladet-rrende-takketale-i-cannes.webp",
+        "url": "https://www.dagbladet.no/rrende-takketale-i-cannes"
       }
     ]
   },
@@ -34,13 +40,17 @@
           "source": "VG",
           "title": "Øya: De beste konsertene",
           "time": "20:30",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/vg-ya-de-beste-konsertene.webp",
+          "url": "https://www.vg.no/ya-de-beste-konsertene"
         },
         {
           "source": "Dagbladet",
           "title": "Anmeldelse: Øyafestivalen",
           "time": "20:45",
-          "read": "6 min"
+          "read": "6 min",
+          "image": "/content/images/dagbladet-anmeldelse-yafestivalen.webp",
+          "url": "https://www.dagbladet.no/anmeldelse-yafestivalen"
         }
       ]
     },
@@ -53,13 +63,17 @@
           "source": "Aftenposten",
           "title": "Høstens bokslipp er her",
           "time": "19:00",
-          "read": "6 min"
+          "read": "6 min",
+          "image": "/content/images/aftenposten-hstens-bokslipp-er-her.webp",
+          "url": "https://www.aftenposten.no/hstens-bokslipp-er-her"
         },
         {
           "source": "NRK",
           "title": "Disse kan vinne Brageprisen",
           "time": "19:20",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/nrk-disse-kan-vinne-brageprisen.webp",
+          "url": "https://www.nrk.no/disse-kan-vinne-brageprisen"
         }
       ]
     },
@@ -72,13 +86,17 @@
           "source": "Dagbladet",
           "title": "Ny Peer Gynt på Nationaltheatret",
           "time": "18:30",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/dagbladet-ny-peer-gynt-pa-nationaltheatret.webp",
+          "url": "https://www.dagbladet.no/ny-peer-gynt-pa-nationaltheatret"
         },
         {
           "source": "Aftenposten",
           "title": "Internasjonal cast til Peer Gynt",
           "time": "18:45",
-          "read": "6 min"
+          "read": "6 min",
+          "image": "/content/images/aftenposten-internasjonal-cast-til-peer-gynt.webp",
+          "url": "https://www.aftenposten.no/internasjonal-cast-til-peer-gynt"
         }
       ]
     }
@@ -88,19 +106,25 @@
       "source": "NRK",
       "title": "Norsk serie får internasjonal premiere",
       "time": "20:15",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/nrk-norsk-serie-far-internasjonal-premiere.webp",
+      "url": "https://www.nrk.no/norsk-serie-far-internasjonal-premiere"
     },
     {
       "source": "VG",
       "title": "Kunstutstilling trekker fullt hus",
       "time": "19:45",
-      "read": "1 min"
+      "read": "1 min",
+      "image": "/content/images/vg-kunstutstilling-trekker-fullt-hus.webp",
+      "url": "https://www.vg.no/kunstutstilling-trekker-fullt-hus"
     },
     {
       "source": "Dagbladet",
       "title": "Ny roman topp bestselgerlista",
       "time": "19:30",
-      "read": "3 min"
+      "read": "3 min",
+      "image": "/content/images/dagbladet-ny-roman-topp-bestselgerlista.webp",
+      "url": "https://www.dagbladet.no/ny-roman-topp-bestselgerlista"
     }
   ]
 }

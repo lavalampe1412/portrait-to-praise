@@ -8,19 +8,25 @@
         "source": "NRK",
         "title": "Storbrann i Kristiansand sentrum",
         "time": "08:14",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/nrk-storbrann-i-kristiansand-sentrum.webp",
+        "url": "https://www.nrk.no/storbrann-i-kristiansand-sentrum"
       },
       {
         "source": "VG",
         "title": "Historisk bygning i flammer",
         "time": "08:21",
-        "read": "5 min"
+        "read": "5 min",
+        "image": "/content/images/vg-historisk-bygning-i-flammer.webp",
+        "url": "https://www.vg.no/historisk-bygning-i-flammer"
       },
       {
         "source": "Aftenposten",
         "title": "Evakuering etter sentrumsbrann",
         "time": "08:33",
-        "read": "6 min"
+        "read": "6 min",
+        "image": "/content/images/aftenposten-evakuering-etter-sentrumsbrann.webp",
+        "url": "https://www.aftenposten.no/evakuering-etter-sentrumsbrann"
       }
     ]
   },
@@ -34,19 +40,25 @@
           "source": "VG",
           "title": "Regjeringen skjerpter klimakrav",
           "time": "07:45",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/vg-regjeringen-skjerpter-klimakrav.webp",
+          "url": "https://www.vg.no/regjeringen-skjerpter-klimakrav"
         },
         {
           "source": "NRK",
           "title": "Nye klimamål presentert",
           "time": "07:52",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/nrk-nye-klimamal-presentert.webp",
+          "url": "https://www.nrk.no/nye-klimamal-presentert"
         },
         {
           "source": "Dagbladet",
           "title": "Dette betyr klimaplanen",
           "time": "08:05",
-          "read": "7 min"
+          "read": "7 min",
+          "image": "/content/images/dagbladet-dette-betyr-klimaplanen.webp",
+          "url": "https://www.dagbladet.no/dette-betyr-klimaplanen"
         }
       ]
     },
@@ -59,13 +71,17 @@
           "source": "Aftenposten",
           "title": "Lærermangelen koster kommunene dyrt",
           "time": "06:30",
-          "read": "6 min"
+          "read": "6 min",
+          "image": "/content/images/aftenposten-lrermangelen-koster-kommunene-dyrt.webp",
+          "url": "https://www.aftenposten.no/lrermangelen-koster-kommunene-dyrt"
         },
         {
           "source": "Nettavisen",
           "title": "KS ber om krisepakke",
           "time": "06:55",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nettavisen-ks-ber-om-krisepakke.webp",
+          "url": "https://www.nettavisen.no/ks-ber-om-krisepakke"
         }
       ]
     },
@@ -78,19 +94,25 @@
           "source": "NRK",
           "title": "NATO-toppmøtet starter i Washington",
           "time": "05:15",
-          "read": "8 min"
+          "read": "8 min",
+          "image": "/content/images/nrk-nato-toppmtet-starter-i-washington.webp",
+          "url": "https://www.nrk.no/nato-toppmtet-starter-i-washington"
         },
         {
           "source": "TV 2",
           "title": "Dette skal NATO diskutere",
           "time": "05:40",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/tv-2-dette-skal-nato-diskutere.webp",
+          "url": "https://www.tv2.no/dette-skal-nato-diskutere"
         },
         {
           "source": "VG",
           "title": "Zelenskyj møter allierte",
           "time": "06:10",
-          "read": "6 min"
+          "read": "6 min",
+          "image": "/content/images/vg-zelenskyj-mter-allierte.webp",
+          "url": "https://www.vg.no/zelenskyj-mter-allierte"
         }
       ]
     }
@@ -100,31 +122,41 @@
       "source": "E24",
       "title": "Kronen styrker seg etter rentemøte",
       "time": "09:12",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/e24-kronen-styrker-seg-etter-rentemte.webp",
+      "url": "https://www.e24.no/kronen-styrker-seg-etter-rentemte"
     },
     {
       "source": "NRK",
       "title": "Togtrafikken normaliseres etter brann",
       "time": "09:05",
-      "read": "1 min"
+      "read": "1 min",
+      "image": "/content/images/nrk-togtrafikken-normaliseres-etter-brann.webp",
+      "url": "https://www.nrk.no/togtrafikken-normaliseres-etter-brann"
     },
     {
       "source": "VG",
       "title": "Ferieværet: Opphold i sør",
       "time": "08:55",
-      "read": "1 min"
+      "read": "1 min",
+      "image": "/content/images/vg-ferievret-opphold-i-sr.webp",
+      "url": "https://www.vg.no/ferievret-opphold-i-sr"
     },
     {
       "source": "Aftenposten",
       "title": "Ny museumsutstilling åpner i Oslo",
       "time": "08:40",
-      "read": "3 min"
+      "read": "3 min",
+      "image": "/content/images/aftenposten-ny-museumsutstilling-apner-i-oslo.webp",
+      "url": "https://www.aftenposten.no/ny-museumsutstilling-apner-i-oslo"
     },
     {
       "source": "Dagbladet",
       "title": "Kulturministeren møter filmbransjen",
       "time": "08:25",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/dagbladet-kulturministeren-mter-filmbransjen.webp",
+      "url": "https://www.dagbladet.no/kulturministeren-mter-filmbransjen"
     }
   ]
 }

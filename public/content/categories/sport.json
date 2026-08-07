@@ -8,19 +8,25 @@
         "source": "VG",
         "title": "Mbappé-show i Real Madrid-debut",
         "time": "22:14",
-        "read": "6 min"
+        "read": "6 min",
+        "image": "/content/images/vg-mbappe-show-i-real-madrid-debut.webp",
+        "url": "https://www.vg.no/mbappe-show-i-real-madrid-debut"
       },
       {
         "source": "NRK",
         "title": "To mål på 45 minutter",
         "time": "22:18",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/nrk-to-mal-pa-45-minutter.webp",
+        "url": "https://www.nrk.no/to-mal-pa-45-minutter"
       },
       {
         "source": "TV 2",
         "title": "Ancelotti: – En drømmedebut",
         "time": "22:31",
-        "read": "5 min"
+        "read": "5 min",
+        "image": "/content/images/tv-2-ancelotti-en-drmmedebut.webp",
+        "url": "https://www.tv2.no/ancelotti-en-drmmedebut"
       }
     ]
   },
@@ -34,13 +40,17 @@
           "source": "Aftenposten",
           "title": "Norge slo Frankrike i håndball",
           "time": "21:45",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/aftenposten-norge-slo-frankrike-i-handball.webp",
+          "url": "https://www.aftenposten.no/norge-slo-frankrike-i-handball"
         },
         {
           "source": "Nettavisen",
           "title": "Sagosen strålte mot Frankrike",
           "time": "21:52",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nettavisen-sagosen-stralte-mot-frankrike.webp",
+          "url": "https://www.nettavisen.no/sagosen-stralte-mot-frankrike"
         }
       ]
     },
@@ -53,13 +63,17 @@
           "source": "VG",
           "title": "Vingegaard i gult etter dristig angrep",
           "time": "20:10",
-          "read": "7 min"
+          "read": "7 min",
+          "image": "/content/images/vg-vingegaard-i-gult-etter-dristig-angrep.webp",
+          "url": "https://www.vg.no/vingegaard-i-gult-etter-dristig-angrep"
         },
         {
           "source": "TV 2",
           "title": "Dramatisk avslutning i alpene",
           "time": "20:25",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/tv-2-dramatisk-avslutning-i-alpene.webp",
+          "url": "https://www.tv2.no/dramatisk-avslutning-i-alpene"
         }
       ]
     },
@@ -72,13 +86,17 @@
           "source": "NRK",
           "title": "Ingebrigtsen med ny pers",
           "time": "19:50",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/nrk-ingebrigtsen-med-ny-pers.webp",
+          "url": "https://www.nrk.no/ingebrigtsen-med-ny-pers"
         },
         {
           "source": "Dagbladet",
           "title": "OL-formen er der",
           "time": "20:05",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/dagbladet-ol-formen-er-der.webp",
+          "url": "https://www.dagbladet.no/ol-formen-er-der"
         }
       ]
     }
@@ -88,25 +106,33 @@
       "source": "VG",
       "title": "Overgangsvinduet: Siste nytt",
       "time": "23:05",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/vg-overgangsvinduet-siste-nytt.webp",
+      "url": "https://www.vg.no/overgangsvinduet-siste-nytt"
     },
     {
       "source": "NRK",
       "title": "OL-helsen: Norsk tropp klar",
       "time": "22:50",
-      "read": "3 min"
+      "read": "3 min",
+      "image": "/content/images/nrk-ol-helsen-norsk-tropp-klar.webp",
+      "url": "https://www.nrk.no/ol-helsen-norsk-tropp-klar"
     },
     {
       "source": "TV 2",
       "title": "Rosenborg med ny trener",
       "time": "22:30",
-      "read": "4 min"
+      "read": "4 min",
+      "image": "/content/images/tv-2-rosenborg-med-ny-trener.webp",
+      "url": "https://www.tv2.no/rosenborg-med-ny-trener"
     },
     {
       "source": "Nettavisen",
       "title": "Premier League-klubb kjøper spiss",
       "time": "22:15",
-      "read": "1 min"
+      "read": "1 min",
+      "image": "/content/images/nettavisen-premier-league-klubb-kjper-spiss.webp",
+      "url": "https://www.nettavisen.no/premier-league-klubb-kjper-spiss"
     }
   ]
 }

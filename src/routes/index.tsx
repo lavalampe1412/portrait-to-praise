@@ -34,6 +34,8 @@ interface Version {
   title: string;
   time: string;
   read: string;
+  image?: string;
+  url?: string;
 }
 
 interface VStory {
@@ -423,7 +425,10 @@ function Index() {
             <article className="group frame">
               <div className="relative aspect-[16/9] overflow-hidden">
                 <img
-                  src={heroStory.image}
+                  src={heroVersion.image || heroStory.image}
+                  onError={(e) => {
+                    if (heroStory.image) e.currentTarget.src = heroStory.image;
+                  }}
                   alt=""
                   width={1280}
                   height={800}
@@ -435,7 +440,14 @@ function Index() {
                     {heroStory.kicker}
                   </p>
                   <h3 className="max-w-3xl font-display text-3xl leading-[0.98] text-white md:text-4xl lg:text-5xl">
-                    {heroVersion.title}
+                    <a
+                      href={heroVersion.url || "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="transition hover:underline hover:decoration-primary hover:underline-offset-4"
+                    >
+                      {heroVersion.title}
+                    </a>
                   </h3>
                   <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">
                     {heroStory.dek}
@@ -530,13 +542,26 @@ function Index() {
               {quickList.map((q) => (
                 <li key={q.title}>
                   <a
-                    href="#"
+                    href={q.url || "#"}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group flex items-center gap-4 border-l-2 border-transparent px-4 py-3 transition hover:border-primary hover:bg-secondary/40"
                   >
                     <span className="flex items-center gap-1.5 border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                       <MediaLogo source={q.source} className="h-4 w-4" />
                       {q.source}
                     </span>
+                    {q.image && (
+                      <img
+                        src={q.image}
+                        onError={(e) => {
+                          e.currentTarget.style.display = "none";
+                        }}
+                        alt=""
+                        loading="lazy"
+                        className="hidden h-9 w-14 shrink-0 object-cover sm:block"
+                      />
+                    )}
                     <span className="flex-1 text-[13px] group-hover:text-primary">{q.title}</span>
                     <span className="hidden font-mono text-[10px] text-muted-foreground sm:block">
                       {q.time}
@@ -668,7 +693,10 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
     >
       <div className={`relative overflow-hidden ${wide ? "aspect-[4/3] sm:aspect-auto" : "aspect-[4/3]"}`}>
         <img
-          src={story.image}
+          src={v.image || story.image}
+          onError={(e) => {
+            if (story.image) e.currentTarget.src = story.image;
+          }}
           alt=""
           loading="lazy"
           width={1000}
@@ -685,7 +713,14 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
             wide ? "text-xl md:text-2xl" : "text-lg md:text-xl"
           }`}
         >
-          {v.title}
+          <a
+            href={v.url || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="transition hover:text-primary"
+          >
+            {v.title}
+          </a>
         </h3>
         <p className="mt-2 text-[13px] leading-relaxed text-muted-foreground">{story.dek}</p>
         <div className="mt-3 flex items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">

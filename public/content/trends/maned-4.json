@@ -8,31 +8,41 @@
         "source": "VG",
         "title": "Legekrisen: VG oppdaterer",
         "time": "07:23",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/vg-legekrisen-vg-oppdaterer.webp",
+        "url": "https://www.vg.no/legekrisen-vg-oppdaterer"
       },
       {
         "source": "NRK",
         "title": "Legekrisen: NRK oppdaterer",
         "time": "07:28",
-        "read": "5 min"
+        "read": "5 min",
+        "image": "/content/images/nrk-legekrisen-nrk-oppdaterer.webp",
+        "url": "https://www.nrk.no/legekrisen-nrk-oppdaterer"
       },
       {
         "source": "Aftenposten",
         "title": "Legekrisen: Aftenposten oppdaterer",
         "time": "15:50",
-        "read": "5 min"
+        "read": "5 min",
+        "image": "/content/images/aftenposten-legekrisen-aftenposten-oppdaterer.webp",
+        "url": "https://www.aftenposten.no/legekrisen-aftenposten-oppdaterer"
       },
       {
         "source": "Dagbladet",
         "title": "Legekrisen: Dagbladet oppdaterer",
         "time": "16:01",
-        "read": "6 min"
+        "read": "6 min",
+        "image": "/content/images/dagbladet-legekrisen-dagbladet-oppdaterer.webp",
+        "url": "https://www.dagbladet.no/legekrisen-dagbladet-oppdaterer"
       },
       {
         "source": "Nettavisen",
         "title": "Legekrisen: Nettavisen oppdaterer",
         "time": "14:18",
-        "read": "2 min"
+        "read": "2 min",
+        "image": "/content/images/nettavisen-legekrisen-nettavisen-oppdaterer.webp",
+        "url": "https://www.nettavisen.no/legekrisen-nettavisen-oppdaterer"
       }
     ]
   },
@@ -46,19 +56,25 @@
           "source": "VG",
           "title": "Regjeringen skjerpter klimakrav",
           "time": "07:45",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/vg-regjeringen-skjerpter-klimakrav.webp",
+          "url": "https://www.vg.no/regjeringen-skjerpter-klimakrav"
         },
         {
           "source": "NRK",
           "title": "Nye klimamål presentert",
           "time": "07:52",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/nrk-nye-klimamal-presentert.webp",
+          "url": "https://www.nrk.no/nye-klimamal-presentert"
         },
         {
           "source": "Dagbladet",
           "title": "Dette betyr klimaplanen",
           "time": "08:05",
-          "read": "7 min"
+          "read": "7 min",
+          "image": "/content/images/dagbladet-dette-betyr-klimaplanen.webp",
+          "url": "https://www.dagbladet.no/dette-betyr-klimaplanen"
         }
       ]
     },
@@ -71,13 +87,17 @@
           "source": "Aftenposten",
           "title": "Lærermangelen koster kommunene dyrt",
           "time": "06:30",
-          "read": "6 min"
+          "read": "6 min",
+          "image": "/content/images/aftenposten-lrermangelen-koster-kommunene-dyrt.webp",
+          "url": "https://www.aftenposten.no/lrermangelen-koster-kommunene-dyrt"
         },
         {
           "source": "Nettavisen",
           "title": "KS ber om krisepakke",
           "time": "06:55",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nettavisen-ks-ber-om-krisepakke.webp",
+          "url": "https://www.nettavisen.no/ks-ber-om-krisepakke"
         }
       ]
     }
@@ -87,25 +107,33 @@
       "source": "E24",
       "title": "Kronen styrker seg etter rentemøte",
       "time": "09:12",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/e24-kronen-styrker-seg-etter-rentemte.webp",
+      "url": "https://www.e24.no/kronen-styrker-seg-etter-rentemte"
     },
     {
       "source": "NRK",
       "title": "Togtrafikken normaliseres etter brann",
       "time": "09:05",
-      "read": "1 min"
+      "read": "1 min",
+      "image": "/content/images/nrk-togtrafikken-normaliseres-etter-brann.webp",
+      "url": "https://www.nrk.no/togtrafikken-normaliseres-etter-brann"
     },
     {
       "source": "VG",
       "title": "Ferieværet: Opphold i sør",
       "time": "08:55",
-      "read": "1 min"
+      "read": "1 min",
+      "image": "/content/images/vg-ferievret-opphold-i-sr.webp",
+      "url": "https://www.vg.no/ferievret-opphold-i-sr"
     },
     {
       "source": "Aftenposten",
       "title": "Ny museumsutstilling åpner i Oslo",
       "time": "08:40",
-      "read": "3 min"
+      "read": "3 min",
+      "image": "/content/images/aftenposten-ny-museumsutstilling-apner-i-oslo.webp",
+      "url": "https://www.aftenposten.no/ny-museumsutstilling-apner-i-oslo"
     }
   ]
 }
