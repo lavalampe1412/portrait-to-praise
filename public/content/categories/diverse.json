@@ -8,19 +8,25 @@
         "source": "NRK",
         "title": "Ustabilt vær i store deler av landet",
         "time": "07:00",
-        "read": "3 min"
+        "read": "3 min",
+        "image": "/content/images/nrk-ustabilt-vr-i-store-deler-av-landet.webp",
+        "url": "https://www.nrk.no/ustabilt-vr-i-store-deler-av-landet"
       },
       {
         "source": "VG",
         "title": "Mye regn ventet i vest",
         "time": "07:10",
-        "read": "2 min"
+        "read": "2 min",
+        "image": "/content/images/vg-mye-regn-ventet-i-vest.webp",
+        "url": "https://www.vg.no/mye-regn-ventet-i-vest"
       },
       {
         "source": "Dagbladet",
         "title": "Sommerværet: Slik blir uken",
         "time": "07:25",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/dagbladet-sommervret-slik-blir-uken.webp",
+        "url": "https://www.dagbladet.no/sommervret-slik-blir-uken"
       }
     ]
   },
@@ -34,13 +40,17 @@
           "source": "NRK",
           "title": "Norske jordbær i butikk nå",
           "time": "06:30",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nrk-norske-jordbr-i-butikk-na.webp",
+          "url": "https://www.nrk.no/norske-jordbr-i-butikk-na"
         },
         {
           "source": "Aftenposten",
           "title": "Jordbærprisene ned",
           "time": "06:45",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/aftenposten-jordbrprisene-ned.webp",
+          "url": "https://www.aftenposten.no/jordbrprisene-ned"
         }
       ]
     },
@@ -53,13 +63,17 @@
           "source": "VG",
           "title": "Rekordkø på Gardermoen",
           "time": "06:00",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/vg-rekordk-pa-gardermoen.webp",
+          "url": "https://www.vg.no/rekordk-pa-gardermoen"
         },
         {
           "source": "Nettavisen",
           "title": "Slik unngår du feriekøen",
           "time": "06:15",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nettavisen-slik-unngar-du-ferieken.webp",
+          "url": "https://www.nettavisen.no/slik-unngar-du-ferieken"
         }
       ]
     },
@@ -72,13 +86,17 @@
           "source": "NRK",
           "title": "Høye pollenverdier varslet",
           "time": "05:45",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nrk-hye-pollenverdier-varslet.webp",
+          "url": "https://www.nrk.no/hye-pollenverdier-varslet"
         },
         {
           "source": "TV 2",
           "title": "Dette bør pollenallergikere vite",
           "time": "06:00",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/tv-2-dette-br-pollenallergikere-vite.webp",
+          "url": "https://www.tv2.no/dette-br-pollenallergikere-vite"
         }
       ]
     }
@@ -88,19 +106,25 @@
       "source": "NRK",
       "title": "Sommerens beste badestrender",
       "time": "18:00",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/nrk-sommerens-beste-badestrender.webp",
+      "url": "https://www.nrk.no/sommerens-beste-badestrender"
     },
     {
       "source": "VG",
       "title": "Test: Billigste feriemat",
       "time": "17:45",
-      "read": "3 min"
+      "read": "3 min",
+      "image": "/content/images/vg-test-billigste-feriemat.webp",
+      "url": "https://www.vg.no/test-billigste-feriemat"
     },
     {
       "source": "Aftenposten",
       "title": "Nye regler for elsparkesykler",
       "time": "17:30",
-      "read": "4 min"
+      "read": "4 min",
+      "image": "/content/images/aftenposten-nye-regler-for-elsparkesykler.webp",
+      "url": "https://www.aftenposten.no/nye-regler-for-elsparkesykler"
     }
   ]
 }

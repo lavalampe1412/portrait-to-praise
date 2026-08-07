@@ -8,19 +8,25 @@
         "source": "NRK",
         "title": "Storbrann i Kristiansand sentrum",
         "time": "08:14",
-        "read": "4 min"
+        "read": "4 min",
+        "image": "/content/images/nrk-storbrann-i-kristiansand-sentrum.webp",
+        "url": "https://www.nrk.no/storbrann-i-kristiansand-sentrum"
       },
       {
         "source": "VG",
         "title": "Historisk bygning i flammer",
         "time": "08:21",
-        "read": "5 min"
+        "read": "5 min",
+        "image": "/content/images/vg-historisk-bygning-i-flammer.webp",
+        "url": "https://www.vg.no/historisk-bygning-i-flammer"
       },
       {
         "source": "Aftenposten",
         "title": "Evakuering etter sentrumsbrann",
         "time": "08:33",
-        "read": "6 min"
+        "read": "6 min",
+        "image": "/content/images/aftenposten-evakuering-etter-sentrumsbrann.webp",
+        "url": "https://www.aftenposten.no/evakuering-etter-sentrumsbrann"
       }
     ]
   },
@@ -34,13 +40,17 @@
           "source": "Aftenposten",
           "title": "Norge slo Frankrike i håndball",
           "time": "21:45",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/aftenposten-norge-slo-frankrike-i-handball.webp",
+          "url": "https://www.aftenposten.no/norge-slo-frankrike-i-handball"
         },
         {
           "source": "Nettavisen",
           "title": "Sagosen strålte mot Frankrike",
           "time": "21:52",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nettavisen-sagosen-stralte-mot-frankrike.webp",
+          "url": "https://www.nettavisen.no/sagosen-stralte-mot-frankrike"
         }
       ]
     },
@@ -53,13 +63,17 @@
           "source": "E24",
           "title": "Boligprisene opp i Oslo",
           "time": "08:30",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/e24-boligprisene-opp-i-oslo.webp",
+          "url": "https://www.e24.no/boligprisene-opp-i-oslo"
         },
         {
           "source": "Nettavisen",
           "title": "Eksperter: Flat høst",
           "time": "08:45",
-          "read": "3 min"
+          "read": "3 min",
+          "image": "/content/images/nettavisen-eksperter-flat-hst.webp",
+          "url": "https://www.nettavisen.no/eksperter-flat-hst"
         }
       ]
     },
@@ -72,13 +86,17 @@
           "source": "Aftenposten",
           "title": "Oslos nye forbud mot fossiloppvarming",
           "time": "06:15",
-          "read": "5 min"
+          "read": "5 min",
+          "image": "/content/images/aftenposten-oslos-nye-forbud-mot-fossiloppvarming.webp",
+          "url": "https://www.aftenposten.no/oslos-nye-forbud-mot-fossiloppvarming"
         },
         {
           "source": "Dagbladet",
           "title": "MDG jubler, NHO reagerer",
           "time": "06:40",
-          "read": "4 min"
+          "read": "4 min",
+          "image": "/content/images/dagbladet-mdg-jubler-nho-reagerer.webp",
+          "url": "https://www.dagbladet.no/mdg-jubler-nho-reagerer"
         }
       ]
     }
@@ -88,31 +106,41 @@
       "source": "E24",
       "title": "Kronen styrker seg etter rentemøte",
       "time": "09:12",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/e24-kronen-styrker-seg-etter-rentemte.webp",
+      "url": "https://www.e24.no/kronen-styrker-seg-etter-rentemte"
     },
     {
       "source": "VG",
       "title": "Overgangsvinduet: Siste nytt",
       "time": "23:05",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/vg-overgangsvinduet-siste-nytt.webp",
+      "url": "https://www.vg.no/overgangsvinduet-siste-nytt"
     },
     {
       "source": "NRK",
       "title": "Norsk serie får internasjonal premiere",
       "time": "20:15",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/nrk-norsk-serie-far-internasjonal-premiere.webp",
+      "url": "https://www.nrk.no/norsk-serie-far-internasjonal-premiere"
     },
     {
       "source": "E24",
       "title": "Dollar svekkes mot kronen",
       "time": "09:20",
-      "read": "1 min"
+      "read": "1 min",
+      "image": "/content/images/e24-dollar-svekkes-mot-kronen.webp",
+      "url": "https://www.e24.no/dollar-svekkes-mot-kronen"
     },
     {
       "source": "NRK",
       "title": "Sommerens beste badestrender",
       "time": "18:00",
-      "read": "2 min"
+      "read": "2 min",
+      "image": "/content/images/nrk-sommerens-beste-badestrender.webp",
+      "url": "https://www.nrk.no/sommerens-beste-badestrender"
     }
   ]
 }
