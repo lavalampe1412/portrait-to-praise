@@ -330,15 +330,16 @@ function Index() {
               ))}
             </div>
             <ol className="divide-y divide-border">
-              {TRENDS[tab].map((t) => (
+              {(TRENDS[tab] ?? []).map((t) => (
                 <li key={t.rank}>
                   <button
                     type="button"
-                    onClick={() => setTrend(t.title)}
+                    onClick={() => setTrend(t)}
                     className={`group flex w-full items-baseline gap-3 px-3 py-2.5 text-left transition hover:bg-secondary/60 ${
-                      trend === t.title ? "bg-primary/15 border-l-2 border-primary" : "border-l-2 border-transparent"
+                      trend?.file === t.file ? "bg-primary/15 border-l-2 border-primary" : "border-l-2 border-transparent"
                     }`}
                   >
+
                     <span className="w-5 font-mono text-[11px] font-bold text-primary">
                       {String(t.rank).padStart(2, "0")}
                     </span>
