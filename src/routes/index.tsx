@@ -11,74 +11,22 @@ import {
   Sun,
   TrendingUp,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import heroSport from "../assets/hero-sport.jpg";
-import heroFire from "../assets/hero-fire.jpg";
-import heroPolitics from "../assets/hero-politics.jpg";
-import heroBusiness from "../assets/hero-business.jpg";
+/* ------------------------------------------------------------------
+   Innhold lastes fra JSON-filer som ligger på samme webserver.
 
-const CATEGORIES = ["For deg", "Nyheter", "Sport", "Politikk", "Business", "Kultur", "Diverse"];
+   /content/site.json                 – medier, kategorier og trender (indeks)
+   /content/categories/<slug>.json    – én feed per kategori
+   /content/trends/<periode>-<n>.json – én feed per trend
+------------------------------------------------------------------- */
 
-const TRENDS = {
-  Dag: [
-    { rank: 1, title: "Rentemøtet", delta: "+124 %" },
-    { rank: 2, title: "Krigen i Gaza", delta: "+98 %" },
-    { rank: 3, title: "Mbappé-debut", delta: "+87 %" },
-    { rank: 4, title: "Strømprisene", delta: "+64 %" },
-    { rank: 5, title: "Høyres skattepolitikk", delta: "+51 %" },
-  ],
-  Uke: [
-    { rank: 1, title: "Sommerens brannfare", delta: "+210 %" },
-    { rank: 2, title: "Feriekøen i Europa", delta: "+176 %" },
-    { rank: 3, title: "Oljeutslipp i Nordsjøen", delta: "+142 %" },
-    { rank: 4, title: "Nytt boliglån-regime", delta: "+119 %" },
-    { rank: 5, title: "Tesla-kursen", delta: "+95 %" },
-  ],
-  Måned: [
-    { rank: 1, title: "Regjeringssonderinger", delta: "+340 %" },
-    { rank: 2, title: "OL 2028-uttak", delta: "+298 %" },
-    { rank: 3, title: "Kraftkabel til Tyskland", delta: "+255 %" },
-    { rank: 4, title: "Legekrisen", delta: "+201 %" },
-    { rank: 5, title: "Kryptolov", delta: "+178 %" },
-  ],
-};
+const CONTENT_BASE = "/content";
 
-const placeholderLogo = (tag: string, hex: string) =>
-  `https://placehold.co/96x96/${hex}/ffffff/png?text=${encodeURIComponent(tag)}`;
-
-const MEDIA = [
-  { name: "VG", tag: "VG", color: "bg-red-600", logo: placeholderLogo("VG", "dc2626") },
-  { name: "NRK", tag: "NRK", color: "bg-neutral-700", logo: placeholderLogo("NRK", "404040") },
-  { name: "Aftenposten", tag: "AP", color: "bg-slate-800", logo: placeholderLogo("AP", "1e293b") },
-  { name: "Dagbladet", tag: "DB", color: "bg-blue-700", logo: placeholderLogo("DB", "1d4ed8") },
-  { name: "Nettavisen", tag: "NA", color: "bg-orange-600", logo: placeholderLogo("NA", "ea580c") },
-  { name: "E24", tag: "E24", color: "bg-emerald-700", logo: placeholderLogo("E24", "047857") },
-  { name: "TV 2", tag: "TV2", color: "bg-green-700", logo: placeholderLogo("TV2", "15803d") },
-  { name: "Avisen", tag: "AV", color: "bg-indigo-700", logo: placeholderLogo("AV", "4338ca") },
-];
-
-const MEDIA_BY_NAME: Record<string, (typeof MEDIA)[number]> = Object.fromEntries(
-  MEDIA.map((m) => [m.name, m]),
-);
-
-function MediaLogo({
-  source,
-  className = "h-5 w-5",
-}: {
-  source: string;
-  className?: string;
-}) {
-  const m = MEDIA_BY_NAME[source];
-  if (!m) return null;
-  return (
-    <img
-      src={m.logo}
-      alt={m.name}
-      loading="lazy"
-      className={`shrink-0 rounded-md object-cover ${className}`}
-    />
-  );
+interface Media {
+  name: string;
+  tag: string;
+  logo: string;
 }
 
 interface Version {
@@ -96,367 +44,62 @@ interface VStory {
 }
 
 interface VFeed {
-  hero: VStory;
+  hero: VStory | null;
   stories: VStory[];
   quick: Version[];
 }
 
-const FEEDS: Record<string, VFeed> = {
-  Nyheter: {
-    hero: {
-      kicker: "Brann",
-      dek: "En historisk trebygning i Kristiansand sentrum står i full fyr. Brannvesenet har evakuert flere naboer.",
-      image: heroFire,
-      versions: [
-        { source: "NRK", title: "Storbrann i Kristiansand sentrum", time: "08:14", read: "4 min" },
-        { source: "VG", title: "Historisk bygning i flammer", time: "08:21", read: "5 min" },
-        { source: "Aftenposten", title: "Evakuering etter sentrumsbrann", time: "08:33", read: "6 min" },
-      ],
-    },
-    stories: [
-      {
-        kicker: "Politikk",
-        dek: "Regjeringen legger fram nye klimatiltak som skal kutte utslippene med 55 prosent innen 2030.",
-        image: heroPolitics,
-        versions: [
-          { source: "VG", title: "Regjeringen skjerpter klimakrav", time: "07:45", read: "5 min" },
-          { source: "NRK", title: "Nye klimamål presentert", time: "07:52", read: "4 min" },
-          { source: "Dagbladet", title: "Dette betyr klimaplanen", time: "08:05", read: "7 min" },
-        ],
-      },
-      {
-        kicker: "Samfunn",
-        dek: "Kommunene sliter med å rekruttere lærere. Nå foreslår KS en nasjonal krisepakke.",
-        image: heroBusiness,
-        versions: [
-          { source: "Aftenposten", title: "Lærermangelen koster kommunene dyrt", time: "06:30", read: "6 min" },
-          { source: "Nettavisen", title: "KS ber om krisepakke", time: "06:55", read: "3 min" },
-        ],
-      },
-      {
-        kicker: "Utenriks",
-        dek: "NATO-toppmøtet åpner i dag med Ukraina, forsvarsbudsjetter og Kina på agendaen.",
-        image: heroPolitics,
-        versions: [
-          { source: "NRK", title: "NATO-toppmøtet starter i Washington", time: "05:15", read: "8 min" },
-          { source: "TV 2", title: "Dette skal NATO diskutere", time: "05:40", read: "5 min" },
-          { source: "VG", title: "Zelenskyj møter allierte", time: "06:10", read: "6 min" },
-        ],
-      },
-    ],
-    quick: [
-      { source: "E24", title: "Kronen styrker seg etter rentemøte", time: "09:12", read: "2 min" },
-      { source: "NRK", title: "Togtrafikken normaliseres etter brann", time: "09:05", read: "1 min" },
-      { source: "VG", title: "Ferieværet: Opphold i sør", time: "08:55", read: "1 min" },
-      { source: "Aftenposten", title: "Ny museumsutstilling åpner i Oslo", time: "08:40", read: "3 min" },
-      { source: "Dagbladet", title: "Kulturministeren møter filmbransjen", time: "08:25", read: "2 min" },
-    ],
-  },
-  Sport: {
-    hero: {
-      kicker: "Fotball",
-      dek: "Kylian Mbappé scoret to mål i sin første kamp for Real Madrid og fikk fansen til å glemme forsommerens spekulasjoner.",
-      image: heroSport,
-      versions: [
-        { source: "VG", title: "Mbappé-show i Real Madrid-debut", time: "22:14", read: "6 min" },
-        { source: "NRK", title: "To mål på 45 minutter", time: "22:18", read: "4 min" },
-        { source: "TV 2", title: "Ancelotti: – En drømmedebut", time: "22:31", read: "5 min" },
-      ],
-    },
-    stories: [
-      {
-        kicker: "Håndball",
-        dek: "Norge tok en sterk seier over Frankrike i OL-oppkjøringen. Sander Sagosen var banens beste.",
-        image: heroSport,
-        versions: [
-          { source: "Aftenposten", title: "Norge slo Frankrike i håndball", time: "21:45", read: "5 min" },
-          { source: "Nettavisen", title: "Sagosen strålte mot Frankrike", time: "21:52", read: "3 min" },
-        ],
-      },
-      {
-        kicker: "Sykling",
-        dek: "Jonas Vingegaard angrep på den siste stigningen og tok over gult trøye i Tour de France.",
-        image: heroSport,
-        versions: [
-          { source: "VG", title: "Vingegaard i gult etter dristig angrep", time: "20:10", read: "7 min" },
-          { source: "TV 2", title: "Dramatisk avslutning i alpene", time: "20:25", read: "5 min" },
-        ],
-      },
-      {
-        kicker: "Friidrett",
-        dek: "Jakob Ingebrigtsen løp inn til ny personlig rekord på 1500 meter i Diamond League.",
-        image: heroSport,
-        versions: [
-          { source: "NRK", title: "Ingebrigtsen med ny pers", time: "19:50", read: "4 min" },
-          { source: "Dagbladet", title: "OL-formen er der", time: "20:05", read: "5 min" },
-        ],
-      },
-    ],
-    quick: [
-      { source: "VG", title: "Overgangsvinduet: Siste nytt", time: "23:05", read: "2 min" },
-      { source: "NRK", title: "OL-helsen: Norsk tropp klar", time: "22:50", read: "3 min" },
-      { source: "TV 2", title: "Rosenborg med ny trener", time: "22:30", read: "4 min" },
-      { source: "Nettavisen", title: "Premier League-klubb kjøper spiss", time: "22:15", read: "1 min" },
-    ],
-  },
-  Politikk: {
-    hero: {
-      kicker: "Stortinget",
-      dek: "Ap og Sp er uenige om skattepakken. Nå vurderer regjeringen å splitte saken i to deler.",
-      image: heroPolitics,
-      versions: [
-        { source: "NRK", title: "Regjeringspartiene krangler om skatt", time: "07:30", read: "6 min" },
-        { source: "VG", title: "Ap-Sp: Brudd om skattepakke", time: "07:42", read: "5 min" },
-        { source: "Aftenposten", title: "Skattesplitt kan være løsningen", time: "08:00", read: "7 min" },
-      ],
-    },
-    stories: [
-      {
-        kicker: "Lokalpolitikk",
-        dek: "Oslo kommune vil forby fossiloppvarming i alle nye bygg fra 2026.",
-        image: heroPolitics,
-        versions: [
-          { source: "Aftenposten", title: "Oslos nye forbud mot fossiloppvarming", time: "06:15", read: "5 min" },
-          { source: "Dagbladet", title: "MDG jubler, NHO reagerer", time: "06:40", read: "4 min" },
-        ],
-      },
-      {
-        kicker: "EU",
-        dek: "EUs nye asyl- og migrasjonspakt får kritikk fra norske frivillige organisasjoner.",
-        image: heroPolitics,
-        versions: [
-          { source: "NRK", title: "Norske organisasjoner kritiserer EU-pakt", time: "05:50", read: "6 min" },
-          { source: "VG", title: "Asylpakten: Dette sier Norge", time: "06:05", read: "4 min" },
-        ],
-      },
-      {
-        kicker: "Valg",
-        dek: "Måling viser at Høyre og Ap ligger likt. SV og Frp gjør begge gode valg.",
-        image: heroPolitics,
-        versions: [
-          { source: "Nettavisen", title: "Høyre og Ap likt i ny måling", time: "05:00", read: "3 min" },
-          { source: "TV 2", title: "Frp og SV oppsving", time: "05:20", read: "4 min" },
-        ],
-      },
-    ],
-    quick: [
-      { source: "NRK", title: "Stortingets sommerferie er over", time: "08:10", read: "2 min" },
-      { source: "VG", title: "Nye statssekretærer utnevnt", time: "07:55", read: "1 min" },
-      { source: "Aftenposten", title: "Regjeringen lover mer penger til kommunene", time: "07:40", read: "3 min" },
-    ],
-  },
-  Business: {
-    hero: {
-      kicker: "Børs",
-      dek: "Oslo Børs åpnet ned etter svake arbeidsmarkedstall fra USA. Oljeprisen holder seg stabil.",
-      image: heroBusiness,
-      versions: [
-        { source: "E24", title: "Oslo Børs ned etter svake USA-tall", time: "09:05", read: "5 min" },
-        { source: "NRK", title: "Arbeidsmarkedet i USA skuffer", time: "09:12", read: "4 min" },
-        { source: "Aftenposten", title: "Oljeprisen stabil tross børsfall", time: "09:25", read: "6 min" },
-      ],
-    },
-    stories: [
-      {
-        kicker: "Eiendom",
-        dek: "Boligprisene i Oslo steg 1,2 prosent i juli. Eksperter venter flat høst.",
-        image: heroBusiness,
-        versions: [
-          { source: "E24", title: "Boligprisene opp i Oslo", time: "08:30", read: "4 min" },
-          { source: "Nettavisen", title: "Eksperter: Flat høst", time: "08:45", read: "3 min" },
-        ],
-      },
-      {
-        kicker: "Energi",
-        dek: "Equinor øker utbyttet etter sterke kvartalstall. Aksjen stiger på børsen.",
-        image: heroBusiness,
-        versions: [
-          { source: "E24", title: "Equinor øker utbyttet", time: "07:50", read: "5 min" },
-          { source: "VG", title: "Sterke tall fra Equinor", time: "08:00", read: "4 min" },
-        ],
-      },
-      {
-        kicker: "Tech",
-        dek: "Norsk gründer får 150 millioner i Serie A. Selskapet lager AI for fiskerinæringen.",
-        image: heroBusiness,
-        versions: [
-          { source: "Nettavisen", title: "Norsk AI-selskap henter 150 mill.", time: "07:10", read: "3 min" },
-          { source: "E24", title: "Gründer satser på AI og fisk", time: "07:25", read: "5 min" },
-        ],
-      },
-    ],
-    quick: [
-      { source: "E24", title: "Dollar svekkes mot kronen", time: "09:20", read: "1 min" },
-      { source: "NRK", title: "NAV: Flere ledige i juli", time: "09:00", read: "2 min" },
-      { source: "Aftenposten", title: "Nytt regelverk for fond", time: "08:45", read: "3 min" },
-      { source: "Nettavisen", title: "Elbil-salg faller i Europa", time: "08:30", read: "2 min" },
-    ],
-  },
-  Kultur: {
-    hero: {
-      kicker: "Film",
-      dek: "Norsk dramafilm vant hovedprisen i Cannes. Regissøren takket hele teamet i en rørende tale.",
-      image: heroFire,
-      versions: [
-        { source: "NRK", title: "Norsk film vant i Cannes", time: "21:00", read: "5 min" },
-        { source: "Aftenposten", title: "Cannes-pris til norsk debutant", time: "21:15", read: "6 min" },
-        { source: "Dagbladet", title: "Rørende takketale i Cannes", time: "21:30", read: "4 min" },
-      ],
-    },
-    stories: [
-      {
-        kicker: "Musikk",
-        dek: "Årets Øyafestival er i gang. Her er anmeldelsene av de største konsertene.",
-        image: heroSport,
-        versions: [
-          { source: "VG", title: "Øya: De beste konsertene", time: "20:30", read: "5 min" },
-          { source: "Dagbladet", title: "Anmeldelse: Øyafestivalen", time: "20:45", read: "6 min" },
-        ],
-      },
-      {
-        kicker: "Litteratur",
-        dek: "Høstens store bokslipp er klart. Flere norske forfattere er aktuelle for Brageprisen.",
-        image: heroPolitics,
-        versions: [
-          { source: "Aftenposten", title: "Høstens bokslipp er her", time: "19:00", read: "6 min" },
-          { source: "NRK", title: "Disse kan vinne Brageprisen", time: "19:20", read: "4 min" },
-        ],
-      },
-      {
-        kicker: "Teater",
-        dek: "Nationaltheatret setter opp en ny versjon av Peer Gynt med internasjonal cast.",
-        image: heroBusiness,
-        versions: [
-          { source: "Dagbladet", title: "Ny Peer Gynt på Nationaltheatret", time: "18:30", read: "5 min" },
-          { source: "Aftenposten", title: "Internasjonal cast til Peer Gynt", time: "18:45", read: "6 min" },
-        ],
-      },
-    ],
-    quick: [
-      { source: "NRK", title: "Norsk serie får internasjonal premiere", time: "20:15", read: "2 min" },
-      { source: "VG", title: "Kunstutstilling trekker fullt hus", time: "19:45", read: "1 min" },
-      { source: "Dagbladet", title: "Ny roman topp bestselgerlista", time: "19:30", read: "3 min" },
-    ],
-  },
-  Diverse: {
-    hero: {
-      kicker: "Vær",
-      dek: "Meteorologene varsler ustabilt vær i store deler av landet. Lokalt kan det komme mye regn.",
-      image: heroFire,
-      versions: [
-        { source: "NRK", title: "Ustabilt vær i store deler av landet", time: "07:00", read: "3 min" },
-        { source: "VG", title: "Mye regn ventet i vest", time: "07:10", read: "2 min" },
-        { source: "Dagbladet", title: "Sommerværet: Slik blir uken", time: "07:25", read: "4 min" },
-      ],
-    },
-    stories: [
-      {
-        kicker: "Mat",
-        dek: "Norske jordbær er endelig modne over hele landet. Prisene er lavere enn i fjor.",
-        image: heroSport,
-        versions: [
-          { source: "NRK", title: "Norske jordbær i butikk nå", time: "06:30", read: "3 min" },
-          { source: "Aftenposten", title: "Jordbærprisene ned", time: "06:45", read: "4 min" },
-        ],
-      },
-      {
-        kicker: "Reise",
-        dek: "Feriekøen på Gardermoen er rekordlang. Sjekk rutetipsene før du reiser.",
-        image: heroPolitics,
-        versions: [
-          { source: "VG", title: "Rekordkø på Gardermoen", time: "06:00", read: "4 min" },
-          { source: "Nettavisen", title: "Slik unngår du feriekøen", time: "06:15", read: "3 min" },
-        ],
-      },
-      {
-        kicker: "Helse",
-        dek: "FHI advarer mot høye pollenverdier denne uken. Astmatikere bør ta forholdsregler.",
-        image: heroBusiness,
-        versions: [
-          { source: "NRK", title: "Høye pollenverdier varslet", time: "05:45", read: "3 min" },
-          { source: "TV 2", title: "Dette bør pollenallergikere vite", time: "06:00", read: "4 min" },
-        ],
-      },
-    ],
-    quick: [
-      { source: "NRK", title: "Sommerens beste badestrender", time: "18:00", read: "2 min" },
-      { source: "VG", title: "Test: Billigste feriemat", time: "17:45", read: "3 min" },
-      { source: "Aftenposten", title: "Nye regler for elsparkesykler", time: "17:30", read: "4 min" },
-    ],
-  },
-};
+interface CategoryRef {
+  name: string;
+  file: string;
+}
 
-const TREND_TOPICS: Record<string, string> = {
-  "Rentemøtet": "Business",
-  "Tesla-kursen": "Business",
-  "Nytt boliglån-regime": "Business",
-  "Kryptolov": "Business",
-  "Oljeutslipp i Nordsjøen": "Nyheter",
-  "Krigen i Gaza": "Nyheter",
-  "Høyres skattepolitikk": "Politikk",
-  "Regjeringssonderinger": "Politikk",
-  "Legekrisen": "Nyheter",
-  "Mbappé-debut": "Sport",
-  "OL 2028-uttak": "Sport",
-  "Sommerens brannfare": "Nyheter",
-  "Feriekøen i Europa": "Diverse",
-  "Strømprisene": "Nyheter",
-  "Kraftkabel til Tyskland": "Nyheter",
-};
+interface TrendRef {
+  rank: number;
+  title: string;
+  delta: string;
+  file: string;
+}
 
-function withVersions(story: {
-  kicker: string;
-  dek: string;
-  image: string;
-  version: Version;
-}): VStory {
-  const sources = MEDIA.map((m) => m.name).filter((s) => s !== story.version.source);
-  const extraCount = Math.min(2, sources.length);
-  const shuffled = sources.sort(() => Math.random() - 0.5).slice(0, extraCount);
-  const extra: Version[] = shuffled.map((source) => {
-    const tweaks: Record<string, string> = {
-      VG: story.version.title,
-      NRK: `${story.version.title.split(" ").slice(0, 3).join(" ")} – dette vet vi`,
-      Aftenposten: `Analyse: ${story.version.title}`,
-      Dagbladet: `${story.version.title} (+)`,
-      Nettavisen: `${story.version.title} – siste`,
-      E24: story.version.title,
-      "TV 2": `Saken forklart: ${story.version.title}`,
-      Avisen: `${story.version.title} – kommentar`,
-    };
-    return {
-      source,
-      title: tweaks[source] ?? story.version.title,
-      time: story.version.time,
-      read: story.version.read,
-    };
+interface SiteConfig {
+  media: Media[];
+  categories: CategoryRef[];
+  trends: Record<string, TrendRef[]>;
+}
+
+const EMPTY_FEED: VFeed = { hero: null, stories: [], quick: [] };
+
+// Oppdateres når site.json er lastet, slik at MediaLogo finner logoene.
+let MEDIA_BY_NAME: Record<string, Media> = {};
+
+async function loadJson<T>(path: string): Promise<T> {
+  const res = await fetch(`${CONTENT_BASE}/${path}`.replace(/([^:]\/)\/+/g, "$1"), {
+    headers: { Accept: "application/json" },
   });
+  if (!res.ok) throw new Error(`Kunne ikke laste ${path} (${res.status})`);
+  return (await res.json()) as T;
+}
+
+function normalizeFeed(raw: Partial<VFeed> | null | undefined): VFeed {
+  if (!raw) return EMPTY_FEED;
   return {
-    kicker: story.kicker,
-    dek: story.dek,
-    image: story.image,
-    versions: [story.version, ...extra],
+    hero: raw.hero ?? null,
+    stories: Array.isArray(raw.stories) ? raw.stories : [],
+    quick: Array.isArray(raw.quick) ? raw.quick : [],
   };
 }
 
-function feedForTrend(topic: string): VFeed {
-  const base = FEEDS[TREND_TOPICS[topic] ?? "Nyheter"];
-  const trendStory: VStory = {
-    kicker: "Trender",
-    dek: `Saken har fått økt oppmerksomhet de siste timene. Her samler vi dekningen fra flere norske redaksjoner om «${topic}».`,
-    image: base.hero.image,
-    versions: MEDIA.slice(0, 5).map((m) => ({
-      source: m.name,
-      title: `${topic}: ${m.name} oppdaterer`,
-      time: `${String(7 + Math.floor(Math.random() * 14)).padStart(2, "0")}:${String(Math.floor(Math.random() * 60)).padStart(2, "0")}`,
-      read: `${2 + Math.floor(Math.random() * 5)} min`,
-    })),
-  };
-  return {
-    hero: trendStory,
-    stories: base.stories.slice(0, 2),
-    quick: base.quick.slice(0, 4),
-  };
+function MediaLogo({ source, className = "h-5 w-5" }: { source: string; className?: string }) {
+  const m = MEDIA_BY_NAME[source];
+  if (!m) return null;
+  return (
+    <img
+      src={m.logo}
+      alt={m.name}
+      loading="lazy"
+      className={`shrink-0 rounded-md object-cover ${className}`}
+    />
+  );
 }
 
 function filterFeed(feed: VFeed, enabled: Set<string>): VFeed {
@@ -468,7 +111,7 @@ function filterFeed(feed: VFeed, enabled: Set<string>): VFeed {
   const hero = feed.hero ? filterStory(feed.hero) : null;
   const stories = feed.stories.map(filterStory).filter(Boolean) as VStory[];
   const quick = feed.quick.filter((q) => enabled.has(q.source));
-  return { hero: hero ?? feed.hero, stories, quick };
+  return { hero, stories, quick };
 }
 
 export const Route = createFileRoute("/")({
@@ -476,12 +119,80 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [tab, setTab] = useState<keyof typeof TRENDS>("Dag");
+  const [site, setSite] = useState<SiteConfig | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  const [tab, setTab] = useState<string>("Dag");
   const [cat, setCat] = useState("Nyheter");
-  const [trend, setTrend] = useState<string | null>(null);
+  const [trend, setTrend] = useState<TrendRef | null>(null);
   const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [enabledMedia, setEnabledMedia] = useState<Set<string>>(new Set(MEDIA.map((m) => m.name)));
+  const [enabledMedia, setEnabledMedia] = useState<Set<string>>(new Set());
   const [heroIdx, setHeroIdx] = useState(0);
+
+  const [rawFeed, setRawFeed] = useState<VFeed>(EMPTY_FEED);
+  const [feedLoading, setFeedLoading] = useState(true);
+  const feedCache = useRef<Map<string, VFeed>>(new Map());
+
+  const MEDIA = site?.media ?? [];
+  const CATEGORIES = site?.categories ?? [];
+  const TRENDS = site?.trends ?? {};
+
+  // --- last site.json
+  useEffect(() => {
+    let alive = true;
+    loadJson<SiteConfig>("site.json")
+      .then((data) => {
+        if (!alive) return;
+        MEDIA_BY_NAME = Object.fromEntries(data.media.map((m) => [m.name, m]));
+        setSite(data);
+        setEnabledMedia(new Set(data.media.map((m) => m.name)));
+        const periods = Object.keys(data.trends);
+        if (periods.length > 0 && periods[0]) setTab(periods[0]);
+        if (!data.categories.some((c) => c.name === cat) && data.categories[0]) {
+          setCat(data.categories[0].name);
+        }
+      })
+      .catch((e: Error) => alive && setLoadError(e.message));
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // --- last aktiv feed (kategori eller trend)
+  const activeFile = useMemo(() => {
+    if (trend) return trend.file;
+    return CATEGORIES.find((c) => c.name === cat)?.file ?? null;
+  }, [trend, cat, CATEGORIES]);
+
+  useEffect(() => {
+    if (!activeFile) return;
+    const cached = feedCache.current.get(activeFile);
+    if (cached) {
+      setRawFeed(cached);
+      setFeedLoading(false);
+      return;
+    }
+    let alive = true;
+    setFeedLoading(true);
+    loadJson<Partial<VFeed>>(activeFile)
+      .then((data) => {
+        const feed = normalizeFeed(data);
+        feedCache.current.set(activeFile, feed);
+        if (!alive) return;
+        setRawFeed(feed);
+        setFeedLoading(false);
+      })
+      .catch((e: Error) => {
+        if (!alive) return;
+        setRawFeed(EMPTY_FEED);
+        setFeedLoading(false);
+        setLoadError(e.message);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [activeFile]);
 
   useEffect(() => {
     const saved = typeof window !== "undefined" ? window.localStorage.getItem("nyhet-theme") : null;
@@ -498,16 +209,15 @@ function Index() {
     }
   };
 
-  const toggleMedia = (name: string) => {
+  const toggleMedia = useCallback((name: string) => {
     setEnabledMedia((prev) => {
       const next = new Set(prev);
       if (next.has(name)) next.delete(name);
       else next.add(name);
       return next;
     });
-  };
+  }, []);
 
-  const rawFeed = useMemo(() => (trend ? feedForTrend(trend) : FEEDS[cat] ?? FEEDS["Nyheter"]), [cat, trend]);
   const feed = useMemo(() => filterFeed(rawFeed, enabledMedia), [rawFeed, enabledMedia]);
 
   const heroStory = feed.hero;
@@ -518,6 +228,7 @@ function Index() {
   useEffect(() => {
     setHeroIdx(0);
   }, [cat, trend, enabledMedia.size]);
+
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
