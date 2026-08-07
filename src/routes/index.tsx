@@ -383,7 +383,7 @@ function Index() {
                 {trend ? "// aktivt filter" : "// hovedseksjon"}
               </p>
               <h2 className="font-display text-3xl leading-none md:text-4xl">
-                {trend ?? cat}
+                {trend?.title ?? cat}
               </h2>
             </div>
             <div className="hidden items-center gap-2 sm:flex">
