@@ -1,0 +1,111 @@
+{
+  "hero": {
+    "kicker": "Trender",
+    "dek": "Saken har fått økt oppmerksomhet de siste timene. Her samler vi dekningen fra flere norske redaksjoner om «Sommerens brannfare».",
+    "image": "/content/images/hero-fire.jpg",
+    "versions": [
+      {
+        "source": "VG",
+        "title": "Sommerens brannfare: VG oppdaterer",
+        "time": "11:32",
+        "read": "6 min"
+      },
+      {
+        "source": "NRK",
+        "title": "Sommerens brannfare: NRK oppdaterer",
+        "time": "12:22",
+        "read": "3 min"
+      },
+      {
+        "source": "Aftenposten",
+        "title": "Sommerens brannfare: Aftenposten oppdaterer",
+        "time": "15:24",
+        "read": "2 min"
+      },
+      {
+        "source": "Dagbladet",
+        "title": "Sommerens brannfare: Dagbladet oppdaterer",
+        "time": "17:25",
+        "read": "6 min"
+      },
+      {
+        "source": "Nettavisen",
+        "title": "Sommerens brannfare: Nettavisen oppdaterer",
+        "time": "09:40",
+        "read": "4 min"
+      }
+    ]
+  },
+  "stories": [
+    {
+      "kicker": "Politikk",
+      "dek": "Regjeringen legger fram nye klimatiltak som skal kutte utslippene med 55 prosent innen 2030.",
+      "image": "/content/images/hero-politics.jpg",
+      "versions": [
+        {
+          "source": "VG",
+          "title": "Regjeringen skjerpter klimakrav",
+          "time": "07:45",
+          "read": "5 min"
+        },
+        {
+          "source": "NRK",
+          "title": "Nye klimamål presentert",
+          "time": "07:52",
+          "read": "4 min"
+        },
+        {
+          "source": "Dagbladet",
+          "title": "Dette betyr klimaplanen",
+          "time": "08:05",
+          "read": "7 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Samfunn",
+      "dek": "Kommunene sliter med å rekruttere lærere. Nå foreslår KS en nasjonal krisepakke.",
+      "image": "/content/images/hero-business.jpg",
+      "versions": [
+        {
+          "source": "Aftenposten",
+          "title": "Lærermangelen koster kommunene dyrt",
+          "time": "06:30",
+          "read": "6 min"
+        },
+        {
+          "source": "Nettavisen",
+          "title": "KS ber om krisepakke",
+          "time": "06:55",
+          "read": "3 min"
+        }
+      ]
+    }
+  ],
+  "quick": [
+    {
+      "source": "E24",
+      "title": "Kronen styrker seg etter rentemøte",
+      "time": "09:12",
+      "read": "2 min"
+    },
+    {
+      "source": "NRK",
+      "title": "Togtrafikken normaliseres etter brann",
+      "time": "09:05",
+      "read": "1 min"
+    },
+    {
+      "source": "VG",
+      "title": "Ferieværet: Opphold i sør",
+      "time": "08:55",
+      "read": "1 min"
+    },
+    {
+      "source": "Aftenposten",
+      "title": "Ny museumsutstilling åpner i Oslo",
+      "time": "08:40",
+      "read": "3 min"
+    }
+  ]
+}

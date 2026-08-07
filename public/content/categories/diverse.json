@@ -1,0 +1,106 @@
+{
+  "hero": {
+    "kicker": "Vær",
+    "dek": "Meteorologene varsler ustabilt vær i store deler av landet. Lokalt kan det komme mye regn.",
+    "image": "/content/images/hero-fire.jpg",
+    "versions": [
+      {
+        "source": "NRK",
+        "title": "Ustabilt vær i store deler av landet",
+        "time": "07:00",
+        "read": "3 min"
+      },
+      {
+        "source": "VG",
+        "title": "Mye regn ventet i vest",
+        "time": "07:10",
+        "read": "2 min"
+      },
+      {
+        "source": "Dagbladet",
+        "title": "Sommerværet: Slik blir uken",
+        "time": "07:25",
+        "read": "4 min"
+      }
+    ]
+  },
+  "stories": [
+    {
+      "kicker": "Mat",
+      "dek": "Norske jordbær er endelig modne over hele landet. Prisene er lavere enn i fjor.",
+      "image": "/content/images/hero-sport.jpg",
+      "versions": [
+        {
+          "source": "NRK",
+          "title": "Norske jordbær i butikk nå",
+          "time": "06:30",
+          "read": "3 min"
+        },
+        {
+          "source": "Aftenposten",
+          "title": "Jordbærprisene ned",
+          "time": "06:45",
+          "read": "4 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Reise",
+      "dek": "Feriekøen på Gardermoen er rekordlang. Sjekk rutetipsene før du reiser.",
+      "image": "/content/images/hero-politics.jpg",
+      "versions": [
+        {
+          "source": "VG",
+          "title": "Rekordkø på Gardermoen",
+          "time": "06:00",
+          "read": "4 min"
+        },
+        {
+          "source": "Nettavisen",
+          "title": "Slik unngår du feriekøen",
+          "time": "06:15",
+          "read": "3 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Helse",
+      "dek": "FHI advarer mot høye pollenverdier denne uken. Astmatikere bør ta forholdsregler.",
+      "image": "/content/images/hero-business.jpg",
+      "versions": [
+        {
+          "source": "NRK",
+          "title": "Høye pollenverdier varslet",
+          "time": "05:45",
+          "read": "3 min"
+        },
+        {
+          "source": "TV 2",
+          "title": "Dette bør pollenallergikere vite",
+          "time": "06:00",
+          "read": "4 min"
+        }
+      ]
+    }
+  ],
+  "quick": [
+    {
+      "source": "NRK",
+      "title": "Sommerens beste badestrender",
+      "time": "18:00",
+      "read": "2 min"
+    },
+    {
+      "source": "VG",
+      "title": "Test: Billigste feriemat",
+      "time": "17:45",
+      "read": "3 min"
+    },
+    {
+      "source": "Aftenposten",
+      "title": "Nye regler for elsparkesykler",
+      "time": "17:30",
+      "read": "4 min"
+    }
+  ]
+}

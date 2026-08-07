@@ -1,0 +1,172 @@
+{
+  "media": [
+    {
+      "name": "VG",
+      "tag": "VG",
+      "logo": "https://placehold.co/96x96/dc2626/ffffff/png?text=VG"
+    },
+    {
+      "name": "NRK",
+      "tag": "NRK",
+      "logo": "https://placehold.co/96x96/404040/ffffff/png?text=NRK"
+    },
+    {
+      "name": "Aftenposten",
+      "tag": "AP",
+      "logo": "https://placehold.co/96x96/1e293b/ffffff/png?text=AP"
+    },
+    {
+      "name": "Dagbladet",
+      "tag": "DB",
+      "logo": "https://placehold.co/96x96/1d4ed8/ffffff/png?text=DB"
+    },
+    {
+      "name": "Nettavisen",
+      "tag": "NA",
+      "logo": "https://placehold.co/96x96/ea580c/ffffff/png?text=NA"
+    },
+    {
+      "name": "E24",
+      "tag": "E24",
+      "logo": "https://placehold.co/96x96/047857/ffffff/png?text=E24"
+    },
+    {
+      "name": "TV 2",
+      "tag": "TV2",
+      "logo": "https://placehold.co/96x96/15803d/ffffff/png?text=TV2"
+    },
+    {
+      "name": "Avisen",
+      "tag": "AV",
+      "logo": "https://placehold.co/96x96/4338ca/ffffff/png?text=AV"
+    }
+  ],
+  "categories": [
+    {
+      "name": "For deg",
+      "file": "categories/for-deg.json"
+    },
+    {
+      "name": "Nyheter",
+      "file": "categories/nyheter.json"
+    },
+    {
+      "name": "Sport",
+      "file": "categories/sport.json"
+    },
+    {
+      "name": "Politikk",
+      "file": "categories/politikk.json"
+    },
+    {
+      "name": "Business",
+      "file": "categories/business.json"
+    },
+    {
+      "name": "Kultur",
+      "file": "categories/kultur.json"
+    },
+    {
+      "name": "Diverse",
+      "file": "categories/diverse.json"
+    }
+  ],
+  "trends": {
+    "Dag": [
+      {
+        "rank": 1,
+        "title": "Rentemøtet",
+        "delta": "+124 %",
+        "file": "trends/dag-1.json"
+      },
+      {
+        "rank": 2,
+        "title": "Krigen i Gaza",
+        "delta": "+98 %",
+        "file": "trends/dag-2.json"
+      },
+      {
+        "rank": 3,
+        "title": "Mbappé-debut",
+        "delta": "+87 %",
+        "file": "trends/dag-3.json"
+      },
+      {
+        "rank": 4,
+        "title": "Strømprisene",
+        "delta": "+64 %",
+        "file": "trends/dag-4.json"
+      },
+      {
+        "rank": 5,
+        "title": "Høyres skattepolitikk",
+        "delta": "+51 %",
+        "file": "trends/dag-5.json"
+      }
+    ],
+    "Uke": [
+      {
+        "rank": 1,
+        "title": "Sommerens brannfare",
+        "delta": "+210 %",
+        "file": "trends/uke-1.json"
+      },
+      {
+        "rank": 2,
+        "title": "Feriekøen i Europa",
+        "delta": "+176 %",
+        "file": "trends/uke-2.json"
+      },
+      {
+        "rank": 3,
+        "title": "Oljeutslipp i Nordsjøen",
+        "delta": "+142 %",
+        "file": "trends/uke-3.json"
+      },
+      {
+        "rank": 4,
+        "title": "Nytt boliglån-regime",
+        "delta": "+119 %",
+        "file": "trends/uke-4.json"
+      },
+      {
+        "rank": 5,
+        "title": "Tesla-kursen",
+        "delta": "+95 %",
+        "file": "trends/uke-5.json"
+      }
+    ],
+    "Måned": [
+      {
+        "rank": 1,
+        "title": "Regjeringssonderinger",
+        "delta": "+340 %",
+        "file": "trends/maned-1.json"
+      },
+      {
+        "rank": 2,
+        "title": "OL 2028-uttak",
+        "delta": "+298 %",
+        "file": "trends/maned-2.json"
+      },
+      {
+        "rank": 3,
+        "title": "Kraftkabel til Tyskland",
+        "delta": "+255 %",
+        "file": "trends/maned-3.json"
+      },
+      {
+        "rank": 4,
+        "title": "Legekrisen",
+        "delta": "+201 %",
+        "file": "trends/maned-4.json"
+      },
+      {
+        "rank": 5,
+        "title": "Kryptolov",
+        "delta": "+178 %",
+        "file": "trends/maned-5.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,105 @@
+{
+  "hero": {
+    "kicker": "Trender",
+    "dek": "Saken har fått økt oppmerksomhet de siste timene. Her samler vi dekningen fra flere norske redaksjoner om «OL 2028-uttak».",
+    "image": "/content/images/hero-sport.jpg",
+    "versions": [
+      {
+        "source": "VG",
+        "title": "OL 2028-uttak: VG oppdaterer",
+        "time": "07:49",
+        "read": "2 min"
+      },
+      {
+        "source": "NRK",
+        "title": "OL 2028-uttak: NRK oppdaterer",
+        "time": "19:04",
+        "read": "5 min"
+      },
+      {
+        "source": "Aftenposten",
+        "title": "OL 2028-uttak: Aftenposten oppdaterer",
+        "time": "09:46",
+        "read": "3 min"
+      },
+      {
+        "source": "Dagbladet",
+        "title": "OL 2028-uttak: Dagbladet oppdaterer",
+        "time": "12:32",
+        "read": "4 min"
+      },
+      {
+        "source": "Nettavisen",
+        "title": "OL 2028-uttak: Nettavisen oppdaterer",
+        "time": "16:43",
+        "read": "5 min"
+      }
+    ]
+  },
+  "stories": [
+    {
+      "kicker": "Håndball",
+      "dek": "Norge tok en sterk seier over Frankrike i OL-oppkjøringen. Sander Sagosen var banens beste.",
+      "image": "/content/images/hero-sport.jpg",
+      "versions": [
+        {
+          "source": "Aftenposten",
+          "title": "Norge slo Frankrike i håndball",
+          "time": "21:45",
+          "read": "5 min"
+        },
+        {
+          "source": "Nettavisen",
+          "title": "Sagosen strålte mot Frankrike",
+          "time": "21:52",
+          "read": "3 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Sykling",
+      "dek": "Jonas Vingegaard angrep på den siste stigningen og tok over gult trøye i Tour de France.",
+      "image": "/content/images/hero-sport.jpg",
+      "versions": [
+        {
+          "source": "VG",
+          "title": "Vingegaard i gult etter dristig angrep",
+          "time": "20:10",
+          "read": "7 min"
+        },
+        {
+          "source": "TV 2",
+          "title": "Dramatisk avslutning i alpene",
+          "time": "20:25",
+          "read": "5 min"
+        }
+      ]
+    }
+  ],
+  "quick": [
+    {
+      "source": "VG",
+      "title": "Overgangsvinduet: Siste nytt",
+      "time": "23:05",
+      "read": "2 min"
+    },
+    {
+      "source": "NRK",
+      "title": "OL-helsen: Norsk tropp klar",
+      "time": "22:50",
+      "read": "3 min"
+    },
+    {
+      "source": "TV 2",
+      "title": "Rosenborg med ny trener",
+      "time": "22:30",
+      "read": "4 min"
+    },
+    {
+      "source": "Nettavisen",
+      "title": "Premier League-klubb kjøper spiss",
+      "time": "22:15",
+      "read": "1 min"
+    }
+  ]
+}
