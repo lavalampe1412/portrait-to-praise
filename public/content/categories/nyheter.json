@@ -1,0 +1,130 @@
+{
+  "hero": {
+    "kicker": "Brann",
+    "dek": "En historisk trebygning i Kristiansand sentrum står i full fyr. Brannvesenet har evakuert flere naboer.",
+    "image": "/content/images/hero-fire.jpg",
+    "versions": [
+      {
+        "source": "NRK",
+        "title": "Storbrann i Kristiansand sentrum",
+        "time": "08:14",
+        "read": "4 min"
+      },
+      {
+        "source": "VG",
+        "title": "Historisk bygning i flammer",
+        "time": "08:21",
+        "read": "5 min"
+      },
+      {
+        "source": "Aftenposten",
+        "title": "Evakuering etter sentrumsbrann",
+        "time": "08:33",
+        "read": "6 min"
+      }
+    ]
+  },
+  "stories": [
+    {
+      "kicker": "Politikk",
+      "dek": "Regjeringen legger fram nye klimatiltak som skal kutte utslippene med 55 prosent innen 2030.",
+      "image": "/content/images/hero-politics.jpg",
+      "versions": [
+        {
+          "source": "VG",
+          "title": "Regjeringen skjerpter klimakrav",
+          "time": "07:45",
+          "read": "5 min"
+        },
+        {
+          "source": "NRK",
+          "title": "Nye klimamål presentert",
+          "time": "07:52",
+          "read": "4 min"
+        },
+        {
+          "source": "Dagbladet",
+          "title": "Dette betyr klimaplanen",
+          "time": "08:05",
+          "read": "7 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Samfunn",
+      "dek": "Kommunene sliter med å rekruttere lærere. Nå foreslår KS en nasjonal krisepakke.",
+      "image": "/content/images/hero-business.jpg",
+      "versions": [
+        {
+          "source": "Aftenposten",
+          "title": "Lærermangelen koster kommunene dyrt",
+          "time": "06:30",
+          "read": "6 min"
+        },
+        {
+          "source": "Nettavisen",
+          "title": "KS ber om krisepakke",
+          "time": "06:55",
+          "read": "3 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Utenriks",
+      "dek": "NATO-toppmøtet åpner i dag med Ukraina, forsvarsbudsjetter og Kina på agendaen.",
+      "image": "/content/images/hero-politics.jpg",
+      "versions": [
+        {
+          "source": "NRK",
+          "title": "NATO-toppmøtet starter i Washington",
+          "time": "05:15",
+          "read": "8 min"
+        },
+        {
+          "source": "TV 2",
+          "title": "Dette skal NATO diskutere",
+          "time": "05:40",
+          "read": "5 min"
+        },
+        {
+          "source": "VG",
+          "title": "Zelenskyj møter allierte",
+          "time": "06:10",
+          "read": "6 min"
+        }
+      ]
+    }
+  ],
+  "quick": [
+    {
+      "source": "E24",
+      "title": "Kronen styrker seg etter rentemøte",
+      "time": "09:12",
+      "read": "2 min"
+    },
+    {
+      "source": "NRK",
+      "title": "Togtrafikken normaliseres etter brann",
+      "time": "09:05",
+      "read": "1 min"
+    },
+    {
+      "source": "VG",
+      "title": "Ferieværet: Opphold i sør",
+      "time": "08:55",
+      "read": "1 min"
+    },
+    {
+      "source": "Aftenposten",
+      "title": "Ny museumsutstilling åpner i Oslo",
+      "time": "08:40",
+      "read": "3 min"
+    },
+    {
+      "source": "Dagbladet",
+      "title": "Kulturministeren møter filmbransjen",
+      "time": "08:25",
+      "read": "2 min"
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "hero": {
+    "kicker": "Børs",
+    "dek": "Oslo Børs åpnet ned etter svake arbeidsmarkedstall fra USA. Oljeprisen holder seg stabil.",
+    "image": "/content/images/hero-business.jpg",
+    "versions": [
+      {
+        "source": "E24",
+        "title": "Oslo Børs ned etter svake USA-tall",
+        "time": "09:05",
+        "read": "5 min"
+      },
+      {
+        "source": "NRK",
+        "title": "Arbeidsmarkedet i USA skuffer",
+        "time": "09:12",
+        "read": "4 min"
+      },
+      {
+        "source": "Aftenposten",
+        "title": "Oljeprisen stabil tross børsfall",
+        "time": "09:25",
+        "read": "6 min"
+      }
+    ]
+  },
+  "stories": [
+    {
+      "kicker": "Eiendom",
+      "dek": "Boligprisene i Oslo steg 1,2 prosent i juli. Eksperter venter flat høst.",
+      "image": "/content/images/hero-business.jpg",
+      "versions": [
+        {
+          "source": "E24",
+          "title": "Boligprisene opp i Oslo",
+          "time": "08:30",
+          "read": "4 min"
+        },
+        {
+          "source": "Nettavisen",
+          "title": "Eksperter: Flat høst",
+          "time": "08:45",
+          "read": "3 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Energi",
+      "dek": "Equinor øker utbyttet etter sterke kvartalstall. Aksjen stiger på børsen.",
+      "image": "/content/images/hero-business.jpg",
+      "versions": [
+        {
+          "source": "E24",
+          "title": "Equinor øker utbyttet",
+          "time": "07:50",
+          "read": "5 min"
+        },
+        {
+          "source": "VG",
+          "title": "Sterke tall fra Equinor",
+          "time": "08:00",
+          "read": "4 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Tech",
+      "dek": "Norsk gründer får 150 millioner i Serie A. Selskapet lager AI for fiskerinæringen.",
+      "image": "/content/images/hero-business.jpg",
+      "versions": [
+        {
+          "source": "Nettavisen",
+          "title": "Norsk AI-selskap henter 150 mill.",
+          "time": "07:10",
+          "read": "3 min"
+        },
+        {
+          "source": "E24",
+          "title": "Gründer satser på AI og fisk",
+          "time": "07:25",
+          "read": "5 min"
+        }
+      ]
+    }
+  ],
+  "quick": [
+    {
+      "source": "E24",
+      "title": "Dollar svekkes mot kronen",
+      "time": "09:20",
+      "read": "1 min"
+    },
+    {
+      "source": "NRK",
+      "title": "NAV: Flere ledige i juli",
+      "time": "09:00",
+      "read": "2 min"
+    },
+    {
+      "source": "Aftenposten",
+      "title": "Nytt regelverk for fond",
+      "time": "08:45",
+      "read": "3 min"
+    },
+    {
+      "source": "Nettavisen",
+      "title": "Elbil-salg faller i Europa",
+      "time": "08:30",
+      "read": "2 min"
+    }
+  ]
+}

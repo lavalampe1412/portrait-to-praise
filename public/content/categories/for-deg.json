@@ -1,0 +1,118 @@
+{
+  "hero": {
+    "kicker": "Brann",
+    "dek": "En historisk trebygning i Kristiansand sentrum står i full fyr. Brannvesenet har evakuert flere naboer.",
+    "image": "/content/images/hero-fire.jpg",
+    "versions": [
+      {
+        "source": "NRK",
+        "title": "Storbrann i Kristiansand sentrum",
+        "time": "08:14",
+        "read": "4 min"
+      },
+      {
+        "source": "VG",
+        "title": "Historisk bygning i flammer",
+        "time": "08:21",
+        "read": "5 min"
+      },
+      {
+        "source": "Aftenposten",
+        "title": "Evakuering etter sentrumsbrann",
+        "time": "08:33",
+        "read": "6 min"
+      }
+    ]
+  },
+  "stories": [
+    {
+      "kicker": "Håndball",
+      "dek": "Norge tok en sterk seier over Frankrike i OL-oppkjøringen. Sander Sagosen var banens beste.",
+      "image": "/content/images/hero-sport.jpg",
+      "versions": [
+        {
+          "source": "Aftenposten",
+          "title": "Norge slo Frankrike i håndball",
+          "time": "21:45",
+          "read": "5 min"
+        },
+        {
+          "source": "Nettavisen",
+          "title": "Sagosen strålte mot Frankrike",
+          "time": "21:52",
+          "read": "3 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Eiendom",
+      "dek": "Boligprisene i Oslo steg 1,2 prosent i juli. Eksperter venter flat høst.",
+      "image": "/content/images/hero-business.jpg",
+      "versions": [
+        {
+          "source": "E24",
+          "title": "Boligprisene opp i Oslo",
+          "time": "08:30",
+          "read": "4 min"
+        },
+        {
+          "source": "Nettavisen",
+          "title": "Eksperter: Flat høst",
+          "time": "08:45",
+          "read": "3 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Lokalpolitikk",
+      "dek": "Oslo kommune vil forby fossiloppvarming i alle nye bygg fra 2026.",
+      "image": "/content/images/hero-politics.jpg",
+      "versions": [
+        {
+          "source": "Aftenposten",
+          "title": "Oslos nye forbud mot fossiloppvarming",
+          "time": "06:15",
+          "read": "5 min"
+        },
+        {
+          "source": "Dagbladet",
+          "title": "MDG jubler, NHO reagerer",
+          "time": "06:40",
+          "read": "4 min"
+        }
+      ]
+    }
+  ],
+  "quick": [
+    {
+      "source": "E24",
+      "title": "Kronen styrker seg etter rentemøte",
+      "time": "09:12",
+      "read": "2 min"
+    },
+    {
+      "source": "VG",
+      "title": "Overgangsvinduet: Siste nytt",
+      "time": "23:05",
+      "read": "2 min"
+    },
+    {
+      "source": "NRK",
+      "title": "Norsk serie får internasjonal premiere",
+      "time": "20:15",
+      "read": "2 min"
+    },
+    {
+      "source": "E24",
+      "title": "Dollar svekkes mot kronen",
+      "time": "09:20",
+      "read": "1 min"
+    },
+    {
+      "source": "NRK",
+      "title": "Sommerens beste badestrender",
+      "time": "18:00",
+      "read": "2 min"
+    }
+  ]
+}

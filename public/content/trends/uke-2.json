@@ -1,0 +1,99 @@
+{
+  "hero": {
+    "kicker": "Trender",
+    "dek": "Saken har fått økt oppmerksomhet de siste timene. Her samler vi dekningen fra flere norske redaksjoner om «Feriekøen i Europa».",
+    "image": "/content/images/hero-fire.jpg",
+    "versions": [
+      {
+        "source": "VG",
+        "title": "Feriekøen i Europa: VG oppdaterer",
+        "time": "17:37",
+        "read": "4 min"
+      },
+      {
+        "source": "NRK",
+        "title": "Feriekøen i Europa: NRK oppdaterer",
+        "time": "12:14",
+        "read": "2 min"
+      },
+      {
+        "source": "Aftenposten",
+        "title": "Feriekøen i Europa: Aftenposten oppdaterer",
+        "time": "11:32",
+        "read": "3 min"
+      },
+      {
+        "source": "Dagbladet",
+        "title": "Feriekøen i Europa: Dagbladet oppdaterer",
+        "time": "20:49",
+        "read": "4 min"
+      },
+      {
+        "source": "Nettavisen",
+        "title": "Feriekøen i Europa: Nettavisen oppdaterer",
+        "time": "08:57",
+        "read": "4 min"
+      }
+    ]
+  },
+  "stories": [
+    {
+      "kicker": "Mat",
+      "dek": "Norske jordbær er endelig modne over hele landet. Prisene er lavere enn i fjor.",
+      "image": "/content/images/hero-sport.jpg",
+      "versions": [
+        {
+          "source": "NRK",
+          "title": "Norske jordbær i butikk nå",
+          "time": "06:30",
+          "read": "3 min"
+        },
+        {
+          "source": "Aftenposten",
+          "title": "Jordbærprisene ned",
+          "time": "06:45",
+          "read": "4 min"
+        }
+      ]
+    },
+    {
+      "kicker": "Reise",
+      "dek": "Feriekøen på Gardermoen er rekordlang. Sjekk rutetipsene før du reiser.",
+      "image": "/content/images/hero-politics.jpg",
+      "versions": [
+        {
+          "source": "VG",
+          "title": "Rekordkø på Gardermoen",
+          "time": "06:00",
+          "read": "4 min"
+        },
+        {
+          "source": "Nettavisen",
+          "title": "Slik unngår du feriekøen",
+          "time": "06:15",
+          "read": "3 min"
+        }
+      ]
+    }
+  ],
+  "quick": [
+    {
+      "source": "NRK",
+      "title": "Sommerens beste badestrender",
+      "time": "18:00",
+      "read": "2 min"
+    },
+    {
+      "source": "VG",
+      "title": "Test: Billigste feriemat",
+      "time": "17:45",
+      "read": "3 min"
+    },
+    {
+      "source": "Aftenposten",
+      "title": "Nye regler for elsparkesykler",
+      "time": "17:30",
+      "read": "4 min"
+    }
+  ]
+}
