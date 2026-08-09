@@ -266,9 +266,26 @@ function Index() {
             <button className="flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary">
               <Bell className="h-4 w-4" />
             </button>
-            <button className="border border-primary bg-primary px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
-              Logg inn
-            </button>
+            {session ? (
+              <div className="flex items-center gap-2">
+                <span className="max-w-[140px] truncate font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                  {profileName}
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="border border-border px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:text-primary"
+                >
+                  Logg ut
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/auth"
+                className="border border-primary bg-primary px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary"
+              >
+                Logg inn
+              </Link>
+            )}
           </div>
         </div>
       </div>
