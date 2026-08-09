@@ -233,6 +233,40 @@ function Index() {
     setHeroIdx(0);
   }, [cat, trend, enabledMedia.size]);
 
+  // Auth-økt
+  const [session, setSession] = useState<Session | null>(null);
+  const [profileName, setProfileName] = useState<string>("");
+
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!session) {
+      setProfileName("");
+      return;
+    }
+    let active = true;
+    supabase
+      .from("profiles")
+      .select("display_name")
+      .eq("id", session.user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active) return;
+        setProfileName(data?.display_name || session.user.email?.split("@")[0] || "Konto");
+      });
+    return () => {
+      active = false;
+    };
+  }, [session]);
+
+  const handleSignOut = useCallback(async () => {
+    await supabase.auth.signOut();
+  }, []);
+
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
