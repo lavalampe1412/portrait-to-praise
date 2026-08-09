@@ -1,4 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import type { Session } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Bell,
   ChevronLeft,
@@ -231,6 +233,40 @@ function Index() {
     setHeroIdx(0);
   }, [cat, trend, enabledMedia.size]);
 
+  // Auth-økt
+  const [session, setSession] = useState<Session | null>(null);
+  const [profileName, setProfileName] = useState<string>("");
+
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
+    supabase.auth.getSession().then(({ data }) => setSession(data.session));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    if (!session) {
+      setProfileName("");
+      return;
+    }
+    let active = true;
+    supabase
+      .from("profiles")
+      .select("display_name")
+      .eq("id", session.user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active) return;
+        setProfileName(data?.display_name || session.user.email?.split("@")[0] || "Konto");
+      });
+    return () => {
+      active = false;
+    };
+  }, [session]);
+
+  const handleSignOut = useCallback(async () => {
+    await supabase.auth.signOut();
+  }, []);
+
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
@@ -266,9 +302,26 @@ function Index() {
             <button className="flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary">
               <Bell className="h-4 w-4" />
             </button>
-            <button className="border border-primary bg-primary px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
-              Logg inn
-            </button>
+            {session ? (
+              <div className="flex items-center gap-2">
+                <span className="max-w-[140px] truncate font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                  {profileName}
+                </span>
+                <button
+                  onClick={handleSignOut}
+                  className="border border-border px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:text-primary"
+                >
+                  Logg ut
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/auth"
+                className="border border-primary bg-primary px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary"
+              >
+                Logg inn
+              </Link>
+            )}
           </div>
         </div>
       </div>
