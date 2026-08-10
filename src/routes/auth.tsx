@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -76,15 +75,14 @@ function AuthPage() {
 
   async function handleGoogle() {
     setError(null);
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+    const { error: err } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin },
     });
-    if (result.error) {
+    if (err) {
       setError("Kunne ikke logge inn med Google.");
-      return;
     }
-    if (result.redirected) return;
-    navigate({ to: "/", replace: true });
+    // On success, Supabase redirects the browser to Google — nothing left to do here.
   }
 
   return (
@@ -92,7 +90,7 @@ function AuthPage() {
       <div className="w-full max-w-md rounded-xl border border-border p-8">
         <a href="/" className="block text-center">
           <span className="font-display text-3xl tracking-[-0.02em]">
-            NYHET<span className="text-primary">.</span>
+            fidia<span className="text-primary">.</span>
           </span>
         </a>
         <h1 className="mt-6 text-center font-display text-2xl">
