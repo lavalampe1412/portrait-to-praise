@@ -284,7 +284,7 @@ function Index() {
 
           <div className="text-center">
             <h1 className="font-display text-4xl tracking-[-0.02em] text-foreground md:text-5xl">
-              NYHET<span className="text-primary">.</span>
+              fidia<span className="text-primary">.</span>
             </h1>
             <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.35em] text-muted-foreground">
               signal / norsk presse
@@ -704,7 +704,7 @@ function Index() {
           </section>
 
           <section className="frame border-primary p-4">
-            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">Nyhet Pro</p>
+            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">fidia Pro</p>
             <h3 className="font-display text-xl leading-tight">Les alt, uten reklame.</h3>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               Full tilgang til over 40 norske medier for 79 kr / mnd.
@@ -718,7 +718,7 @@ function Index() {
 
       <footer className="border-t border-border">
         <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-6 py-8 font-mono text-[10px] uppercase tracking-widest text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 NYHET / OSLO</p>
+          <p>© 2026 FIDIA / OSLO</p>
           <p>bygget for lesing — ikke scrolling</p>
         </div>
       </footer>
