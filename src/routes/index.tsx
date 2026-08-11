@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import type { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { useProfile } from "@/hooks/use-profile";
 import {
   Bell,
   ChevronLeft,
@@ -12,6 +12,7 @@ import {
   Search,
   Sun,
   TrendingUp,
+  User,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -234,34 +235,18 @@ function Index() {
   }, [cat, trend, enabledMedia.size]);
 
   // Auth-økt
-  const [session, setSession] = useState<Session | null>(null);
-  const [profileName, setProfileName] = useState<string>("");
+  const { session, profileName, profileAvatar } = useProfile();
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const profileMenuCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((_e, s) => setSession(s));
-    supabase.auth.getSession().then(({ data }) => setSession(data.session));
-    return () => sub.subscription.unsubscribe();
+  const openProfileMenu = useCallback(() => {
+    if (profileMenuCloseTimer.current) clearTimeout(profileMenuCloseTimer.current);
+    setProfileMenuOpen(true);
   }, []);
 
-  useEffect(() => {
-    if (!session) {
-      setProfileName("");
-      return;
-    }
-    let active = true;
-    supabase
-      .from("profiles")
-      .select("display_name")
-      .eq("id", session.user.id)
-      .maybeSingle()
-      .then(({ data }) => {
-        if (!active) return;
-        setProfileName(data?.display_name || session.user.email?.split("@")[0] || "Konto");
-      });
-    return () => {
-      active = false;
-    };
-  }, [session]);
+  const scheduleCloseProfileMenu = useCallback(() => {
+    profileMenuCloseTimer.current = setTimeout(() => setProfileMenuOpen(false), 300);
+  }, []);
 
   const handleSignOut = useCallback(async () => {
     await supabase.auth.signOut();
@@ -303,16 +288,43 @@ function Index() {
               <Bell className="h-4 w-4" />
             </button>
             {session ? (
-              <div className="flex items-center gap-2">
-                <span className="max-w-[140px] truncate font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                  {profileName}
-                </span>
-                <button
-                  onClick={handleSignOut}
-                  className="border border-border px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:text-primary"
-                >
-                  Logg ut
+              <div
+                className="relative"
+                onMouseEnter={openProfileMenu}
+                onMouseLeave={scheduleCloseProfileMenu}
+              >
+                <button className="flex items-center gap-2 border border-transparent px-1.5 py-1 transition hover:border-border focus:outline-none">
+                  {profileAvatar ? (
+                    <img
+                      src={profileAvatar}
+                      alt={profileName}
+                      className="h-7 w-7 shrink-0 rounded-full border border-border object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-border text-muted-foreground">
+                      <User className="h-3.5 w-3.5" />
+                    </div>
+                  )}
+                  <span className="max-w-[140px] truncate font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                    {profileName}
+                  </span>
                 </button>
+                {profileMenuOpen && (
+                  <div className="absolute right-0 top-full z-50 mt-2 min-w-[10rem] rounded-lg border border-border bg-popover p-1.5">
+                    <Link
+                      to="/konto"
+                      className="block w-full rounded-md px-3 py-2 text-left font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+                    >
+                      Konto
+                    </Link>
+                    <button
+                      onClick={handleSignOut}
+                      className="w-full rounded-md px-3 py-2 text-left font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+                    >
+                      Logg ut
+                    </button>
+                  </div>
+                )}
               </div>
             ) : (
               <Link
