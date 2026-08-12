@@ -13,6 +13,7 @@ import {
   Sun,
   TrendingUp,
   User,
+  X,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -74,6 +75,34 @@ interface SiteConfig {
 
 const EMPTY_FEED: VFeed = { hero: null, stories: [], quick: [] };
 
+// Interesser brukeren kan legge til som egne kategori-faner.
+const INTEREST_CATEGORIES: string[] = [
+  "Gaming",
+  "Natur",
+  "Reise",
+  "Mat & Drikke",
+  "Musikk",
+  "Film & TV",
+  "Teknologi",
+  "Bil & Motor",
+  "Trening & Helse",
+  "Bøker",
+  "Kunst & Design",
+  "Hage",
+];
+
+// Medier brukeren kan legge til i «Dine medier», utover de som er i site.json.
+const EXTRA_MEDIA_OPTIONS: Media[] = [
+  { name: "Bergens Tidende", tag: "BT", logo: "https://placehold.co/96x96/7c2d12/ffffff/png?text=BT" },
+  { name: "Adresseavisen", tag: "ADX", logo: "https://placehold.co/96x96/065f46/ffffff/png?text=ADX" },
+  { name: "Dagens Næringsliv", tag: "DN", logo: "https://placehold.co/96x96/171717/ffffff/png?text=DN" },
+  { name: "Klassekampen", tag: "KK", logo: "https://placehold.co/96x96/991b1b/ffffff/png?text=KK" },
+  { name: "Fædrelandsvennen", tag: "FVN", logo: "https://placehold.co/96x96/1e3a8a/ffffff/png?text=FVN" },
+  { name: "Stavanger Aftenblad", tag: "SA", logo: "https://placehold.co/96x96/78350f/ffffff/png?text=SA" },
+  { name: "iTromsø", tag: "iTR", logo: "https://placehold.co/96x96/0e7490/ffffff/png?text=iTR" },
+  { name: "Budstikka", tag: "BUD", logo: "https://placehold.co/96x96/581c87/ffffff/png?text=BUD" },
+];
+
 // Oppdateres når site.json er lastet, slik at MediaLogo finner logoene.
 let MEDIA_BY_NAME: Record<string, Media> = {};
 
@@ -130,16 +159,47 @@ function Index() {
   const [tab, setTab] = useState<string>("Dag");
   const [cat, setCat] = useState("Nyheter");
   const [trend, setTrend] = useState<TrendRef | null>(null);
+  const [extraCategories, setExtraCategories] = useState<string[]>([]);
+  const [categoryMenuOpen, setCategoryMenuOpen] = useState(false);
+  const categoryMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!categoryMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (categoryMenuRef.current && !categoryMenuRef.current.contains(e.target as Node)) {
+        setCategoryMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [categoryMenuOpen]);
+
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [enabledMedia, setEnabledMedia] = useState<Set<string>>(new Set());
+  const [extraMedia, setExtraMedia] = useState<Media[]>([]);
+  const [mediaMenuOpen, setMediaMenuOpen] = useState(false);
+  const [mediaSearch, setMediaSearch] = useState("");
+  const mediaMenuRef = useRef<HTMLDivElement>(null);
   const [heroIdx, setHeroIdx] = useState(0);
 
   const [rawFeed, setRawFeed] = useState<VFeed>(EMPTY_FEED);
   const [feedLoading, setFeedLoading] = useState(true);
   const feedCache = useRef<Map<string, VFeed>>(new Map());
 
-  const MEDIA = site?.media ?? [];
+  const MEDIA = [...(site?.media ?? []), ...extraMedia];
   const CATEGORIES = site?.categories ?? [];
+
+  useEffect(() => {
+    if (!mediaMenuOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (mediaMenuRef.current && !mediaMenuRef.current.contains(e.target as Node)) {
+        setMediaMenuOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [mediaMenuOpen]);
+
   const TRENDS = site?.trends ?? {};
 
   // --- last site.json
@@ -171,7 +231,11 @@ function Index() {
   }, [trend, cat, CATEGORIES]);
 
   useEffect(() => {
-    if (!activeFile) return;
+    if (!activeFile) {
+      setRawFeed(EMPTY_FEED);
+      setFeedLoading(false);
+      return;
+    }
     const cached = feedCache.current.get(activeFile);
     if (cached) {
       setRawFeed(cached);
@@ -212,16 +276,15 @@ function Index() {
     if (typeof window !== "undefined") {
       window.localStorage.setItem("nyhet-theme", next);
     }
+    if (session) {
+      supabase
+        .from("user_pref")
+        .upsert({ user_id: session.user.id, theme: next }, { onConflict: "user_id" })
+        .then(({ error }) => {
+          if (error) console.error("Kunne ikke lagre tema:", error.message);
+        });
+    }
   };
-
-  const toggleMedia = useCallback((name: string) => {
-    setEnabledMedia((prev) => {
-      const next = new Set(prev);
-      if (next.has(name)) next.delete(name);
-      else next.add(name);
-      return next;
-    });
-  }, []);
 
   const feed = useMemo(() => filterFeed(rawFeed, enabledMedia), [rawFeed, enabledMedia]);
 
@@ -236,6 +299,181 @@ function Index() {
 
   // Auth-økt
   const { session, profileName, profileAvatar } = useProfile();
+
+  // Last lagret tema fra user_pref når brukeren er logget inn
+  useEffect(() => {
+    if (!session) return;
+    let active = true;
+    supabase
+      .from("user_pref")
+      .select("theme")
+      .eq("user_id", session.user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active || !data?.theme) return;
+        const saved = data.theme === "light" ? "light" : "dark";
+        setTheme(saved);
+        document.documentElement.classList.toggle("light", saved === "light");
+        window.localStorage.setItem("nyhet-theme", saved);
+      });
+    return () => {
+      active = false;
+    };
+  }, [session]);
+
+  // Last lagrede medievalg fra user_pref når brukeren er logget inn
+  useEffect(() => {
+    if (!session || !site) return;
+    let active = true;
+    supabase
+      .from("user_pref")
+      .select("media_preferences")
+      .eq("user_id", session.user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active) return;
+        const mediaPref = data?.media_preferences as { sources?: string[] } | null;
+        const sources = Array.isArray(mediaPref?.sources) ? mediaPref.sources : null;
+        if (!sources) return;
+
+        // Gjenopprett egendefinerte medier (lagt til via «+») som brukeren hadde aktivert.
+        const savedExtra = EXTRA_MEDIA_OPTIONS.filter((m) => sources.includes(m.name));
+        if (savedExtra.length > 0) {
+          savedExtra.forEach((m) => {
+            MEDIA_BY_NAME[m.name] = m;
+          });
+          setExtraMedia(savedExtra);
+        }
+
+        const available = new Set([...site.media.map((m) => m.name), ...savedExtra.map((m) => m.name)]);
+        const filtered = sources.filter((s) => available.has(s));
+        if (filtered.length > 0) setEnabledMedia(new Set(filtered));
+      });
+    return () => {
+      active = false;
+    };
+  }, [session, site]);
+
+  const saveMediaPreferences = useCallback(
+    (next: Set<string>) => {
+      if (!session) return;
+      supabase
+        .from("user_pref")
+        .upsert(
+          { user_id: session.user.id, media_preferences: { sources: Array.from(next) } },
+          { onConflict: "user_id" },
+        )
+        .then(({ error }) => {
+          if (error) console.error("Kunne ikke lagre medievalg:", error.message);
+        });
+    },
+    [session],
+  );
+
+  const toggleMedia = useCallback(
+    (name: string) => {
+      setEnabledMedia((prev) => {
+        const next = new Set(prev);
+        if (next.has(name)) next.delete(name);
+        else next.add(name);
+        saveMediaPreferences(next);
+        return next;
+      });
+    },
+    [saveMediaPreferences],
+  );
+
+  const addMedia = useCallback(
+    (media: Media) => {
+      MEDIA_BY_NAME[media.name] = media;
+      setExtraMedia((prev) => (prev.some((m) => m.name === media.name) ? prev : [...prev, media]));
+      setEnabledMedia((prev) => {
+        const next = new Set(prev);
+        next.add(media.name);
+        saveMediaPreferences(next);
+        return next;
+      });
+      setMediaMenuOpen(false);
+      setMediaSearch("");
+    },
+    [saveMediaPreferences],
+  );
+
+  // Last lagrede kategorivalg fra user_pref når brukeren er logget inn
+  useEffect(() => {
+    if (!session) return;
+    let active = true;
+    supabase
+      .from("user_pref")
+      .select("category_preferences")
+      .eq("user_id", session.user.id)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active) return;
+        const categories = Array.isArray(data?.category_preferences) ? data.category_preferences : null;
+        if (!categories) return;
+        const valid = categories.filter((c) => INTEREST_CATEGORIES.includes(c));
+        setExtraCategories(valid);
+      });
+    return () => {
+      active = false;
+    };
+  }, [session]);
+
+  const saveCategoryPreferences = useCallback(
+    (next: string[]) => {
+      if (!session) return;
+      supabase
+        .from("user_pref")
+        .upsert({ user_id: session.user.id, category_preferences: next }, { onConflict: "user_id" })
+        .then(({ error }) => {
+          if (error) console.error("Kunne ikke lagre kategorivalg:", error.message);
+        });
+    },
+    [session],
+  );
+
+  const addCategory = useCallback(
+    (name: string) => {
+      setExtraCategories((prev) => {
+        const next = prev.includes(name) ? prev : [...prev, name];
+        saveCategoryPreferences(next);
+        return next;
+      });
+      setCat(name);
+      setTrend(null);
+      setCategoryMenuOpen(false);
+    },
+    [saveCategoryPreferences],
+  );
+
+  const removeCategory = useCallback(
+    (name: string) => {
+      setExtraCategories((prev) => {
+        const next = prev.filter((c) => c !== name);
+        saveCategoryPreferences(next);
+        return next;
+      });
+      if (cat === name) {
+        setCat("Nyheter");
+      }
+    },
+    [cat, saveCategoryPreferences],
+  );
+
+  // Uten en innlogget bruker skal alt være som normalt: standardmedier og ingen ekstra kategorier
+  useEffect(() => {
+    if (session) return;
+    if (site) setEnabledMedia(new Set(site.media.map((m) => m.name)));
+    setExtraMedia([]);
+    setExtraCategories([]);
+    setCat((prev) => (INTEREST_CATEGORIES.includes(prev) ? "Nyheter" : prev));
+    const saved = typeof window !== "undefined" ? window.localStorage.getItem("nyhet-theme") : null;
+    const fallback = saved === "light" ? "light" : "dark";
+    setTheme(fallback);
+    document.documentElement.classList.toggle("light", fallback === "light");
+  }, [session, site]);
+
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileMenuCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -341,6 +579,7 @@ function Index() {
       {/* Category nav */}
       <div className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-2">
+          <div className="flex min-w-0 items-center">
           <nav className="flex items-center gap-0 overflow-x-auto">
             {CATEGORIES.map((c) => (
               <button
@@ -359,7 +598,62 @@ function Index() {
               </button>
             ))}
 
+            {extraCategories.map((name) => (
+              <span key={name} className="relative inline-flex items-center">
+                <button
+                  onClick={() => {
+                    setCat(name);
+                    setTrend(null);
+                  }}
+                  className={`relative whitespace-nowrap rounded-full py-2 pl-4 pr-7 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
+                    cat === name && !trend
+                      ? "bg-secondary text-foreground"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {name}
+                </button>
+                <button
+                  onClick={() => removeCategory(name)}
+                  aria-label={`Fjern ${name}`}
+                  className="absolute right-2 flex h-4 w-4 items-center justify-center text-muted-foreground transition hover:text-primary"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </span>
+            ))}
+
           </nav>
+
+          <div ref={categoryMenuRef} className="relative shrink-0">
+            <button
+              onClick={() => setCategoryMenuOpen((v) => !v)}
+              aria-label="Legg til kategori"
+              className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+            >
+              <Plus className="h-4 w-4" />
+            </button>
+            {categoryMenuOpen && (
+              <div className="no-scrollbar absolute right-0 top-full z-50 mt-2 max-h-72 w-56 overflow-y-auto rounded-lg border border-border bg-popover p-1.5">
+                {INTEREST_CATEGORIES.filter((name) => !extraCategories.includes(name)).length === 0 ? (
+                  <p className="px-3 py-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                    Alle lagt til
+                  </p>
+                ) : (
+                  INTEREST_CATEGORIES.filter((name) => !extraCategories.includes(name)).map((name) => (
+                    <button
+                      key={name}
+                      onClick={() => addCategory(name)}
+                      className="block w-full rounded-md px-3 py-2 text-left font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+                    >
+                      {name}
+                    </button>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+          </div>
 
           <div className="hidden items-center gap-3 md:flex">
             <div className="flex items-center gap-2 border border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
@@ -373,7 +667,7 @@ function Index() {
 
 
       {/* 3-column layout */}
-      <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-8 px-6 py-10 lg:grid-cols-[240px_minmax(0,1fr)_300px]">
+      <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-8 px-6 py-10 lg:grid-cols-[340px_minmax(0,1fr)_300px]">
         {/* LEFT — Trender */}
         <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
           <section className="frame">
@@ -571,6 +865,13 @@ function Index() {
                 )}
               </div>
             </article>
+          ) : !activeFile ? (
+            <article className="border border-dashed border-border bg-card p-12 text-center">
+              <p className="font-display text-xl">Innhold kommer snart</p>
+              <p className="mt-2 text-sm text-muted-foreground">
+                Vi dekker ikke «{cat}» ennå, men jobber med å legge til flere kategorier.
+              </p>
+            </article>
           ) : (
             <article className="border border-dashed border-border bg-card p-12 text-center">
               <p className="font-display text-xl">Ingen medier valgt</p>
@@ -656,7 +957,7 @@ function Index() {
             <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
               {enabledMedia.size}/{MEDIA.length} aktive
             </p>
-            <div className="grid grid-cols-4 gap-1.5">
+            <div ref={mediaMenuRef} className="relative grid grid-cols-4 gap-1.5">
               {MEDIA.map((m) => {
                 const on = enabledMedia.has(m.name);
                 return (
@@ -673,13 +974,61 @@ function Index() {
                   </button>
                 );
               })}
-              <button className="flex aspect-square items-center justify-center border border-dashed border-border text-muted-foreground transition hover:border-primary hover:text-primary">
+              <button
+                onClick={() => setMediaMenuOpen((v) => !v)}
+                aria-label="Legg til medie"
+                className="flex aspect-square items-center justify-center border border-dashed border-border text-muted-foreground transition hover:border-primary hover:text-primary"
+              >
                 <Plus className="h-4 w-4" />
               </button>
+              {mediaMenuOpen && (
+                <div className="no-scrollbar absolute left-1/2 top-full z-50 mt-2 w-60 max-h-72 -translate-x-1/2 overflow-y-auto rounded-lg border border-border bg-popover p-1.5">
+                  <div className="mb-1.5 flex items-center gap-2 border border-border px-2.5 py-1.5">
+                    <Search className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
+                    <input
+                      autoFocus
+                      value={mediaSearch}
+                      onChange={(e) => setMediaSearch(e.target.value)}
+                      placeholder="Søk medier…"
+                      className="w-full bg-transparent text-[13px] outline-none placeholder:text-muted-foreground"
+                    />
+                  </div>
+                  {(() => {
+                    const existingNames = new Set(MEDIA.map((m) => m.name));
+                    const options = EXTRA_MEDIA_OPTIONS.filter(
+                      (m) =>
+                        !existingNames.has(m.name) &&
+                        m.name.toLowerCase().includes(mediaSearch.trim().toLowerCase()),
+                    );
+                    if (options.length === 0) {
+                      const allAdded = EXTRA_MEDIA_OPTIONS.every((m) => existingNames.has(m.name));
+                      return (
+                        <p className="px-3 py-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                          {allAdded ? "Alle lagt til" : "Ingen treff"}
+                        </p>
+                      );
+                    }
+                    return options.map((m) => (
+                      <button
+                        key={m.name}
+                        onClick={() => addMedia(m)}
+                        className="flex w-full items-center gap-2 rounded-md px-2.5 py-2 text-left font-mono text-[11px] uppercase tracking-[0.1em] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+                      >
+                        <img src={m.logo} alt="" className="h-5 w-5 rounded object-cover" />
+                        {m.name}
+                      </button>
+                    ));
+                  })()}
+                </div>
+              )}
             </div>
             {enabledMedia.size < MEDIA.length && (
               <button
-                onClick={() => setEnabledMedia(new Set(MEDIA.map((m) => m.name)))}
+                onClick={() => {
+                  const next = new Set(MEDIA.map((m) => m.name));
+                  setEnabledMedia(next);
+                  saveMediaPreferences(next);
+                }}
                 className="mt-3 w-full border border-primary py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground"
               >
                 Vis alle igjen

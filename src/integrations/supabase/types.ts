@@ -38,6 +38,36 @@ export type Database = {
         }
         Relationships: []
       }
+      user_pref: {
+        Row: {
+          user_id: string
+          theme: string | null
+          notifications_enabled: boolean | null
+          media_preferences: Json | null
+          category_preferences: string[] | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          user_id: string
+          theme?: string | null
+          notifications_enabled?: boolean | null
+          media_preferences?: Json | null
+          category_preferences?: string[] | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          user_id?: string
+          theme?: string | null
+          notifications_enabled?: boolean | null
+          media_preferences?: Json | null
+          category_preferences?: string[] | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
