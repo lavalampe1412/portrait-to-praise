@@ -134,6 +134,13 @@ function MediaLogo({ source, className = "h-5 w-5" }: { source: string; classNam
   );
 }
 
+// Stabil, unik nøkkel for en sak: representantartikkelens URL (unik i
+// databasen). "kicker + dek" kolliderer nå som dek er en fast plassholder
+// og kicker bare er kategori-navnet, delt av nesten alle saker i en kategori.
+function storyKey(s: VStory): string {
+  return s.versions[0]?.url ?? `${s.kicker}|${s.dek}`;
+}
+
 // Splitter en flat liste med saker i grupper på 4: kort 1 rendres som
 // HeroCard, kort 2-4 som StoryCard (siste av dem "wide").
 function chunkCards(cards: VStory[], size = 4): VStory[][] {
@@ -811,18 +818,16 @@ function Index() {
           ) : cardList.length > 0 ? (
             <div className="space-y-8">
               {cardGroups.map((group) => (
-                <div key={group.map((s) => s.kicker + s.dek).join("|")} className="space-y-8">
+                <div key={group.map(storyKey).join("|")} className="space-y-8">
                   <HeroCard story={group[0]} />
                   {group.length > 1 && (
                     <div className="grid gap-8 sm:grid-cols-2">
                       {group.slice(1, 3).map((s) => (
-                        <StoryCard key={s.kicker + s.dek} story={s} />
+                        <StoryCard key={storyKey(s)} story={s} />
                       ))}
                     </div>
                   )}
-                  {group[3] && (
-                    <StoryCard key={group[3].kicker + group[3].dek} story={group[3]} wide />
-                  )}
+                  {group[3] && <StoryCard key={storyKey(group[3])} story={group[3]} wide />}
                 </div>
               ))}
             </div>
@@ -854,7 +859,7 @@ function Index() {
             </div>
             <ul className="divide-y divide-border">
               {quickList.map((q) => (
-                <li key={q.title}>
+                <li key={q.url ?? q.title}>
                   <a
                     href={q.url || "#"}
                     target="_blank"

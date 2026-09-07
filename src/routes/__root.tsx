@@ -78,7 +78,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nyhet — Nyheter uten støy" },
+      { title: "fidia." },
       { name: "description", content: "Et moderne nyhetsdashbord. Trender, dine medier og dagens viktigste saker samlet på ett sted." },
       { property: "og:title", content: "Nyhet — Nyheter uten støy" },
       { property: "og:description", content: "Et moderne nyhetsdashbord. Trender, dine medier og dagens viktigste saker samlet på ett sted." },

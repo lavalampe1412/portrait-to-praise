@@ -216,11 +216,14 @@ function toVersion(a: ArticleRow): Version {
 }
 
 interface BuiltStory {
-  category: string;
+  categories: string[];
   sortKey: number;
   story: VStory;
 }
 
+// En "sak" samler flere mediers dekning av samme hendelse, og hvert medlem
+// ble skrapet med sin egen tag. Saken vises under EN HVER kategori som noe
+// medlem sin tag peker mot -- en sak kan dermed dukke opp under flere faner.
 function buildStory(row: StoryRow): BuiltStory | null {
   const members = row.story_articles
     .map((sa) => sa.articles)
@@ -235,9 +238,12 @@ function buildStory(row: StoryRow): BuiltStory | null {
   const rawTag = representative.tags?.[0];
   const slug = slugForTag(rawTag);
   const versions = withDates.map(({ article }) => toVersion(article));
+  const categories = Array.from(
+    new Set(withDates.map(({ article }) => categoryForTag(article.tags?.[0]))),
+  );
 
   return {
-    category: categoryForTag(rawTag),
+    categories,
     sortKey: latest,
     story: {
       kicker: tagLabel(slug) || "Nyheter",
@@ -285,9 +291,11 @@ export async function fetchCategoryFeeds(): Promise<Record<string, VFeed>> {
 
   const byCategory = new Map<string, BuiltStory[]>();
   for (const b of built) {
-    const list = byCategory.get(b.category) ?? [];
-    list.push(b);
-    byCategory.set(b.category, list);
+    for (const cat of b.categories) {
+      const list = byCategory.get(cat) ?? [];
+      list.push(b);
+      byCategory.set(cat, list);
+    }
   }
 
   const feeds: Record<string, VFeed> = {};
