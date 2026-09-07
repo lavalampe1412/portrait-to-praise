@@ -164,6 +164,16 @@ function filterFeed(feed: VFeed, enabled: Set<string>): VFeed {
 }
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "fidia – Norske nyheter samlet" },
+      { name: "description", content: "Norske nyheter, trender og dine foretrukne medier samlet i én personlig nyhetsstrøm." },
+      { property: "og:title", content: "fidia – Norske nyheter samlet" },
+      { property: "og:description", content: "Norske nyheter, trender og dine foretrukne medier samlet i én personlig nyhetsstrøm." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
@@ -529,20 +539,20 @@ function Index() {
       <div className="border-b border-border">
         <div className="mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row sm:gap-6">
           <div className="text-center sm:text-left">
-            <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-              OSL // 26.07.2026 // W30
+            <p className="text-xs font-bold text-muted-foreground">
+              Oslo · Søndag 26. juli
             </p>
-            <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-              18°C · LAVTRYKK_VEST
+            <p className="mt-1 text-xs text-muted-foreground">
+              18°C · Litt skyet
             </p>
           </div>
 
           <div className="text-center">
-            <h1 className="font-display text-4xl tracking-[-0.02em] text-foreground md:text-5xl">
+            <h1 className="font-display text-4xl text-foreground md:text-5xl">
               fidia<span className="text-primary">.</span>
             </h1>
-            <p className="mt-1 font-mono text-[9px] uppercase tracking-[0.35em] text-muted-foreground">
-              signal / norsk presse
+            <p className="mt-1 text-[11px] font-bold text-muted-foreground">
+              hele nyhetsbildet, på ett sted
             </p>
           </div>
 
@@ -550,11 +560,11 @@ function Index() {
             <button
               onClick={() => applyTheme(theme === "dark" ? "light" : "dark")}
               aria-label={theme === "dark" ? "Bytt til lyst tema" : "Bytt til mørkt tema"}
-              className="flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
             >
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
-            <button className="flex h-9 w-9 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary">
+            <button className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition hover:-translate-y-0.5 hover:border-accent hover:text-accent">
               <Bell className="h-4 w-4" />
             </button>
             {session ? (
@@ -599,7 +609,7 @@ function Index() {
             ) : (
               <Link
                 to="/auth"
-                className="border border-primary bg-primary px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary"
+                className="rounded-full border border-primary bg-primary px-5 py-2 text-sm font-bold text-primary-foreground transition hover:-translate-y-0.5 hover:bg-transparent hover:text-primary"
               >
                 Logg inn
               </Link>
@@ -609,7 +619,7 @@ function Index() {
       </div>
 
       {/* Category nav */}
-      <div className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
+      <div className="sticky top-0 z-40 border-b border-border bg-background/90 shadow-sm backdrop-blur">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-2">
           <div className="flex min-w-0 items-center">
             <nav className="flex items-center gap-0 overflow-x-auto">
@@ -620,7 +630,7 @@ function Index() {
                     setCat(c.name);
                     setTrend(null);
                   }}
-                  className={`relative whitespace-nowrap rounded-full px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
+                    className={`relative whitespace-nowrap rounded-full px-4 py-2 text-sm font-bold transition ${
                     cat === c.name && !trend
                       ? "bg-secondary text-foreground"
                       : "text-muted-foreground hover:text-foreground"
@@ -637,7 +647,7 @@ function Index() {
                       setCat(name);
                       setTrend(null);
                     }}
-                    className={`relative whitespace-nowrap rounded-full py-2 pl-4 pr-7 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
+                    className={`relative whitespace-nowrap rounded-full py-2 pl-4 pr-7 text-sm font-bold transition ${
                       cat === name && !trend
                         ? "bg-secondary text-foreground"
                         : "text-muted-foreground hover:text-foreground"
@@ -702,24 +712,24 @@ function Index() {
       </div>
 
       {/* 3-column layout */}
-      <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-8 px-6 py-10 lg:grid-cols-[340px_minmax(0,1fr)_300px]">
+      <main className="mx-auto grid max-w-[1500px] grid-cols-1 gap-10 px-6 py-12 lg:grid-cols-[280px_minmax(0,1fr)_280px]">
         {/* LEFT — Trender */}
         <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
           <section className="frame">
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">
+               <h2 className="text-sm font-extrabold">
                 Trender
               </h2>
               <TrendingUp className="h-3.5 w-3.5 text-primary" />
             </div>
-            <div className="flex border-b border-border font-mono text-[10px] uppercase tracking-widest">
+            <div className="flex gap-1 border-b border-border p-2 text-xs font-bold">
               {(Object.keys(TRENDS) as (keyof typeof TRENDS)[]).map((t) => (
                 <button
                   key={t}
                   onClick={() => setTab(t)}
                   className={`flex-1 px-2 py-2 transition ${
                     tab === t
-                      ? "bg-secondary text-foreground"
+                       ? "rounded-full bg-accent text-accent-foreground"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -733,16 +743,16 @@ function Index() {
                   <button
                     type="button"
                     onClick={() => setTrend(t)}
-                    className={`group flex w-full items-baseline gap-3 px-3 py-2.5 text-left transition hover:bg-secondary/60 ${
+                     className={`group flex w-full items-baseline gap-3 px-4 py-3 text-left transition hover:bg-secondary/60 ${
                       trend?.file === t.file
-                        ? "bg-primary/15 border-l-2 border-primary"
-                        : "border-l-2 border-transparent"
+                         ? "bg-primary/10 text-foreground"
+                         : ""
                     }`}
                   >
-                    <span className="w-5 font-mono text-[11px] font-bold text-primary">
+                     <span className="w-6 font-display text-xl font-bold text-primary">
                       {String(t.rank).padStart(2, "0")}
                     </span>
-                    <span className="flex-1 text-[13px] leading-snug group-hover:text-primary">
+                     <span className="flex-1 text-sm font-semibold leading-snug group-hover:text-primary">
                       {t.title}
                     </span>
                     <span className="font-mono text-[10px] text-muted-foreground">{t.delta}</span>
@@ -777,10 +787,10 @@ function Index() {
           {/* Section header */}
           <div className="flex items-end justify-between border-b border-border pb-3">
             <div>
-              <p className="mb-1 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                {trend ? "// aktivt filter" : "// hovedseksjon"}
+               <p className="mb-1 text-xs font-bold text-primary">
+                 {trend ? "Aktivt filter" : "Dagens utvalg"}
               </p>
-              <h2 className="font-display text-3xl leading-none md:text-4xl">
+               <h2 className="font-display text-3xl leading-tight md:text-4xl">
                 {trend?.title ?? cat}
               </h2>
             </div>
@@ -788,16 +798,16 @@ function Index() {
               {trend ? (
                 <button
                   onClick={() => setTrend(null)}
-                  className="flex items-center gap-1.5 border border-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground"
+                     className="flex items-center gap-1.5 rounded-full border border-primary px-4 py-2 text-xs font-bold text-primary transition hover:bg-primary hover:text-primary-foreground"
                 >
                   Fjern filter <span className="text-sm leading-none">×</span>
                 </button>
               ) : (
                 <>
-                  <button className="border border-border px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:text-primary">
+                   <button className="rounded-full border border-border px-4 py-2 text-xs font-bold text-muted-foreground transition hover:border-primary hover:text-primary">
                     Nyest
                   </button>
-                  <button className="border border-primary bg-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary-foreground">
+                   <button className="rounded-full border border-primary bg-primary px-4 py-2 text-xs font-bold text-primary-foreground">
                     Anbefalt
                   </button>
                 </>
