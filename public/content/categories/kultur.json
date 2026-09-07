@@ -1,6 +1,8 @@
 {
   "hero": {
     "kicker": "Film",
+    "tag": "kultur",
+    "subcategory": "film",
     "dek": "Norsk dramafilm vant hovedprisen i Cannes. Regissøren takket hele teamet i en rørende tale.",
     "image": "/content/images/hero-fire.jpg",
     "versions": [
@@ -33,6 +35,8 @@
   "stories": [
     {
       "kicker": "Musikk",
+      "tag": "kultur",
+      "subcategory": "musikk",
       "dek": "Årets Øyafestival er i gang. Her er anmeldelsene av de største konsertene.",
       "image": "/content/images/hero-sport.jpg",
       "versions": [
@@ -56,6 +60,8 @@
     },
     {
       "kicker": "Litteratur",
+      "tag": "kultur",
+      "subcategory": "litteratur",
       "dek": "Høstens store bokslipp er klart. Flere norske forfattere er aktuelle for Brageprisen.",
       "image": "/content/images/hero-politics.jpg",
       "versions": [
@@ -79,6 +85,8 @@
     },
     {
       "kicker": "Teater",
+      "tag": "kultur",
+      "subcategory": "teater",
       "dek": "Nationaltheatret setter opp en ny versjon av Peer Gynt med internasjonal cast.",
       "image": "/content/images/hero-business.jpg",
       "versions": [
@@ -105,6 +113,8 @@
     {
       "source": "NRK",
       "title": "Norsk serie får internasjonal premiere",
+      "tag": "kultur",
+      "subcategory": "tv",
       "time": "20:15",
       "read": "2 min",
       "image": "/content/images/nrk-norsk-serie-far-internasjonal-premiere.webp",
@@ -113,6 +123,8 @@
     {
       "source": "VG",
       "title": "Kunstutstilling trekker fullt hus",
+      "tag": "kultur",
+      "subcategory": "kunst",
       "time": "19:45",
       "read": "1 min",
       "image": "/content/images/vg-kunstutstilling-trekker-fullt-hus.webp",
@@ -121,6 +133,8 @@
     {
       "source": "Dagbladet",
       "title": "Ny roman topp bestselgerlista",
+      "tag": "kultur",
+      "subcategory": "litteratur",
       "time": "19:30",
       "read": "3 min",
       "image": "/content/images/dagbladet-ny-roman-topp-bestselgerlista.webp",

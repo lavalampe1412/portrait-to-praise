@@ -1,6 +1,8 @@
 {
   "hero": {
     "kicker": "Brann",
+    "tag": "samfunn",
+    "subcategory": "brann",
     "dek": "En historisk trebygning i Kristiansand sentrum står i full fyr. Brannvesenet har evakuert flere naboer.",
     "image": "/content/images/hero-fire.jpg",
     "versions": [
@@ -33,6 +35,8 @@
   "stories": [
     {
       "kicker": "Politikk",
+      "tag": "politikk",
+      "subcategory": "klima",
       "dek": "Regjeringen legger fram nye klimatiltak som skal kutte utslippene med 55 prosent innen 2030.",
       "image": "/content/images/hero-politics.jpg",
       "versions": [
@@ -64,6 +68,8 @@
     },
     {
       "kicker": "Samfunn",
+      "tag": "samfunn",
+      "subcategory": "utdanning",
       "dek": "Kommunene sliter med å rekruttere lærere. Nå foreslår KS en nasjonal krisepakke.",
       "image": "/content/images/hero-business.jpg",
       "versions": [
@@ -87,6 +93,8 @@
     },
     {
       "kicker": "Utenriks",
+      "tag": "utenriks",
+      "subcategory": "nato",
       "dek": "NATO-toppmøtet åpner i dag med Ukraina, forsvarsbudsjetter og Kina på agendaen.",
       "image": "/content/images/hero-politics.jpg",
       "versions": [
@@ -121,6 +129,8 @@
     {
       "source": "E24",
       "title": "Kronen styrker seg etter rentemøte",
+      "tag": "business",
+      "subcategory": "rente",
       "time": "09:12",
       "read": "2 min",
       "image": "/content/images/e24-kronen-styrker-seg-etter-rentemte.webp",
@@ -129,6 +139,8 @@
     {
       "source": "NRK",
       "title": "Togtrafikken normaliseres etter brann",
+      "tag": "samfunn",
+      "subcategory": "samferdsel",
       "time": "09:05",
       "read": "1 min",
       "image": "/content/images/nrk-togtrafikken-normaliseres-etter-brann.webp",
@@ -137,6 +149,8 @@
     {
       "source": "VG",
       "title": "Ferieværet: Opphold i sør",
+      "tag": "vaer",
+      "subcategory": "ferievaer",
       "time": "08:55",
       "read": "1 min",
       "image": "/content/images/vg-ferievret-opphold-i-sr.webp",
@@ -145,6 +159,8 @@
     {
       "source": "Aftenposten",
       "title": "Ny museumsutstilling åpner i Oslo",
+      "tag": "kultur",
+      "subcategory": "kunst",
       "time": "08:40",
       "read": "3 min",
       "image": "/content/images/aftenposten-ny-museumsutstilling-apner-i-oslo.webp",
@@ -153,6 +169,8 @@
     {
       "source": "Dagbladet",
       "title": "Kulturministeren møter filmbransjen",
+      "tag": "kultur",
+      "subcategory": "film",
       "time": "08:25",
       "read": "2 min",
       "image": "/content/images/dagbladet-kulturministeren-mter-filmbransjen.webp",

@@ -1,6 +1,8 @@
 {
   "hero": {
     "kicker": "Brann",
+    "tag": "samfunn",
+    "subcategory": "brann",
     "dek": "En historisk trebygning i Kristiansand sentrum står i full fyr. Brannvesenet har evakuert flere naboer.",
     "image": "/content/images/hero-fire.jpg",
     "versions": [
@@ -33,6 +35,8 @@
   "stories": [
     {
       "kicker": "Håndball",
+      "tag": "sport",
+      "subcategory": "handball",
       "dek": "Norge tok en sterk seier over Frankrike i OL-oppkjøringen. Sander Sagosen var banens beste.",
       "image": "/content/images/hero-sport.jpg",
       "versions": [
@@ -56,6 +60,8 @@
     },
     {
       "kicker": "Eiendom",
+      "tag": "business",
+      "subcategory": "eiendom",
       "dek": "Boligprisene i Oslo steg 1,2 prosent i juli. Eksperter venter flat høst.",
       "image": "/content/images/hero-business.jpg",
       "versions": [
@@ -79,6 +85,8 @@
     },
     {
       "kicker": "Lokalpolitikk",
+      "tag": "politikk",
+      "subcategory": "lokalpolitikk",
       "dek": "Oslo kommune vil forby fossiloppvarming i alle nye bygg fra 2026.",
       "image": "/content/images/hero-politics.jpg",
       "versions": [
@@ -105,6 +113,8 @@
     {
       "source": "E24",
       "title": "Kronen styrker seg etter rentemøte",
+      "tag": "business",
+      "subcategory": "rente",
       "time": "09:12",
       "read": "2 min",
       "image": "/content/images/e24-kronen-styrker-seg-etter-rentemte.webp",
@@ -113,6 +123,8 @@
     {
       "source": "VG",
       "title": "Overgangsvinduet: Siste nytt",
+      "tag": "sport",
+      "subcategory": "fotball",
       "time": "23:05",
       "read": "2 min",
       "image": "/content/images/vg-overgangsvinduet-siste-nytt.webp",
@@ -121,6 +133,8 @@
     {
       "source": "NRK",
       "title": "Norsk serie får internasjonal premiere",
+      "tag": "kultur",
+      "subcategory": "tv",
       "time": "20:15",
       "read": "2 min",
       "image": "/content/images/nrk-norsk-serie-far-internasjonal-premiere.webp",
@@ -129,6 +143,8 @@
     {
       "source": "E24",
       "title": "Dollar svekkes mot kronen",
+      "tag": "business",
+      "subcategory": "valuta",
       "time": "09:20",
       "read": "1 min",
       "image": "/content/images/e24-dollar-svekkes-mot-kronen.webp",
@@ -137,6 +153,8 @@
     {
       "source": "NRK",
       "title": "Sommerens beste badestrender",
+      "tag": "livsstil",
+      "subcategory": "reise",
       "time": "18:00",
       "read": "2 min",
       "image": "/content/images/nrk-sommerens-beste-badestrender.webp",

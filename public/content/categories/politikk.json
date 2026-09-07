@@ -1,6 +1,8 @@
 {
   "hero": {
     "kicker": "Stortinget",
+    "tag": "politikk",
+    "subcategory": "stortinget",
     "dek": "Ap og Sp er uenige om skattepakken. Nå vurderer regjeringen å splitte saken i to deler.",
     "image": "/content/images/hero-politics.jpg",
     "versions": [
@@ -33,6 +35,8 @@
   "stories": [
     {
       "kicker": "Lokalpolitikk",
+      "tag": "politikk",
+      "subcategory": "lokalpolitikk",
       "dek": "Oslo kommune vil forby fossiloppvarming i alle nye bygg fra 2026.",
       "image": "/content/images/hero-politics.jpg",
       "versions": [
@@ -56,6 +60,8 @@
     },
     {
       "kicker": "EU",
+      "tag": "politikk",
+      "subcategory": "eu",
       "dek": "EUs nye asyl- og migrasjonspakt får kritikk fra norske frivillige organisasjoner.",
       "image": "/content/images/hero-politics.jpg",
       "versions": [
@@ -79,6 +85,8 @@
     },
     {
       "kicker": "Valg",
+      "tag": "politikk",
+      "subcategory": "valg",
       "dek": "Måling viser at Høyre og Ap ligger likt. SV og Frp gjør begge gode valg.",
       "image": "/content/images/hero-politics.jpg",
       "versions": [
@@ -105,6 +113,8 @@
     {
       "source": "NRK",
       "title": "Stortingets sommerferie er over",
+      "tag": "politikk",
+      "subcategory": "stortinget",
       "time": "08:10",
       "read": "2 min",
       "image": "/content/images/nrk-stortingets-sommerferie-er-over.webp",
@@ -113,6 +123,8 @@
     {
       "source": "VG",
       "title": "Nye statssekretærer utnevnt",
+      "tag": "politikk",
+      "subcategory": "regjering",
       "time": "07:55",
       "read": "1 min",
       "image": "/content/images/vg-nye-statssekretrer-utnevnt.webp",
@@ -121,6 +133,8 @@
     {
       "source": "Aftenposten",
       "title": "Regjeringen lover mer penger til kommunene",
+      "tag": "politikk",
+      "subcategory": "kommuneokonomi",
       "time": "07:40",
       "read": "3 min",
       "image": "/content/images/aftenposten-regjeringen-lover-mer-penger-til-kommunene.webp",

@@ -14,6 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
+      articles: {
+        Row: {
+          id: number
+          medie: string
+          tekst: string | null
+          lenke: string
+          photo_url: string | null
+          dato: string | null
+          tags: Json | null
+        }
+        Insert: {
+          id?: number
+          medie: string
+          tekst?: string | null
+          lenke: string
+          photo_url?: string | null
+          dato?: string | null
+          tags?: Json | null
+        }
+        Update: {
+          id?: number
+          medie?: string
+          tekst?: string | null
+          lenke?: string
+          photo_url?: string | null
+          dato?: string | null
+          tags?: Json | null
+        }
+        Relationships: []
+      }
+      stories: {
+        Row: {
+          id: number
+          representative_lenke: string
+          created_at: string
+        }
+        Insert: {
+          id?: number
+          representative_lenke: string
+          created_at?: string
+        }
+        Update: {
+          id?: number
+          representative_lenke?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "stories_representative_lenke_fkey"
+            columns: ["representative_lenke"]
+            isOneToOne: true
+            referencedRelation: "articles"
+            referencedColumns: ["lenke"]
+          },
+        ]
+      }
+      story_articles: {
+        Row: {
+          story_id: number
+          article_id: number
+        }
+        Insert: {
+          story_id: number
+          article_id: number
+        }
+        Update: {
+          story_id?: number
+          article_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "story_articles_story_id_fkey"
+            columns: ["story_id"]
+            isOneToOne: false
+            referencedRelation: "stories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "story_articles_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null

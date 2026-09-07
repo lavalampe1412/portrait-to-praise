@@ -1,6 +1,8 @@
 {
   "hero": {
     "kicker": "Vær",
+    "tag": "vaer",
+    "subcategory": "sommervaer",
     "dek": "Meteorologene varsler ustabilt vær i store deler av landet. Lokalt kan det komme mye regn.",
     "image": "/content/images/hero-fire.jpg",
     "versions": [
@@ -33,6 +35,8 @@
   "stories": [
     {
       "kicker": "Mat",
+      "tag": "livsstil",
+      "subcategory": "mat",
       "dek": "Norske jordbær er endelig modne over hele landet. Prisene er lavere enn i fjor.",
       "image": "/content/images/hero-sport.jpg",
       "versions": [
@@ -56,6 +60,8 @@
     },
     {
       "kicker": "Reise",
+      "tag": "livsstil",
+      "subcategory": "reise",
       "dek": "Feriekøen på Gardermoen er rekordlang. Sjekk rutetipsene før du reiser.",
       "image": "/content/images/hero-politics.jpg",
       "versions": [
@@ -79,6 +85,8 @@
     },
     {
       "kicker": "Helse",
+      "tag": "samfunn",
+      "subcategory": "helse",
       "dek": "FHI advarer mot høye pollenverdier denne uken. Astmatikere bør ta forholdsregler.",
       "image": "/content/images/hero-business.jpg",
       "versions": [
@@ -105,6 +113,8 @@
     {
       "source": "NRK",
       "title": "Sommerens beste badestrender",
+      "tag": "livsstil",
+      "subcategory": "reise",
       "time": "18:00",
       "read": "2 min",
       "image": "/content/images/nrk-sommerens-beste-badestrender.webp",
@@ -113,6 +123,8 @@
     {
       "source": "VG",
       "title": "Test: Billigste feriemat",
+      "tag": "livsstil",
+      "subcategory": "mat",
       "time": "17:45",
       "read": "3 min",
       "image": "/content/images/vg-test-billigste-feriemat.webp",
@@ -121,6 +133,8 @@
     {
       "source": "Aftenposten",
       "title": "Nye regler for elsparkesykler",
+      "tag": "samfunn",
+      "subcategory": "samferdsel",
       "time": "17:30",
       "read": "4 min",
       "image": "/content/images/aftenposten-nye-regler-for-elsparkesykler.webp",

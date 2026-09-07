@@ -1,6 +1,8 @@
 {
   "hero": {
     "kicker": "Børs",
+    "tag": "business",
+    "subcategory": "bors",
     "dek": "Oslo Børs åpnet ned etter svake arbeidsmarkedstall fra USA. Oljeprisen holder seg stabil.",
     "image": "/content/images/hero-business.jpg",
     "versions": [
@@ -33,6 +35,8 @@
   "stories": [
     {
       "kicker": "Eiendom",
+      "tag": "business",
+      "subcategory": "eiendom",
       "dek": "Boligprisene i Oslo steg 1,2 prosent i juli. Eksperter venter flat høst.",
       "image": "/content/images/hero-business.jpg",
       "versions": [
@@ -56,6 +60,8 @@
     },
     {
       "kicker": "Energi",
+      "tag": "business",
+      "subcategory": "energi",
       "dek": "Equinor øker utbyttet etter sterke kvartalstall. Aksjen stiger på børsen.",
       "image": "/content/images/hero-business.jpg",
       "versions": [
@@ -79,6 +85,8 @@
     },
     {
       "kicker": "Tech",
+      "tag": "business",
+      "subcategory": "teknologi",
       "dek": "Norsk gründer får 150 millioner i Serie A. Selskapet lager AI for fiskerinæringen.",
       "image": "/content/images/hero-business.jpg",
       "versions": [
@@ -105,6 +113,8 @@
     {
       "source": "E24",
       "title": "Dollar svekkes mot kronen",
+      "tag": "business",
+      "subcategory": "valuta",
       "time": "09:20",
       "read": "1 min",
       "image": "/content/images/e24-dollar-svekkes-mot-kronen.webp",
@@ -113,6 +123,8 @@
     {
       "source": "NRK",
       "title": "NAV: Flere ledige i juli",
+      "tag": "business",
+      "subcategory": "arbeidsmarked",
       "time": "09:00",
       "read": "2 min",
       "image": "/content/images/nrk-nav-flere-ledige-i-juli.webp",
@@ -121,6 +133,8 @@
     {
       "source": "Aftenposten",
       "title": "Nytt regelverk for fond",
+      "tag": "business",
+      "subcategory": "finans",
       "time": "08:45",
       "read": "3 min",
       "image": "/content/images/aftenposten-nytt-regelverk-for-fond.webp",
@@ -129,6 +143,8 @@
     {
       "source": "Nettavisen",
       "title": "Elbil-salg faller i Europa",
+      "tag": "business",
+      "subcategory": "bilmarked",
       "time": "08:30",
       "read": "2 min",
       "image": "/content/images/nettavisen-elbil-salg-faller-i-europa.webp",

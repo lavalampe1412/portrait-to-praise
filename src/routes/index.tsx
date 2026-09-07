@@ -1,6 +1,18 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { useProfile } from "@/hooks/use-profile";
+import { tagLabel } from "@/lib/content-tags";
+import {
+  CATEGORIES as SUPABASE_CATEGORIES,
+  MEDIA as SUPABASE_MEDIA,
+  EMPTY_FEED,
+  fetchCategoryFeeds,
+  type CategoryRef,
+  type Media,
+  type VFeed,
+  type VStory,
+  type Version,
+} from "@/lib/supabase-content";
 import {
   Bell,
   ChevronLeft,
@@ -18,47 +30,15 @@ import {
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 /* ------------------------------------------------------------------
-   Innhold lastes fra JSON-filer som ligger på samme webserver.
+   Kategori-innhold (medier, saker) hentes fra Supabase, se
+   src/lib/supabase-content.ts. Trender er foreløpig ikke i databasen
+   og lastes fortsatt fra JSON-filer på webserveren:
 
-   /content/site.json                 – medier, kategorier og trender (indeks)
-   /content/categories/<slug>.json    – én feed per kategori
+   /content/site.json                 – trender (indeks)
    /content/trends/<periode>-<n>.json – én feed per trend
 ------------------------------------------------------------------- */
 
 const CONTENT_BASE = "/content";
-
-interface Media {
-  name: string;
-  tag: string;
-  logo: string;
-}
-
-interface Version {
-  source: string;
-  title: string;
-  time: string;
-  read: string;
-  image?: string;
-  url?: string;
-}
-
-interface VStory {
-  kicker: string;
-  dek: string;
-  image: string;
-  versions: Version[];
-}
-
-interface VFeed {
-  hero: VStory | null;
-  stories: VStory[];
-  quick: Version[];
-}
-
-interface CategoryRef {
-  name: string;
-  file: string;
-}
 
 interface TrendRef {
   rank: number;
@@ -68,12 +48,8 @@ interface TrendRef {
 }
 
 interface SiteConfig {
-  media: Media[];
-  categories: CategoryRef[];
   trends: Record<string, TrendRef[]>;
 }
-
-const EMPTY_FEED: VFeed = { hero: null, stories: [], quick: [] };
 
 // Interesser brukeren kan legge til som egne kategori-faner.
 const INTEREST_CATEGORIES: string[] = [
@@ -93,18 +69,40 @@ const INTEREST_CATEGORIES: string[] = [
 
 // Medier brukeren kan legge til i «Dine medier», utover de som er i site.json.
 const EXTRA_MEDIA_OPTIONS: Media[] = [
-  { name: "Bergens Tidende", tag: "BT", logo: "https://placehold.co/96x96/7c2d12/ffffff/png?text=BT" },
-  { name: "Adresseavisen", tag: "ADX", logo: "https://placehold.co/96x96/065f46/ffffff/png?text=ADX" },
-  { name: "Dagens Næringsliv", tag: "DN", logo: "https://placehold.co/96x96/171717/ffffff/png?text=DN" },
+  {
+    name: "Bergens Tidende",
+    tag: "BT",
+    logo: "https://placehold.co/96x96/7c2d12/ffffff/png?text=BT",
+  },
+  {
+    name: "Adresseavisen",
+    tag: "ADX",
+    logo: "https://placehold.co/96x96/065f46/ffffff/png?text=ADX",
+  },
+  {
+    name: "Dagens Næringsliv",
+    tag: "DN",
+    logo: "https://placehold.co/96x96/171717/ffffff/png?text=DN",
+  },
   { name: "Klassekampen", tag: "KK", logo: "https://placehold.co/96x96/991b1b/ffffff/png?text=KK" },
-  { name: "Fædrelandsvennen", tag: "FVN", logo: "https://placehold.co/96x96/1e3a8a/ffffff/png?text=FVN" },
-  { name: "Stavanger Aftenblad", tag: "SA", logo: "https://placehold.co/96x96/78350f/ffffff/png?text=SA" },
+  {
+    name: "Fædrelandsvennen",
+    tag: "FVN",
+    logo: "https://placehold.co/96x96/1e3a8a/ffffff/png?text=FVN",
+  },
+  {
+    name: "Stavanger Aftenblad",
+    tag: "SA",
+    logo: "https://placehold.co/96x96/78350f/ffffff/png?text=SA",
+  },
   { name: "iTromsø", tag: "iTR", logo: "https://placehold.co/96x96/0e7490/ffffff/png?text=iTR" },
   { name: "Budstikka", tag: "BUD", logo: "https://placehold.co/96x96/581c87/ffffff/png?text=BUD" },
 ];
 
-// Oppdateres når site.json er lastet, slik at MediaLogo finner logoene.
-let MEDIA_BY_NAME: Record<string, Media> = {};
+// Oppdateres når ekstra medier legges til, slik at MediaLogo finner logoene.
+const MEDIA_BY_NAME: Record<string, Media> = Object.fromEntries(
+  SUPABASE_MEDIA.map((m) => [m.name, m]),
+);
 
 async function loadJson<T>(path: string): Promise<T> {
   const res = await fetch(`${CONTENT_BASE}/${path}`.replace(/([^:]\/)\/+/g, "$1"), {
@@ -134,6 +132,16 @@ function MediaLogo({ source, className = "h-5 w-5" }: { source: string; classNam
       className={`shrink-0 rounded-md object-cover ${className}`}
     />
   );
+}
+
+// Splitter en flat liste med saker i grupper på 4: kort 1 rendres som
+// HeroCard, kort 2-4 som StoryCard (siste av dem "wide").
+function chunkCards(cards: VStory[], size = 4): VStory[][] {
+  const groups: VStory[][] = [];
+  for (let i = 0; i < cards.length; i += size) {
+    groups.push(cards.slice(i, i + size));
+  }
+  return groups;
 }
 
 function filterFeed(feed: VFeed, enabled: Set<string>): VFeed {
@@ -175,19 +183,22 @@ function Index() {
   }, [categoryMenuOpen]);
 
   const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [enabledMedia, setEnabledMedia] = useState<Set<string>>(new Set());
+  const [enabledMedia, setEnabledMedia] = useState<Set<string>>(
+    () => new Set(SUPABASE_MEDIA.map((m) => m.name)),
+  );
   const [extraMedia, setExtraMedia] = useState<Media[]>([]);
   const [mediaMenuOpen, setMediaMenuOpen] = useState(false);
   const [mediaSearch, setMediaSearch] = useState("");
   const mediaMenuRef = useRef<HTMLDivElement>(null);
-  const [heroIdx, setHeroIdx] = useState(0);
 
-  const [rawFeed, setRawFeed] = useState<VFeed>(EMPTY_FEED);
-  const [feedLoading, setFeedLoading] = useState(true);
-  const feedCache = useRef<Map<string, VFeed>>(new Map());
+  const [categoryFeeds, setCategoryFeeds] = useState<Record<string, VFeed>>({});
+  const [feedsLoading, setFeedsLoading] = useState(true);
+  const [trendFeed, setTrendFeed] = useState<VFeed | null>(null);
+  const [trendLoading, setTrendLoading] = useState(false);
+  const trendCache = useRef<Map<string, VFeed>>(new Map());
 
-  const MEDIA = [...(site?.media ?? []), ...extraMedia];
-  const CATEGORIES = site?.categories ?? [];
+  const MEDIA = [...SUPABASE_MEDIA, ...extraMedia];
+  const CATEGORIES = SUPABASE_CATEGORIES;
 
   useEffect(() => {
     if (!mediaMenuOpen) return;
@@ -202,66 +213,76 @@ function Index() {
 
   const TRENDS = site?.trends ?? {};
 
-  // --- last site.json
+  // --- last site.json (kun trend-indeksen, resten kommer fra Supabase)
   useEffect(() => {
     let alive = true;
     loadJson<SiteConfig>("site.json")
       .then((data) => {
         if (!alive) return;
-        MEDIA_BY_NAME = Object.fromEntries(data.media.map((m) => [m.name, m]));
         setSite(data);
-        setEnabledMedia(new Set(data.media.map((m) => m.name)));
         const periods = Object.keys(data.trends);
         if (periods.length > 0 && periods[0]) setTab(periods[0]);
-        if (!data.categories.some((c) => c.name === cat) && data.categories[0]) {
-          setCat(data.categories[0].name);
-        }
       })
       .catch((e: Error) => alive && setLoadError(e.message));
     return () => {
       alive = false;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // --- last aktiv feed (kategori eller trend)
-  const activeFile = useMemo(() => {
-    if (trend) return trend.file;
-    return CATEGORIES.find((c) => c.name === cat)?.file ?? null;
-  }, [trend, cat, CATEGORIES]);
-
+  // --- last kategori-feeder fra Supabase (én gang; alle kategorier på én gang)
   useEffect(() => {
-    if (!activeFile) {
-      setRawFeed(EMPTY_FEED);
-      setFeedLoading(false);
-      return;
-    }
-    const cached = feedCache.current.get(activeFile);
-    if (cached) {
-      setRawFeed(cached);
-      setFeedLoading(false);
-      return;
-    }
     let alive = true;
-    setFeedLoading(true);
-    loadJson<Partial<VFeed>>(activeFile)
-      .then((data) => {
-        const feed = normalizeFeed(data);
-        feedCache.current.set(activeFile, feed);
+    fetchCategoryFeeds()
+      .then((feeds) => {
         if (!alive) return;
-        setRawFeed(feed);
-        setFeedLoading(false);
+        setCategoryFeeds(feeds);
+        setFeedsLoading(false);
       })
       .catch((e: Error) => {
         if (!alive) return;
-        setRawFeed(EMPTY_FEED);
-        setFeedLoading(false);
+        setFeedsLoading(false);
         setLoadError(e.message);
       });
     return () => {
       alive = false;
     };
-  }, [activeFile]);
+  }, []);
+
+  // --- last aktiv trend-feed (trender er fortsatt JSON-baserte)
+  useEffect(() => {
+    if (!trend) {
+      setTrendFeed(null);
+      return;
+    }
+    const cached = trendCache.current.get(trend.file);
+    if (cached) {
+      setTrendFeed(cached);
+      return;
+    }
+    let alive = true;
+    setTrendLoading(true);
+    loadJson<Partial<VFeed>>(trend.file)
+      .then((data) => {
+        const feed = normalizeFeed(data);
+        trendCache.current.set(trend.file, feed);
+        if (!alive) return;
+        setTrendFeed(feed);
+        setTrendLoading(false);
+      })
+      .catch((e: Error) => {
+        if (!alive) return;
+        setTrendFeed(EMPTY_FEED);
+        setTrendLoading(false);
+        setLoadError(e.message);
+      });
+    return () => {
+      alive = false;
+    };
+  }, [trend]);
+
+  const hasFeedSource = trend !== null || SUPABASE_CATEGORIES.some((c) => c.name === cat);
+  const rawFeed = trend ? (trendFeed ?? EMPTY_FEED) : (categoryFeeds[cat] ?? EMPTY_FEED);
+  const feedLoading = trend ? trendLoading : feedsLoading;
 
   useEffect(() => {
     const saved = typeof window !== "undefined" ? window.localStorage.getItem("nyhet-theme") : null;
@@ -288,14 +309,14 @@ function Index() {
 
   const feed = useMemo(() => filterFeed(rawFeed, enabledMedia), [rawFeed, enabledMedia]);
 
-  const heroStory = feed.hero;
-  const heroVersion = heroStory?.versions[heroIdx % (heroStory.versions.length || 1)];
-  const storyList = feed.stories;
+  // Hero + sekundære saker slås sammen til én liste og rendres som
+  // gjentagende grupper av (1 hero-kort + 3 mindre kort), se chunkCards.
+  const cardList = useMemo(
+    () => [feed.hero, ...feed.stories].filter((s): s is VStory => s !== null),
+    [feed.hero, feed.stories],
+  );
+  const cardGroups = useMemo(() => chunkCards(cardList), [cardList]);
   const quickList = feed.quick;
-
-  useEffect(() => {
-    setHeroIdx(0);
-  }, [cat, trend, enabledMedia.size]);
 
   // Auth-økt
   const { session, profileName, profileAvatar } = useProfile();
@@ -323,7 +344,7 @@ function Index() {
 
   // Last lagrede medievalg fra user_pref når brukeren er logget inn
   useEffect(() => {
-    if (!session || !site) return;
+    if (!session) return;
     let active = true;
     supabase
       .from("user_pref")
@@ -345,14 +366,17 @@ function Index() {
           setExtraMedia(savedExtra);
         }
 
-        const available = new Set([...site.media.map((m) => m.name), ...savedExtra.map((m) => m.name)]);
+        const available = new Set([
+          ...SUPABASE_MEDIA.map((m) => m.name),
+          ...savedExtra.map((m) => m.name),
+        ]);
         const filtered = sources.filter((s) => available.has(s));
         if (filtered.length > 0) setEnabledMedia(new Set(filtered));
       });
     return () => {
       active = false;
     };
-  }, [session, site]);
+  }, [session]);
 
   const saveMediaPreferences = useCallback(
     (next: Set<string>) => {
@@ -410,7 +434,9 @@ function Index() {
       .maybeSingle()
       .then(({ data }) => {
         if (!active) return;
-        const categories = Array.isArray(data?.category_preferences) ? data.category_preferences : null;
+        const categories = Array.isArray(data?.category_preferences)
+          ? data.category_preferences
+          : null;
         if (!categories) return;
         const valid = categories.filter((c) => INTEREST_CATEGORIES.includes(c));
         setExtraCategories(valid);
@@ -464,7 +490,7 @@ function Index() {
   // Uten en innlogget bruker skal alt være som normalt: standardmedier og ingen ekstra kategorier
   useEffect(() => {
     if (session) return;
-    if (site) setEnabledMedia(new Set(site.media.map((m) => m.name)));
+    setEnabledMedia(new Set(SUPABASE_MEDIA.map((m) => m.name)));
     setExtraMedia([]);
     setExtraCategories([]);
     setCat((prev) => (INTEREST_CATEGORIES.includes(prev) ? "Nyheter" : prev));
@@ -472,7 +498,7 @@ function Index() {
     const fallback = saved === "light" ? "light" : "dark";
     setTheme(fallback);
     document.documentElement.classList.toggle("light", fallback === "light");
-  }, [session, site]);
+  }, [session]);
 
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileMenuCloseTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -489,7 +515,6 @@ function Index() {
   const handleSignOut = useCallback(async () => {
     await supabase.auth.signOut();
   }, []);
-
 
   return (
     <div className="min-h-screen bg-background font-sans text-foreground">
@@ -580,91 +605,94 @@ function Index() {
       <div className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-2">
           <div className="flex min-w-0 items-center">
-          <nav className="flex items-center gap-0 overflow-x-auto">
-            {CATEGORIES.map((c) => (
-              <button
-                key={c.name}
-                onClick={() => {
-                  setCat(c.name);
-                  setTrend(null);
-                }}
-                className={`relative whitespace-nowrap rounded-full px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
-                  cat === c.name && !trend
-                    ? "bg-secondary text-foreground"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {c.name}
-              </button>
-            ))}
-
-            {extraCategories.map((name) => (
-              <span key={name} className="relative inline-flex items-center">
+            <nav className="flex items-center gap-0 overflow-x-auto">
+              {CATEGORIES.map((c) => (
                 <button
+                  key={c.name}
                   onClick={() => {
-                    setCat(name);
+                    setCat(c.name);
                     setTrend(null);
                   }}
-                  className={`relative whitespace-nowrap rounded-full py-2 pl-4 pr-7 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
-                    cat === name && !trend
+                  className={`relative whitespace-nowrap rounded-full px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
+                    cat === c.name && !trend
                       ? "bg-secondary text-foreground"
                       : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  {name}
+                  {c.name}
                 </button>
-                <button
-                  onClick={() => removeCategory(name)}
-                  aria-label={`Fjern ${name}`}
-                  className="absolute right-2 flex h-4 w-4 items-center justify-center text-muted-foreground transition hover:text-primary"
-                >
-                  <X className="h-3 w-3" />
-                </button>
-              </span>
-            ))}
+              ))}
 
-          </nav>
+              {extraCategories.map((name) => (
+                <span key={name} className="relative inline-flex items-center">
+                  <button
+                    onClick={() => {
+                      setCat(name);
+                      setTrend(null);
+                    }}
+                    className={`relative whitespace-nowrap rounded-full py-2 pl-4 pr-7 font-mono text-[11px] font-medium uppercase tracking-[0.18em] transition ${
+                      cat === name && !trend
+                        ? "bg-secondary text-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {name}
+                  </button>
+                  <button
+                    onClick={() => removeCategory(name)}
+                    aria-label={`Fjern ${name}`}
+                    className="absolute right-2 flex h-4 w-4 items-center justify-center text-muted-foreground transition hover:text-primary"
+                  >
+                    <X className="h-3 w-3" />
+                  </button>
+                </span>
+              ))}
+            </nav>
 
-          <div ref={categoryMenuRef} className="relative shrink-0">
-            <button
-              onClick={() => setCategoryMenuOpen((v) => !v)}
-              aria-label="Legg til kategori"
-              className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary hover:text-foreground"
-            >
-              <Plus className="h-4 w-4" />
-            </button>
-            {categoryMenuOpen && (
-              <div className="no-scrollbar absolute right-0 top-full z-50 mt-2 max-h-72 w-56 overflow-y-auto rounded-lg border border-border bg-popover p-1.5">
-                {INTEREST_CATEGORIES.filter((name) => !extraCategories.includes(name)).length === 0 ? (
-                  <p className="px-3 py-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-                    Alle lagt til
-                  </p>
-                ) : (
-                  INTEREST_CATEGORIES.filter((name) => !extraCategories.includes(name)).map((name) => (
-                    <button
-                      key={name}
-                      onClick={() => addCategory(name)}
-                      className="block w-full rounded-md px-3 py-2 text-left font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
-                    >
-                      {name}
-                    </button>
-                  ))
-                )}
-              </div>
-            )}
-          </div>
+            <div ref={categoryMenuRef} className="relative shrink-0">
+              <button
+                onClick={() => setCategoryMenuOpen((v) => !v)}
+                aria-label="Legg til kategori"
+                className="flex h-8 w-8 items-center justify-center rounded-full text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+              >
+                <Plus className="h-4 w-4" />
+              </button>
+              {categoryMenuOpen && (
+                <div className="no-scrollbar absolute right-0 top-full z-50 mt-2 max-h-72 w-56 overflow-y-auto rounded-lg border border-border bg-popover p-1.5">
+                  {INTEREST_CATEGORIES.filter((name) => !extraCategories.includes(name)).length ===
+                  0 ? (
+                    <p className="px-3 py-2 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                      Alle lagt til
+                    </p>
+                  ) : (
+                    INTEREST_CATEGORIES.filter((name) => !extraCategories.includes(name)).map(
+                      (name) => (
+                        <button
+                          key={name}
+                          onClick={() => addCategory(name)}
+                          className="block w-full rounded-md px-3 py-2 text-left font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground transition hover:bg-secondary hover:text-foreground"
+                        >
+                          {name}
+                        </button>
+                      ),
+                    )
+                  )}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
             <div className="flex items-center gap-2 border border-border px-3 py-1.5 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
               <Search className="h-3.5 w-3.5" />
               <span>Søk</span>
-              <kbd className="ml-2 border border-border px-1.5 py-0.5 font-mono text-[10px]">⌘K</kbd>
+              <kbd className="ml-2 border border-border px-1.5 py-0.5 font-mono text-[10px]">
+                ⌘K
+              </kbd>
             </div>
           </div>
         </div>
       </div>
-
 
       {/* 3-column layout */}
       <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-8 px-6 py-10 lg:grid-cols-[340px_minmax(0,1fr)_300px]">
@@ -672,7 +700,9 @@ function Index() {
         <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
           <section className="frame">
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Trender</h2>
+              <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">
+                Trender
+              </h2>
               <TrendingUp className="h-3.5 w-3.5 text-primary" />
             </div>
             <div className="flex border-b border-border font-mono text-[10px] uppercase tracking-widest">
@@ -697,10 +727,11 @@ function Index() {
                     type="button"
                     onClick={() => setTrend(t)}
                     className={`group flex w-full items-baseline gap-3 px-3 py-2.5 text-left transition hover:bg-secondary/60 ${
-                      trend?.file === t.file ? "bg-primary/15 border-l-2 border-primary" : "border-l-2 border-transparent"
+                      trend?.file === t.file
+                        ? "bg-primary/15 border-l-2 border-primary"
+                        : "border-l-2 border-transparent"
                     }`}
                   >
-
                     <span className="w-5 font-mono text-[11px] font-bold text-primary">
                       {String(t.rank).padStart(2, "0")}
                     </span>
@@ -733,7 +764,6 @@ function Index() {
             </button>
           </section>
         </aside>
-
 
         {/* CENTER — Feed */}
         <section className="min-w-0 space-y-8">
@@ -768,104 +798,35 @@ function Index() {
             </div>
           </div>
 
-
-          {/* Hero article */}
+          {/* Feed: gjentagende grupper av (1 hero-kort + 3 mindre kort) */}
           {feedLoading ? (
             <article className="frame animate-pulse">
               <div className="aspect-[16/9] w-full bg-secondary" />
             </article>
-          ) : loadError && !heroStory ? (
+          ) : loadError && cardList.length === 0 ? (
             <article className="border border-dashed border-border bg-card p-12 text-center">
               <p className="font-display text-xl">Kunne ikke laste innhold</p>
               <p className="mt-2 font-mono text-xs text-muted-foreground">{loadError}</p>
             </article>
-          ) : heroVersion && heroStory ? (
-
-            <article className="group frame">
-              <div className="relative aspect-[16/9] overflow-hidden">
-                <img
-                  src={heroVersion.image || heroStory.image}
-                  onError={(e) => {
-                    if (heroStory.image) e.currentTarget.src = heroStory.image;
-                  }}
-                  alt=""
-                  width={1280}
-                  height={800}
-                  className="h-full w-full object-cover contrast-[1.1] saturate-[0.85] transition duration-700 group-hover:scale-[1.03] group-hover:saturate-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
-                  <p className="mb-3 inline-block border border-primary bg-primary px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground">
-                    {heroStory.kicker}
-                  </p>
-                  <h3 className="max-w-3xl font-display text-3xl leading-[0.98] text-white md:text-4xl lg:text-5xl">
-                    <a
-                      href={heroVersion.url || "#"}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="transition hover:underline hover:decoration-primary hover:underline-offset-4"
-                    >
-                      {heroVersion.title}
-                    </a>
-                  </h3>
-                  <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">
-                    {heroStory.dek}
-                  </p>
-                  <div className="mt-5 flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-neutral-300">
-                    <span className="flex items-center gap-1.5 border border-white/40 px-2 py-1 font-bold text-white">
-                      <MediaLogo source={heroVersion.source} className="h-4 w-4" />
-                      {heroVersion.source}
-                    </span>
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="h-3 w-3" />
-                      {heroVersion.time}
-                    </span>
-                    <span>{heroVersion.read}</span>
-                    <div className="ml-auto flex items-center gap-1.5">
-                      {heroStory.versions.map((ver, k) => (
-                        <button
-                          key={ver.source}
-                          onClick={() => setHeroIdx(k)}
-                          aria-label={`Versjon ${k + 1}: ${ver.source}`}
-                          className={`rounded-md p-0.5 transition-all ${
-                            k === heroIdx % heroStory.versions.length
-                              ? "ring-2 ring-primary opacity-100"
-                              : "opacity-50 grayscale hover:opacity-90 hover:grayscale-0"
-                          }`}
-                        >
-                          <MediaLogo source={ver.source} className="h-5 w-5" />
-                        </button>
+          ) : cardList.length > 0 ? (
+            <div className="space-y-8">
+              {cardGroups.map((group) => (
+                <div key={group.map((s) => s.kicker + s.dek).join("|")} className="space-y-8">
+                  <HeroCard story={group[0]} />
+                  {group.length > 1 && (
+                    <div className="grid gap-8 sm:grid-cols-2">
+                      {group.slice(1, 3).map((s) => (
+                        <StoryCard key={s.kicker + s.dek} story={s} />
                       ))}
                     </div>
-                  </div>
+                  )}
+                  {group[3] && (
+                    <StoryCard key={group[3].kicker + group[3].dek} story={group[3]} wide />
+                  )}
                 </div>
-                {heroStory.versions.length > 1 && (
-                  <>
-                    <div className="absolute inset-y-0 left-0 flex items-center">
-                      <button
-                        onClick={() =>
-                          setHeroIdx((n) => (n - 1 + heroStory.versions.length) % heroStory.versions.length)
-                        }
-                        aria-label="Forrige versjon"
-                        className="ml-3 border border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
-                      >
-                        <ChevronLeft className="h-4 w-4" />
-                      </button>
-                    </div>
-                    <div className="absolute inset-y-0 right-0 flex items-center">
-                      <button
-                        onClick={() => setHeroIdx((n) => (n + 1) % heroStory.versions.length)}
-                        aria-label="Neste versjon"
-                        className="mr-3 border border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
-                      >
-                        <ChevronRight className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </>
-                )}
-              </div>
-            </article>
-          ) : !activeFile ? (
+              ))}
+            </div>
+          ) : !hasFeedSource ? (
             <article className="border border-dashed border-border bg-card p-12 text-center">
               <p className="font-display text-xl">Innhold kommer snart</p>
               <p className="mt-2 text-sm text-muted-foreground">
@@ -881,25 +842,12 @@ function Index() {
             </article>
           )}
 
-
-          {/* Secondary stories */}
-          {storyList.length > 0 && (
-            <>
-              <div className="grid gap-8 sm:grid-cols-2">
-                {storyList.slice(0, 2).map((s) => (
-                  <StoryCard key={s.kicker + s.dek} story={s} />
-                ))}
-              </div>
-              {storyList[2] && (
-                <StoryCard key={storyList[2].kicker + storyList[2].dek} story={storyList[2]} wide />
-              )}
-            </>
-          )}
-
           {/* Quick reads list */}
           <section className="frame">
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
-              <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Kort og godt</h3>
+              <h3 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">
+                Kort og godt
+              </h3>
               <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-primary">
                 ● Oppdatert nå
               </span>
@@ -916,6 +864,9 @@ function Index() {
                     <span className="flex items-center gap-1.5 border border-border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
                       <MediaLogo source={q.source} className="h-4 w-4" />
                       {q.source}
+                    </span>
+                    <span className="hidden shrink-0 font-mono text-[10px] uppercase tracking-wider text-primary sm:inline">
+                      {tagLabel(q.tag)}
                     </span>
                     {q.image && (
                       <img
@@ -949,7 +900,9 @@ function Index() {
         <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
           <section className="frame p-4">
             <div className="mb-1 flex items-center justify-between border-b border-border pb-2">
-              <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Dine medier</h2>
+              <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">
+                Dine medier
+              </h2>
               <button className="flex h-6 w-6 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary">
                 <Plus className="h-3 w-3" />
               </button>
@@ -966,11 +919,18 @@ function Index() {
                     onClick={() => toggleMedia(m.name)}
                     aria-pressed={on}
                     className={`flex aspect-square items-center justify-center overflow-hidden rounded-lg border transition ${
-                      on ? "border-transparent opacity-90 hover:opacity-100" : "border-border opacity-25 grayscale"
+                      on
+                        ? "border-transparent opacity-90 hover:opacity-100"
+                        : "border-border opacity-25 grayscale"
                     }`}
                     title={`${m.name} — ${on ? "aktiv, klikk for å skjule" : "skjult, klikk for å vise"}`}
                   >
-                    <img src={m.logo} alt={m.name} loading="lazy" className="h-full w-full object-cover" />
+                    <img
+                      src={m.logo}
+                      alt={m.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
                   </button>
                 );
               })}
@@ -1042,30 +1002,36 @@ function Index() {
               <span className="font-mono text-[9px] uppercase text-muted-foreground">konto</span>
             </div>
             <div className="space-y-1 text-[13px]">
-              {["Skjul sport", "Kun norske kilder", "Skjul lest", "Prioriter lange saker"].map((f, i) => (
-                <label
-                  key={f}
-                  className="flex cursor-pointer items-center justify-between px-1 py-2 transition hover:bg-secondary/50"
-                >
-                  <span>{f}</span>
-                  <span
-                    className={`relative h-4 w-8 border transition ${
-                      i === 1 || i === 2 ? "border-primary bg-primary/25" : "border-border bg-secondary"
-                    }`}
+              {["Skjul sport", "Kun norske kilder", "Skjul lest", "Prioriter lange saker"].map(
+                (f, i) => (
+                  <label
+                    key={f}
+                    className="flex cursor-pointer items-center justify-between px-1 py-2 transition hover:bg-secondary/50"
                   >
+                    <span>{f}</span>
                     <span
-                      className={`absolute top-0 h-3 w-3 transition ${
-                        i === 1 || i === 2 ? "left-4 bg-primary" : "left-0 bg-muted-foreground"
+                      className={`relative h-4 w-8 border transition ${
+                        i === 1 || i === 2
+                          ? "border-primary bg-primary/25"
+                          : "border-border bg-secondary"
                       }`}
-                    />
-                  </span>
-                </label>
-              ))}
+                    >
+                      <span
+                        className={`absolute top-0 h-3 w-3 transition ${
+                          i === 1 || i === 2 ? "left-4 bg-primary" : "left-0 bg-muted-foreground"
+                        }`}
+                      />
+                    </span>
+                  </label>
+                ),
+              )}
             </div>
           </section>
 
           <section className="frame border-primary p-4">
-            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">fidia Pro</p>
+            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+              fidia Pro
+            </p>
             <h3 className="font-display text-xl leading-tight">Les alt, uten reklame.</h3>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               Full tilgang til over 40 norske medier for 79 kr / mnd.
@@ -1083,8 +1049,105 @@ function Index() {
           <p>bygget for lesing — ikke scrolling</p>
         </div>
       </footer>
-
     </div>
+  );
+}
+
+function HeroCard({ story }: { story: VStory }) {
+  const [i, setI] = useState(0);
+  const count = story.versions.length;
+  const idx = count > 0 ? i % count : 0;
+  const v = story.versions[idx];
+  useEffect(() => {
+    if (i >= count) setI(0);
+  }, [count, i]);
+  if (!v) return null;
+  return (
+    <article className="group frame">
+      <div className="relative aspect-[16/9] overflow-hidden">
+        <img
+          src={v.image || story.image}
+          onError={(e) => {
+            if (story.image) e.currentTarget.src = story.image;
+          }}
+          alt=""
+          width={1280}
+          height={800}
+          className="h-full w-full object-cover contrast-[1.1] saturate-[0.85] transition duration-700 group-hover:scale-[1.03] group-hover:saturate-100"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
+          <p className="mb-3 flex flex-wrap items-center gap-2">
+            <span className="inline-block border border-primary bg-primary px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground">
+              {story.kicker}
+            </span>
+            <span className="inline-block border border-white/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+              {tagLabel(story.tag)}
+            </span>
+          </p>
+          <h3 className="line-clamp-2 max-w-3xl min-h-[1.96em] font-display text-3xl leading-[0.98] text-white md:text-4xl lg:text-5xl">
+            <a
+              href={v.url || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="transition hover:underline hover:decoration-primary hover:underline-offset-4"
+            >
+              {v.title}
+            </a>
+          </h3>
+          <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-300">{story.dek}</p>
+          <div className="mt-5 flex flex-wrap items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-neutral-300">
+            <span className="flex items-center gap-1.5 border border-white/40 px-2 py-1 font-bold text-white">
+              <MediaLogo source={v.source} className="h-4 w-4" />
+              {v.source}
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Clock className="h-3 w-3" />
+              {v.time}
+            </span>
+            <span>{v.read}</span>
+            <div className="ml-auto flex items-center gap-1.5">
+              {story.versions.map((ver, k) => (
+                <button
+                  key={ver.source}
+                  onClick={() => setI(k)}
+                  aria-label={`Versjon ${k + 1}: ${ver.source}`}
+                  className={`rounded-md p-0.5 transition-all ${
+                    k === idx
+                      ? "ring-2 ring-primary opacity-100"
+                      : "opacity-50 grayscale hover:opacity-90 hover:grayscale-0"
+                  }`}
+                >
+                  <MediaLogo source={ver.source} className="h-5 w-5" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+        {count > 1 && (
+          <>
+            <div className="absolute inset-y-0 left-0 flex items-center">
+              <button
+                onClick={() => setI((n) => (n - 1 + count) % count)}
+                aria-label="Forrige versjon"
+                className="ml-3 border border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="absolute inset-y-0 right-0 flex items-center">
+              <button
+                onClick={() => setI((n) => (n + 1) % count)}
+                aria-label="Neste versjon"
+                className="mr-3 border border-white/50 bg-black/50 p-2 text-white backdrop-blur transition hover:border-primary hover:text-primary"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          </>
+        )}
+      </div>
+    </article>
   );
 }
 
@@ -1105,7 +1168,9 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
         wide ? "grid sm:grid-cols-[1.4fr_1fr]" : ""
       }`}
     >
-      <div className={`relative overflow-hidden ${wide ? "aspect-[4/3] sm:aspect-auto" : "aspect-[4/3]"}`}>
+      <div
+        className={`relative overflow-hidden ${wide ? "aspect-[4/3] sm:aspect-auto" : "aspect-[4/3]"}`}
+      >
         <img
           src={v.image || story.image}
           onError={(e) => {
@@ -1123,7 +1188,7 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
       </div>
       <div className="flex flex-col p-4">
         <h3
-          className={`font-display leading-[1.05] ${
+          className={`line-clamp-2 min-h-[2.1em] font-display leading-[1.05] ${
             wide ? "text-xl md:text-2xl" : "text-lg md:text-xl"
           }`}
         >
@@ -1182,7 +1247,6 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
             </button>
           </div>
         )}
-
       </div>
     </article>
   );
