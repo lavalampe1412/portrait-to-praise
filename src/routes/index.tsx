@@ -762,7 +762,7 @@ function Index() {
             </ol>
           </section>
 
-          <section className="frame p-4">
+          <section className="frame p-5">
             <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.25em] text-primary">
               ● Direkte nå
             </p>
@@ -915,14 +915,14 @@ function Index() {
         <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
           <section className="frame p-4">
             <div className="mb-1 flex items-center justify-between border-b border-border pb-2">
-              <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">
+               <h2 className="text-sm font-extrabold">
                 Dine medier
               </h2>
-              <button className="flex h-6 w-6 items-center justify-center border border-border text-muted-foreground transition hover:border-primary hover:text-primary">
+                 className="flex h-8 w-8 items-center justify-center rounded-full border border-border text-muted-foreground transition hover:-translate-y-0.5 hover:border-primary hover:text-primary">
                 <Plus className="h-3 w-3" />
               </button>
             </div>
-            <p className="mb-3 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+            <p className="mb-4 text-xs font-semibold text-muted-foreground">
               {enabledMedia.size}/{MEDIA.length} aktive
             </p>
             <div ref={mediaMenuRef} className="relative grid grid-cols-4 gap-1.5">
@@ -933,7 +933,7 @@ function Index() {
                     key={m.name}
                     onClick={() => toggleMedia(m.name)}
                     aria-pressed={on}
-                    className={`flex aspect-square items-center justify-center overflow-hidden rounded-lg border transition ${
+                    className={`flex aspect-square items-center justify-center overflow-hidden rounded-xl border transition hover:-translate-y-0.5 ${
                       on
                         ? "border-transparent opacity-90 hover:opacity-100"
                         : "border-border opacity-25 grayscale"
@@ -952,7 +952,7 @@ function Index() {
               <button
                 onClick={() => setMediaMenuOpen((v) => !v)}
                 aria-label="Legg til medie"
-                className="flex aspect-square items-center justify-center border border-dashed border-border text-muted-foreground transition hover:border-primary hover:text-primary"
+                className="flex aspect-square items-center justify-center rounded-xl border border-dashed border-border text-muted-foreground transition hover:-translate-y-0.5 hover:border-primary hover:text-primary"
               >
                 <Plus className="h-4 w-4" />
               </button>
@@ -1011,9 +1011,9 @@ function Index() {
             )}
           </section>
 
-          <section className="frame p-4">
+          <section className="frame p-5">
             <div className="mb-3 flex items-center justify-between border-b border-border pb-2">
-              <p className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">Filter</p>
+               <p className="text-sm font-extrabold">Filter</p>
               <span className="font-mono text-[9px] uppercase text-muted-foreground">konto</span>
             </div>
             <div className="space-y-1 text-[13px]">
@@ -1043,15 +1043,15 @@ function Index() {
             </div>
           </section>
 
-          <section className="frame border-primary p-4">
-            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+          <section className="frame border-accent bg-accent/10 p-5">
+            <p className="mb-2 text-xs font-extrabold text-primary">
               fidia Pro
             </p>
             <h3 className="font-display text-xl leading-tight">Les alt, uten reklame.</h3>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               Full tilgang til over 40 norske medier for 79 kr / mnd.
             </p>
-            <button className="mt-4 w-full border border-primary bg-primary py-2 font-mono text-[11px] font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
+            <button className="mt-4 w-full rounded-full border border-primary bg-primary py-2.5 text-xs font-extrabold text-primary-foreground transition hover:-translate-y-0.5 hover:bg-transparent hover:text-primary">
               Prøv 30 dager gratis
             </button>
           </section>
@@ -1078,8 +1078,8 @@ function HeroCard({ story }: { story: VStory }) {
   }, [count, i]);
   if (!v) return null;
   return (
-    <article className="group frame">
-      <div className="relative aspect-[16/9] overflow-hidden">
+     <article className="group overflow-hidden rounded-[2rem]">
+       <div className="relative aspect-[16/9] overflow-hidden rounded-[2rem]">
         <img
           src={v.image || story.image}
           onError={(e) => {
@@ -1088,24 +1088,24 @@ function HeroCard({ story }: { story: VStory }) {
           alt=""
           width={1280}
           height={800}
-          className="h-full w-full object-cover contrast-[1.1] saturate-[0.85] transition duration-700 group-hover:scale-[1.03] group-hover:saturate-100"
+           className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-6 md:p-8">
           <p className="mb-3 flex flex-wrap items-center gap-2">
-            <span className="inline-block border border-primary bg-primary px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground">
+             <span className="inline-block rounded-full bg-primary px-3 py-1 text-xs font-extrabold text-primary-foreground">
               {story.kicker}
             </span>
-            <span className="inline-block border border-white/40 px-2 py-0.5 font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+             <span className="inline-block rounded-full border border-white/40 px-3 py-1 text-xs font-bold text-white/80">
               {tagLabel(story.tag)}
             </span>
           </p>
-          <h3 className="line-clamp-2 max-w-3xl min-h-[1.96em] font-display text-3xl leading-[0.98] text-white md:text-4xl lg:text-5xl">
+           <h3 className="line-clamp-2 max-w-3xl min-h-[1.96em] font-display text-3xl leading-[1.08] text-white md:text-4xl lg:text-5xl">
             <a
               href={v.url || "#"}
               target="_blank"
               rel="noopener noreferrer"
-              className="transition hover:underline hover:decoration-primary hover:underline-offset-4"
+               className="transition hover:text-accent"
             >
               {v.title}
             </a>
@@ -1178,8 +1178,8 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
   const prev = () => setI((n) => (n - 1 + count) % count);
   const next = () => setI((n) => (n + 1) % count);
   return (
-    <article
-      className={`group frame overflow-hidden transition hover:border-primary ${
+     <article
+       className={`group frame overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-accent hover:shadow-lg ${
         wide ? "grid sm:grid-cols-[1.4fr_1fr]" : ""
       }`}
     >
@@ -1195,15 +1195,15 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
           loading="lazy"
           width={1000}
           height={640}
-          className="h-full w-full object-cover contrast-[1.1] saturate-[0.7] transition duration-700 group-hover:scale-[1.03] group-hover:saturate-100"
+           className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]"
         />
-        <span className="absolute left-0 top-0 bg-primary px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-primary-foreground">
+         <span className="absolute left-3 top-3 rounded-full bg-primary px-3 py-1 text-xs font-extrabold text-primary-foreground shadow-sm">
           {story.kicker}
         </span>
       </div>
       <div className="flex flex-col p-4">
         <h3
-          className={`line-clamp-2 min-h-[2.1em] font-display leading-[1.05] ${
+           className={`line-clamp-2 min-h-[2.1em] font-display leading-[1.2] ${
             wide ? "text-xl md:text-2xl" : "text-lg md:text-xl"
           }`}
         >
