@@ -110,7 +110,7 @@ export function CategoryNav({
 
   return (
     <div className="sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur">
-      <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-2">
+      <div className="mx-auto flex max-w-[2200px] items-center justify-between px-6 py-2">
         <div className="flex min-w-0 items-center">
           <nav className="flex items-center gap-0 overflow-x-auto">
             {categories.map((c) => (
@@ -367,7 +367,7 @@ function HeroCard({ story }: { story: VStory }) {
   }, [count, i]);
   if (!v) return null;
   return (
-    <article className="group frame">
+    <article className="group frame cursor-pointer transition hover:border-primary">
       <div className="relative aspect-[16/9] overflow-hidden">
         <img
           src={v.image || story.image}
@@ -389,7 +389,7 @@ function HeroCard({ story }: { story: VStory }) {
               {tagLabel(story.tag)}
             </span>
           </p>
-          <h3 className="line-clamp-2 max-w-3xl min-h-[1.96em] font-display text-3xl leading-[0.98] text-white md:text-4xl lg:text-5xl">
+          <h3 className="line-clamp-2 max-w-4xl min-h-[1.96em] font-display text-4xl leading-[0.98] text-white md:text-5xl lg:text-6xl">
             <a
               href={v.url || "#"}
               target="_blank"
@@ -410,7 +410,7 @@ function HeroCard({ story }: { story: VStory }) {
               {v.time}
             </span>
             <span>{v.read}</span>
-            <div className="ml-auto flex items-center gap-1.5">
+            <div className="relative z-10 ml-auto flex items-center gap-1.5">
               {story.versions.map((ver, k) => (
                 <button
                   key={ver.source}
@@ -430,7 +430,7 @@ function HeroCard({ story }: { story: VStory }) {
         </div>
         {count > 1 && (
           <>
-            <div className="absolute inset-y-0 left-0 flex items-center">
+            <div className="absolute inset-y-0 left-0 z-10 flex items-center">
               <button
                 onClick={() => setI((n) => (n - 1 + count) % count)}
                 aria-label="Forrige versjon"
@@ -439,7 +439,7 @@ function HeroCard({ story }: { story: VStory }) {
                 <ChevronLeft className="h-4 w-4" />
               </button>
             </div>
-            <div className="absolute inset-y-0 right-0 flex items-center">
+            <div className="absolute inset-y-0 right-0 z-10 flex items-center">
               <button
                 onClick={() => setI((n) => (n + 1) % count)}
                 aria-label="Neste versjon"
@@ -450,6 +450,13 @@ function HeroCard({ story }: { story: VStory }) {
             </div>
           </>
         )}
+        <a
+          href={v.url || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={v.title}
+          className="absolute inset-0 cursor-pointer"
+        />
       </div>
     </article>
   );
@@ -468,7 +475,7 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
   const next = () => setI((n) => (n + 1) % count);
   return (
     <article
-      className={`group frame overflow-hidden transition hover:border-primary ${
+      className={`group frame relative cursor-pointer overflow-hidden transition hover:border-primary ${
         wide ? "grid sm:grid-cols-[1.4fr_1fr]" : ""
       }`}
     >
@@ -493,14 +500,14 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
       <div className="flex flex-col p-4">
         <h3
           className={`line-clamp-2 min-h-[2.1em] font-display leading-[1.05] ${
-            wide ? "text-xl md:text-2xl" : "text-lg md:text-xl"
+            wide ? "text-2xl md:text-3xl" : "text-xl md:text-2xl"
           }`}
         >
           <a
             href={v.url || "#"}
             target="_blank"
             rel="noopener noreferrer"
-            className="transition hover:text-primary"
+            className="transition after:absolute after:inset-0 after:content-[''] hover:text-primary"
           >
             {v.title}
           </a>
@@ -518,7 +525,7 @@ function StoryCard({ story, wide = false }: { story: VStory; wide?: boolean }) {
           <span>· {v.read}</span>
         </div>
         {count > 1 && (
-          <div className="mt-4 flex items-center justify-between gap-3 border-t border-border pt-3">
+          <div className="relative z-10 mt-4 flex items-center justify-between gap-3 border-t border-border pt-3">
             <button
               onClick={prev}
               aria-label="Forrige versjon"

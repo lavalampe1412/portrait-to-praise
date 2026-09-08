@@ -435,7 +435,7 @@ function Index() {
     <div className="min-h-screen bg-background font-sans text-foreground">
       {/* Masthead / edition bar */}
       <div className="border-b border-border">
-        <div className="mx-auto flex max-w-[1600px] flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row sm:gap-6">
+        <div className="mx-auto flex max-w-[2200px] flex-col items-center justify-between gap-3 px-6 py-5 sm:flex-row sm:gap-6">
           <div className="text-center sm:text-left">
             <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
               OSL // 26.07.2026 // W30
@@ -530,9 +530,9 @@ function Index() {
       />
 
       {/* 3-column layout */}
-      <main className="mx-auto grid max-w-[1600px] grid-cols-1 gap-8 px-6 py-10 lg:grid-cols-[340px_minmax(0,1fr)_300px]">
+      <main className="mx-auto grid max-w-[2200px] grid-cols-1 gap-8 px-6 py-10 lg:grid-cols-[1fr_minmax(0,1080px)_1fr]">
         {/* LEFT — Trender */}
-        <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
+        <aside className="space-y-8 lg:sticky lg:top-24 lg:w-[240px] lg:justify-self-start lg:self-start">
           <section className="frame">
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
               <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">
@@ -594,7 +594,7 @@ function Index() {
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               Norges Bank presenterer beslutningen kl. 10:00. Følg live-oppdateringen.
             </p>
-            <button className="mt-4 flex items-center gap-2 border border-primary px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground">
+            <button className="mt-4 flex items-center gap-2 border border-border px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:bg-primary hover:text-primary-foreground">
               <Play className="h-3 w-3 fill-current" /> Se sending
             </button>
           </section>
@@ -612,7 +612,7 @@ function Index() {
         />
 
         {/* RIGHT — Dine Medier */}
-        <aside className="space-y-8 lg:sticky lg:top-24 lg:self-start">
+        <aside className="space-y-8 lg:sticky lg:top-24 lg:w-[240px] lg:justify-self-end lg:self-start">
           <section className="frame p-4">
             <div className="mb-1 flex items-center justify-between border-b border-border pb-2">
               <h2 className="font-mono text-[11px] font-bold uppercase tracking-[0.25em]">
@@ -704,7 +704,7 @@ function Index() {
                   setEnabledMedia(next);
                   saveMediaPreferences(next);
                 }}
-                className="mt-3 w-full border border-primary py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-primary transition hover:bg-primary hover:text-primary-foreground"
+                className="mt-3 w-full border border-border py-1.5 font-mono text-[10px] font-bold uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:bg-primary hover:text-primary-foreground"
               >
                 Vis alle igjen
               </button>
@@ -743,15 +743,15 @@ function Index() {
             </div>
           </section>
 
-          <section className="frame border-primary p-4">
-            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-primary">
+          <section className="frame p-4">
+            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
               fidia Pro
             </p>
             <h3 className="font-display text-xl leading-tight">Les alt, uten reklame.</h3>
             <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
               Full tilgang til over 40 norske medier for 79 kr / mnd.
             </p>
-            <button className="mt-4 w-full border border-primary bg-primary py-2 font-mono text-[11px] font-bold uppercase tracking-widest text-primary-foreground transition hover:bg-transparent hover:text-primary">
+            <button className="mt-4 w-full border border-border py-2 font-mono text-[11px] font-bold uppercase tracking-widest text-muted-foreground transition hover:border-primary hover:bg-primary hover:text-primary-foreground">
               Prøv 30 dager gratis
             </button>
           </section>
@@ -759,7 +759,7 @@ function Index() {
       </main>
 
       <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-6 py-8 font-mono text-[10px] uppercase tracking-widest text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div className="mx-auto flex max-w-[2200px] flex-col gap-3 px-6 py-8 font-mono text-[10px] uppercase tracking-widest text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© 2026 FIDIA / OSLO</p>
           <p>bygget for lesing — ikke scrolling</p>
         </div>
